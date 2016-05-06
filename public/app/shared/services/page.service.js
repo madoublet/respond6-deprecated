@@ -89,9 +89,10 @@ System.register(['@angular/core', '@angular/http', 'angular2-jwt/angular2-jwt'],
                 };
                 PageService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [http_1.Http, angular2_jwt_1.AuthHttp, angular2_jwt_1.AuthConfig])
+                    __metadata('design:paramtypes', [http_1.Http, (typeof (_a = typeof angular2_jwt_1.AuthHttp !== 'undefined' && angular2_jwt_1.AuthHttp) === 'function' && _a) || Object, (typeof (_b = typeof angular2_jwt_1.AuthConfig !== 'undefined' && angular2_jwt_1.AuthConfig) === 'function' && _b) || Object])
                 ], PageService);
                 return PageService;
+                var _a, _b;
             }());
             exports_1("PageService", PageService);
         }
