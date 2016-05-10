@@ -25,25 +25,5 @@
         "value": "#888",
         "sets": "attribute",
         "attribute": "content"
-    },
-    {
-        "id": "theme-show-search",
-        "label": "Show Search",
-        "description": "Enables searching the site",
-        "type": "select",
-        "value": true,
-        "options": ["true", "false"],
-        "sets": "attribute",
-        "attribute": "show-search"
-    },
-    {
-        "id": "theme-show-cart",
-        "label": "Enable Cart",
-        "description": "Enables the cart on the site",
-        "type": "select",
-        "value": true,
-        "options": ["true", "false"],
-        "sets": "attribute",
-        "attribute": "show-cart"
     }
 ]

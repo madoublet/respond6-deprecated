@@ -10,7 +10,7 @@
 
 <div id="pages-list" class="app-list">
   <div class="app-list-item" *ngFor="let page of pages" (click)="setActive(page)" [class.selected]="page === selectedPage" [class.image]="page.thumb !== ''">
-    <h2><span class="primary">{{ page.title }}</span><span class="secondary">{{ page.lastModifiedDate }}</span></h2>
+    <h2><span class="primary">{{ page.title }}</span><span class="secondary">{{ page.lastModifiedDate | timeAgo }}</span></h2>
     <img *ngIf="page.thumb !== ''" class="image" src="sites/{{id}}/{{page.thumb}}">
     <small>/{{ page.url }}</small>
     <p>{{ page.description }}</p>

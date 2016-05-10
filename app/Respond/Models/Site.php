@@ -130,23 +130,11 @@ class Site {
     // set id to new_id
     $id = $new_id;
 
-    // set defaults
-    $defaultContent = '<h1>{{page.Title}}</h1><p>{{page.Description}}</p>';
-
-    $file = app()->basePath().'/resources/themes/'.$theme.'/theme.json';
-
-    // get default content from theme
-    if(file_exists($file)) {
-       $arr = json_decode(file_get_contents($file), true);
-       $defaultContent = $arr['defaultContent'];
-    }
-
     // create a site
     $site_arr = array(
       'id' => $id,
       'name' => $name,
-      'email' => $email,
-      'defaultContent' => $defaultContent,
+      'email' => $email
     );
 
     // create and save the site

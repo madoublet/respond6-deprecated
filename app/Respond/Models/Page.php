@@ -15,6 +15,7 @@ class Page {
 
   public $title;
   public $description;
+  public $text;
   public $keywords;
   public $callout;
   public $url;
@@ -76,13 +77,44 @@ class Page {
     $page->url = str_replace('.', '/', $new_name);
     $data['url'] = $page->url;
 
-    // default html for a new page
+    // default fragemnt content
+    $fragment_content = '';
+
+    // get default html for a new page
     if($content == NULL) {
-      $content = html_entity_decode($site->defaultContent);
-      $content = str_replace('{{page.Title}}', $page->title, $content);
+
+      // get default content
+      $default_content = app()->basePath().'/public/sites/'.$site->id.'/.default.html';
+
+      if(file_exists($default_content)) {
+        $content = file_get_contents($default_content);
+      }
+      else {
+        $content = '<html><body><p>You must specify default content in .default.html</p></body></html>';
+      }
+
+      // replace
       $content = str_replace('{{page.title}}', $page->title, $content);
-      $content = str_replace('{{page.Description}}', $page->description, $content);
       $content = str_replace('{{page.description}}', $page->description, $content);
+
+      // set location
+      $location = $dest.'/'.$page->url.'.html';
+
+      $dir = dirname($location);
+
+      // make directory
+      if(!file_exists($dir)){
+  			mkdir($dir, 0777, true);
+  		}
+
+      // place content in the file
+      file_put_contents($dest.'/'.$page->url.'.html', $content);
+
+      // open with phpQuery
+      \phpQuery::newDocument($content);
+
+      // get the fragment content
+      $fragment_content = pq('[role=main]')->html();
     }
 
     // make directory
@@ -92,19 +124,26 @@ class Page {
 			mkdir($dir, 0777, true);
 		}
 
-    // place contents in template
-    file_put_contents($fragment, $content);
+    // place content in the fragment
+    file_put_contents($fragment, $fragment_content);
 
-    // publish the page
-    $location = Publish::publishPage($site, $page, $user);
+    // get text
+    $text = strip_tags($fragment_content);
+    $text = preg_replace("/\s+/", " ", $text);
+    $text = trim($text);
+    $text = preg_replace('/[[:^print:]]/', '', $text);
+
+    // set text
+    $page->text = substr($text, 0, 200);
+    $data['text'] = substr($text, 0, 200);
 
     // get base path for the site
-    $json = $file = app()->basePath().'/public/sites/'.$site->id.'/data/pages.json';
+    $json_file = app()->basePath().'/public/sites/'.$site->id.'/data/pages.json';
 
     // open json
-    if(file_exists($json)) {
+    if(file_exists($json_file)) {
 
-      $json = file_get_contents($json);
+      $json = file_get_contents($json_file);
 
       // decode json file
       $pages = json_decode($json, true);
@@ -113,7 +152,30 @@ class Page {
       array_push($pages, $data);
 
       // save array
-      file_put_contents($file, json_encode($pages, JSON_PRETTY_PRINT));
+      file_put_contents($json_file, json_encode($pages, JSON_PRETTY_PRINT));
+
+    }
+
+    // set text (extended)
+    $page->text = $text;
+    $data['text'] = $text;
+
+    // get base path for the site
+    $json_file_extended = app()->basePath().'/public/sites/'.$site->id.'/data/pages-extended.json';
+
+    // open json
+    if(file_exists($json_file_extended)) {
+
+      $json = file_get_contents($json_file_extended);
+
+      // decode json file
+      $pages = json_decode($json, true);
+
+      // push page to array
+      array_push($pages, $data);
+
+      // save array
+      file_put_contents($json_file_extended, json_encode($pages, JSON_PRETTY_PRINT));
 
     }
 
@@ -184,6 +246,15 @@ class Page {
 
       // update template
       file_put_contents($fragment, $main_content);
+
+      // get text from content
+      $text = strip_tags($main_content);
+      $text = preg_replace("/\s+/", " ", $text);
+      $text = trim($text);
+      $text = preg_replace('/[[:^print:]]/', '', $text);
+
+      // set text to main_content
+      $page->text = $text;
 
       // saves the page
       $page->save($site, $user);
@@ -322,7 +393,9 @@ class Page {
 
     // edit the json file
     $json_file = app()->basePath().'/public/sites/'.$site->id.'/data/pages.json';
+    $json_file_extended = app()->basePath().'/public/sites/'.$site->id.'/data/pages-extended.json';
 
+    // save json
     if(file_exists($json_file)) {
 
       $json = file_get_contents($json_file);
@@ -337,6 +410,7 @@ class Page {
 
           $page['title'] = $this->title;
           $page['description'] = $this->description;
+          $page['text'] = substr($this->text, 0, 200);
           $page['keywords'] = $this->keywords;
           $page['callout'] = $this->callout;
           $page['photo'] = $this->photo;
@@ -353,6 +427,41 @@ class Page {
 
       // save pages
       file_put_contents($json_file, json_encode($pages, JSON_PRETTY_PRINT));
+
+    }
+
+    // save extended
+    if(file_exists($json_file_extended)) {
+
+      $json = file_get_contents($json_file_extended);
+
+      // decode json file
+      $pages = json_decode($json, true);
+
+      foreach($pages as &$page){
+
+        // update page
+        if($page['url'] == $this->url) {
+
+          $page['title'] = $this->title;
+          $page['description'] = $this->description;
+          $page['text'] = $this->text;
+          $page['keywords'] = $this->keywords;
+          $page['callout'] = $this->callout;
+          $page['photo'] = $this->photo;
+          $page['thumb'] = $this->thumb;
+          $page['layout'] = $this->layout;
+          $page['language'] = $this->language;
+          $page['direction'] = $this->direction;
+          $page['lastModifiedBy'] = $user->email;
+          $page['lastModifiedDate'] = $timestamp;
+
+        }
+
+      }
+
+      // save pages
+      file_put_contents($json_file_extended, json_encode($pages, JSON_PRETTY_PRINT));
 
     }
 
@@ -405,16 +514,16 @@ class Page {
 
     // get base path for the site
     $json_file = app()->basePath().'/public/sites/'.$site->id.'/data/pages.json';
+    $json_file_extended = app()->basePath().'/public/sites/'.$site->id.'/data/pages-extended.json';
 
-    if(file_exists($json_file)) {
+    if(file_exists($json_file) && file_exists($json_file_extended)) {
 
+      // list the contents of the json file
       $json = file_get_contents($json_file);
 
-      // decode json file
       $arr = json_decode($json, true);
-
     }
-    else{
+    else {  // create the JSON file
 
       // set dir
       $dir = app()->basePath().'/public/sites/'.$site->id;
@@ -432,8 +541,9 @@ class Page {
                     'fragments/',
                     'themes/'));
 
-      // setup array to return
+      // setup arrays to hold data
       $arr = array();
+      $arr_extended = array();
 
       // setup timestamp as JS date
       $timestamp = date('Y-m-d\TH:i:s.Z\Z', time());
@@ -461,6 +571,13 @@ class Page {
           $title       = pq('title')->html();
           $description = pq('meta[name=description]')->attr('content');
           $keywords    = pq('meta[name=keywords]')->attr('content');
+
+          // get the text from the content
+          $text = pq('[role=main]')->html();
+          $text = strip_tags($text);
+          $text = preg_replace("/\s+/", " ", $text);
+          $text = trim($text);
+          $text = preg_replace('/[[:^print:]]/', '', $text);
 
           // get photo and thumb
           $photo = pq('[role="main"] img:first')->attr('src');
@@ -497,9 +614,30 @@ class Page {
           // strip any trailing .html from url
           $url = preg_replace('/\\.[^.\\s]{3,4}$/', '', $url);
 
+          // setup data
           $data = array(
               'title' => $title,
               'description' => $description,
+              'text' => substr($text, 0, 200),
+              'keywords' => $keywords,
+              'callout' => $callout,
+              'url' => $url,
+              'photo' => $photo,
+              'thumb' => $thumb,
+              'layout' => 'content',
+              'language' => $language,
+              'direction' => $direction,
+              'firstName' => $user->firstName,
+              'lastName' => $user->lastName,
+              'lastModifiedBy' => $user->email,
+              'lastModifiedDate' => $timestamp
+          );
+
+          // setup data_extended
+          $data_extended = array(
+              'title' => $title,
+              'description' => $description,
+              'text' => $text,
               'keywords' => $keywords,
               'callout' => $callout,
               'url' => $url,
@@ -517,6 +655,7 @@ class Page {
           // push to array
           if(substr($url, 0, strlen('.default')) !== '.default') {
             array_push($arr, $data);
+            array_push($arr_extended, $data_extended);
           }
 
       }
@@ -526,6 +665,12 @@ class Page {
 
       // update content
       file_put_contents($json_file, $content);
+
+      // encode arr (for extended array)
+      $content = json_encode($arr_extended, JSON_PRETTY_PRINT);
+
+      // update content
+      file_put_contents($json_file_extended, $content);
 
     }
 

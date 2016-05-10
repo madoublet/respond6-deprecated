@@ -8,7 +8,7 @@
 
 <div id="submissions-list" class="app-list">
   <div class="app-list-item" *ngFor="let submission of submissions" (click)="setActive(submission)" [class.selected]="submission === selectedSubmission">
-    <h2><span class="primary">{{ submission.name }}</span><span class="secondary">{{ submission.date }}</span></h2>
+    <h2><span class="primary">{{ submission.name }}</span><span class="secondary">{{ submission.date | timeAgo }}</span></h2>
     <small>{{ submission.formId }}</small>
     <div class="app-list-actions">
         <a (click)="showRemove(submission)">Remove</a>

@@ -177,6 +177,7 @@ class PageController extends Controller
     $data = array(
       'title' => $title,
       'description' => $description,
+      'text' => '',
       'keywords' => '',
       'callout' => '',
       'url' => $url,

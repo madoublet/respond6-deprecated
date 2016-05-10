@@ -21,10 +21,10 @@ System.register(['@angular/core'], function(exports_1, context_1) {
             TimeAgoPipe = (function () {
                 function TimeAgoPipe() {
                 }
-                TimeAgoPipe.prototype.transform = function (value, args) {
+                TimeAgoPipe.prototype.transform = function (value, str) {
                     // set locale
-                    if (args[0]) {
-                        moment.locale(args[0]);
+                    if (str) {
+                        moment.locale(str);
                     }
                     else {
                         moment.locale('en');

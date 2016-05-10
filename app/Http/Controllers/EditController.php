@@ -97,7 +97,7 @@ class EditController extends Controller
                 }
 
               }
-              
+
               // get custom plugins
               $js_file = app()->basePath().'/resources/sites/'.$site.'/custom.plugins.js';
 
@@ -164,21 +164,21 @@ class EditController extends Controller
                 // inject galleries into script
                 $plugins_script = str_replace("['respond.routes']", json_encode($options), $plugins_script);
               }
-              
+
               // setup references
               $els = $doc['[hashedit-exclude]'];
-            
+
               // add references to each element
-              foreach($els as $el) {            
+              foreach($els as $el) {
                 pq($el)->remove();
               }
-              
+
               // setup references
               $els = $doc['body *'];
               $i = 1;
 
               // add references to each element
-              foreach($els as $el) {            
+              foreach($els as $el) {
                 pq($el)->attr('data-ref', $i);
                 $i++;
               }
@@ -209,6 +209,22 @@ class EditController extends Controller
                             '<script>hashedit.setup();</script>';
 
               }
+
+              $hashedit .= '<style type="text/css">'.
+                            '.respond-plugin {'.
+                            '  position: relative;'.
+                            '  padding: 10px 0;'.
+                            '  margin: 0;'.
+                            '  background-color: #f8f8f8;'.
+                            '  border: 1px solid #f0f0f0;'.
+                            '  text-align: center;'.
+                            '  color: #aaa;'.
+                            '}'.
+                            '.respond-plugin svg{'.
+                            '  fill: currentColor;'.
+                            '  width: 35px;'.
+                            '  height: 35px;'.
+                            '}';
 
               // load the edit library
               $doc['body']->append($hashedit);

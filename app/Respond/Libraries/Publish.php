@@ -156,10 +156,18 @@ class Publish
      */
     public static function injectSiteSettings($site)
     {
+        // inject whether to use friendly urls
+        $useFriendlyURLs = false;
+
+        if(APP_ENV('FRIENDLY_URLS') === true || APP_ENV('FRIENDLY_URLS') === 'true') {
+          $useFriendlyURLs = true;
+        }
+
         // create settings
         $settings = array(
             'id' => $site->id,
-            'api' => env('APP_URL') . '/api'
+            'api' => Utilities::retrieveAppUrl() . '/api',
+            'useFriendlyURLs' => $useFriendlyURLs
         );
 
         // settings

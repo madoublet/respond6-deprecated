@@ -26,8 +26,12 @@
   <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.css" rel="stylesheet">
 
   <!-- css -->
-  <link type="text/css" href="css/libs.min.css?t=1461263684" rel="stylesheet">
-  <link type="text/css" href="css/respond.min.css?t=1461263684" rel="stylesheet">
+  <link type="text/css" href="css/libs.min.css" rel="stylesheet">
+  <link type="text/css" href="css/respond.min.css" rel="stylesheet">
+
+  <!-- js -->
+  <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+  <script src="js/respond.site.js"></script>
 
   <!-- snippet:components -->
   <script hashedit-exclude src="components/lib/webcomponentsjs/webcomponents-lite.min.js"></script>
@@ -39,7 +43,6 @@
 
 <body class="content">
 
-<respond-cart></respond-cart>
 <respond-search></respond-search>
 
 <!-- background and mask -->
@@ -52,8 +55,7 @@
   <nav class="navbar" role="navigation">
 
     <div class="nav-toggles">
-			<respond-search-toggle theme-show-cart show-cart="true"></respond-search-toggle>
-			<respond-cart-toggle theme-show-search show-search="true"></respond-cart-toggle>
+			<respond-search-toggle></respond-search-toggle>
     </div>
     <!-- ./nav-toggles -->
 
