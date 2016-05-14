@@ -35,28 +35,34 @@
         padding: 49px 0 0 0;
       }
 
-      .loading {
-        margin: 50px 0 0 0;
-        height: 100px;
-        width: 100%;
-        text-align: center;
-        padding: 1em;
-        margin: 0 auto 1em;
-        display: inline-block;
-        vertical-align: top;
+      body .spinner {
+        width: 40px;
+        height: 40px;
+        margin: 100px auto;
+        background-color: #00ADE3;
+
+        border-radius: 100%;
+        -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+        animation: sk-scaleout 1.0s infinite ease-in-out;
       }
 
-      .loading img {
-        width: 50px;
-        margin-bottom: 50px;
+      @-webkit-keyframes sk-scaleout {
+        0% { -webkit-transform: scale(0) }
+        100% {
+          -webkit-transform: scale(1.0);
+          opacity: 0;
+        }
       }
 
-      /*
-        Set the color of the icon
-      */
-      .loading svg path,
-      .loading svg rect {
-        fill: #00ADE3;
+      @keyframes sk-scaleout {
+        0% {
+          -webkit-transform: scale(0);
+          transform: scale(0);
+        } 100% {
+          -webkit-transform: scale(1.0);
+          transform: scale(1.0);
+          opacity: 0;
+        }
       }
       </style>
 
@@ -68,23 +74,7 @@
     <respond-app>
 
       <!-- loading -->
-      <div class="loading" title="loading">
-        <div>
-          <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-             width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-          <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
-            <animateTransform attributeType="xml"
-              attributeName="transform"
-              type="rotate"
-              from="0 25 25"
-              to="360 25 25"
-              dur="0.6s"
-              repeatCount="indefinite"/>
-            </path>
-          </svg>
-        </div>
-
-      </div>
+      <div class="spinner" title="loading"></div>
 
     </respond-app>
   </body>

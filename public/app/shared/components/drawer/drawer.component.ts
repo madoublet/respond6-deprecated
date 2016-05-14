@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core'
-import {ROUTER_DIRECTIVES, CanActivate} from '@angular/router-deprecated'
+import {Router, ROUTER_DIRECTIVES, CanActivate} from '@angular/router-deprecated'
 import {tokenNotExpired} from 'angular2-jwt/angular2-jwt'
 import {SiteService} from '/app/shared/services/site.service'
 
@@ -25,12 +25,14 @@ export class DrawerComponent {
 
   @Output() onHide = new EventEmitter<any>();
 
-  constructor (private _siteService: SiteService) {}
+  constructor (private _siteService: SiteService, private _router: Router) {}
 
   /**
    * Init pages
    */
-  ngOnInit() { }
+  ngOnInit() {
+    this.id = localStorage.getItem('respond.siteId');
+  }
 
   /**
    * Hides the add page modal
@@ -50,6 +52,19 @@ export class DrawerComponent {
                        data => { toast.show('success'); },
                        error => { toast.show('failure');  }
                       );
+
+  }
+
+  /**
+   * Signs out of the system
+   */
+  signOut() {
+
+    // remove token
+    localStorage.removeItem('respond.siteId');
+
+    // redirect
+    this._router.navigate( ['Login', {id: this.id}] );
 
   }
 

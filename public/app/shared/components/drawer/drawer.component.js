@@ -28,8 +28,9 @@ System.register(['@angular/core', '@angular/router-deprecated', 'angular2-jwt/an
             }],
         execute: function() {
             DrawerComponent = (function () {
-                function DrawerComponent(_siteService) {
+                function DrawerComponent(_siteService, _router) {
                     this._siteService = _siteService;
+                    this._router = _router;
                     this._visible = false;
                     this.onHide = new core_1.EventEmitter();
                 }
@@ -44,7 +45,9 @@ System.register(['@angular/core', '@angular/router-deprecated', 'angular2-jwt/an
                 /**
                  * Init pages
                  */
-                DrawerComponent.prototype.ngOnInit = function () { };
+                DrawerComponent.prototype.ngOnInit = function () {
+                    this.id = localStorage.getItem('respond.siteId');
+                };
                 /**
                  * Hides the add page modal
                  */
@@ -58,6 +61,15 @@ System.register(['@angular/core', '@angular/router-deprecated', 'angular2-jwt/an
                 DrawerComponent.prototype.reload = function () {
                     this._siteService.reload()
                         .subscribe(function (data) { toast.show('success'); }, function (error) { toast.show('failure'); });
+                };
+                /**
+                 * Signs out of the system
+                 */
+                DrawerComponent.prototype.signOut = function () {
+                    // remove token
+                    localStorage.removeItem('respond.siteId');
+                    // redirect
+                    this._router.navigate(['Login', { id: this.id }]);
                 };
                 __decorate([
                     core_1.Input(), 
@@ -76,7 +88,7 @@ System.register(['@angular/core', '@angular/router-deprecated', 'angular2-jwt/an
                         providers: [site_service_1.SiteService]
                     }),
                     router_deprecated_1.CanActivate(function () { return angular2_jwt_1.tokenNotExpired(); }), 
-                    __metadata('design:paramtypes', [(typeof (_a = typeof site_service_1.SiteService !== 'undefined' && site_service_1.SiteService) === 'function' && _a) || Object])
+                    __metadata('design:paramtypes', [(typeof (_a = typeof site_service_1.SiteService !== 'undefined' && site_service_1.SiteService) === 'function' && _a) || Object, router_deprecated_1.Router])
                 ], DrawerComponent);
                 return DrawerComponent;
                 var _a;
