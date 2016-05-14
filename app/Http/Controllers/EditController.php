@@ -45,7 +45,7 @@ class EditController extends Controller
               $doc['body']->attr('hashedit-url', $q);
 
               // get defaults
-              $sortable = '.col, .column';
+              $sortable = '.col, .column, .grid-cell';
               $editable = ['[role="main"]'];
 
               // TODO try to load public/sites/site-name/hashedit-config.json

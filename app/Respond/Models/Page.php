@@ -308,11 +308,43 @@ class Page {
     $name = $new_name = str_replace('/', '.', $this->url);
     $fragment = app()->basePath().'/public/sites/'.$id.'/fragments/page/'.$name.'.html';
 
-    unlink($page);
-    unlink($fragment);
+    if(file_exists($page)) {
+      unlink($page);
+    }
+
+    if(file_exists($fragment)) {
+      unlink($fragment);
+    }
 
     // remove the page from JSON
     $json_file = app()->basePath().'/public/sites/'.$id.'/data/pages.json';
+
+    if(file_exists($json_file)) {
+
+      $json = file_get_contents($json_file);
+
+      // decode json file
+      $pages = json_decode($json, true);
+      $i = 0;
+
+      foreach($pages as &$page){
+
+        // remove page
+        if($page['url'] == $this->url) {
+          unset($pages[$i]);
+        }
+
+        $i++;
+
+      }
+
+      // save pages
+      file_put_contents($json_file, json_encode($pages, JSON_PRETTY_PRINT));
+
+    }
+
+    // remove the page from JSON (extended)
+    $json_file = app()->basePath().'/public/sites/'.$id.'/data/pages-extended.json';
 
     if(file_exists($json_file)) {
 
@@ -426,7 +458,7 @@ class Page {
       }
 
       // save pages
-      file_put_contents($json_file, json_encode($pages, JSON_PRETTY_PRINT));
+      //file_put_contents($json_file, json_encode($pages, JSON_PRETTY_PRINT));
 
     }
 
@@ -460,8 +492,10 @@ class Page {
 
       }
 
+      dd(json_encode($pages, JSON_PRETTY_PRINT));
+
       // save pages
-      file_put_contents($json_file_extended, json_encode($pages, JSON_PRETTY_PRINT));
+      //file_put_contents($json_file_extended, json_encode($pages, JSON_PRETTY_PRINT));
 
     }
 

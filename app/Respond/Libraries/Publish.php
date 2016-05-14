@@ -159,7 +159,7 @@ class Publish
         // inject whether to use friendly urls
         $useFriendlyURLs = false;
 
-        if(APP_ENV('FRIENDLY_URLS') === true || APP_ENV('FRIENDLY_URLS') === 'true') {
+        if(env('FRIENDLY_URLS') === true || env('FRIENDLY_URLS') === 'true') {
           $useFriendlyURLs = true;
         }
 
