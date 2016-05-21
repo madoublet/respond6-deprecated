@@ -31,6 +31,36 @@ class Setting {
       }
     }
   }
+  
+  
+  /**
+   * Gets a setting for a given $id
+   *
+   * @param {string} $id
+   * @return {string}
+   */
+  public static function getById($id, $siteId) {
+
+    $file = app()->basePath().'/resources/sites/'.$siteId.'/settings.json';
+
+    $settings = json_decode(file_get_contents($file), true);
+    
+    // get setting by id
+    foreach($settings as $setting) {
+    
+      if($setting['id'] === $id) {
+        
+        return $setting['value'];
+        
+      }
+      
+    }
+    
+    return NULL;
+
+  }
+  
+  
 
   /**
    * lists all settings

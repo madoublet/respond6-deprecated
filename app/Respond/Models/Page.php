@@ -327,7 +327,7 @@ class Page {
       $pages = json_decode($json, true);
       $i = 0;
 
-      foreach($pages as &$page){
+      foreach($pages as $page){
 
         // remove page
         if($page['url'] == $this->url) {
@@ -354,7 +354,7 @@ class Page {
       $pages = json_decode($json, true);
       $i = 0;
 
-      foreach($pages as &$page){
+      foreach($pages as $page){
 
         // remove page
         if($page['url'] == $this->url) {
@@ -417,9 +417,11 @@ class Page {
     $this->photo = $photo;
     $this->thumb = $thumb;
 
-    // save page
-    file_put_contents($file, $doc->htmlOuter());
+    $html = $doc->htmlOuter();
 
+    // save page
+    file_put_contents($file, $html);
+    
     // set timestamp
     $timestamp = date('Y-m-d\TH:i:s.Z\Z', time());
 
@@ -434,7 +436,7 @@ class Page {
 
       // decode json file
       $pages = json_decode($json, true);
-
+      
       foreach($pages as &$page){
 
         // update page
@@ -458,7 +460,7 @@ class Page {
       }
 
       // save pages
-      //file_put_contents($json_file, json_encode($pages, JSON_PRETTY_PRINT));
+      file_put_contents($json_file, json_encode($pages, JSON_PRETTY_PRINT));
 
     }
 
@@ -492,10 +494,8 @@ class Page {
 
       }
 
-      dd(json_encode($pages, JSON_PRETTY_PRINT));
-
       // save pages
-      //file_put_contents($json_file_extended, json_encode($pages, JSON_PRETTY_PRINT));
+      file_put_contents($json_file_extended, json_encode($pages, JSON_PRETTY_PRINT));
 
     }
 

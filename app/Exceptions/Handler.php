@@ -45,6 +45,23 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        // support friendly urls for files within the application
+        $path = $request->path();
+
+        if(strpos($path, 'sites/') !== FALSE) {
+
+          if(strpos($path, '.html') === FALSE) {
+
+            $file = app()->basePath('public/'.$path.'.html');
+
+            if(file_exists($file)) {
+              return file_get_contents($file);
+            }
+
+          }
+
+        }
+
         return parent::render($request, $e);
     }
 }

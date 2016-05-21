@@ -1,5 +1,17 @@
 [
     {
+        "id": "packages",
+        "value": "core, bootstrap"
+    },
+    {
+        "id": "editable",
+        "value": "[role=\"main\"]"
+    },
+    {
+        "id": "sortable",
+        "value": ".col, .column"
+    },
+    {
         "id": "theme-logo",
         "label": "Logo",
         "description": "Primary logo of the site",

@@ -8,6 +8,7 @@ use App\Respond\Libraries\Utilities;
 
 use App\Respond\Models\Form;
 use App\Respond\Models\Gallery;
+use App\Respond\Models\Setting;
 
 class EditController extends Controller
 {
@@ -28,7 +29,7 @@ class EditController extends Controller
 
           if(sizeof($arr) > 0) {
 
-            $site = $arr[0];
+            $siteId = $arr[0];
 
             // load page
             $path = rtrim(app()->basePath('public/sites/'.$q), '/');
@@ -41,20 +42,33 @@ class EditController extends Controller
               $doc = \phpQuery::newDocument($html);
 
               // set base
-              $doc['base']->attr('href', '/sites/'.$site.'/');
+              $doc['base']->attr('href', '/sites/'.$siteId.'/');
               $doc['body']->attr('hashedit-url', $q);
-
-              // get defaults
-              $sortable = '.col, .column, .grid-cell';
-              $editable = ['[role="main"]'];
-
-              // TODO try to load public/sites/site-name/hashedit-config.json
-
+              
+              // get settings
+              $sortable = Setting::getById('sortable', $siteId);
+              $editable = Setting::getById('editable', $siteId);
+              
+              // defaults
+              if($sortable === NULL) {
+                $sortable = '.col, .column';
+              }
+              
+              if($editable === NULL) {
+                $editable = ['[role="main"]'];
+              }
+              else {
+                $editable = explode(',', $editable);
+                
+                // trim elements in the array
+                $editable = array_map('trim', $editable);
+              }
+        
               // setup sortable
               $doc['body']->attr('hashedit-sortable', $sortable);
 
               // setup login
-              $doc['body']->attr('hashedit-login', '/login/'.$site);
+              $doc['body']->attr('hashedit-login', '/login/'.$siteId);
 
               // setup auth
               $doc['body']->attr('hashedit-auth', 'token');
@@ -72,17 +86,20 @@ class EditController extends Controller
                 $doc[$value]->attr('hashedit', '');
                 $doc[$value]->attr('hashedit-selector', $value);
               }
-
-              // get plugins from packages
-              $plugins_file = app()->basePath().'/resources/sites/'.$site.'/plugins.json';
+                
+              // get packages
+              $packages = Setting::getById('packages', $siteId);
+              
+              // init
               $plugins_script = '';
-
-              if(file_exists($plugins_file)) {
-
-                $json = json_decode(file_get_contents($plugins_file), true);
-
-                $packages = $json['packages'];
-
+              
+              if($packages != NULL) {
+              
+                $packages = explode(',', $packages);
+                
+                // trim elements in the array
+                $packages = array_map('trim', $packages);
+                
                 // add packages to $plugins_script
                 foreach($packages as $package) {
 
@@ -99,7 +116,7 @@ class EditController extends Controller
               }
 
               // get custom plugins
-              $js_file = app()->basePath().'/resources/sites/'.$site.'/custom.plugins.js';
+              $js_file = app()->basePath().'/resources/sites/'.$siteId.'/custom.plugins.js';
 
               if(file_exists($js_file)) {
 
@@ -112,7 +129,7 @@ class EditController extends Controller
               // inject forms into script
               if( strpos($plugins_script, 'respond.forms') !== false ) {
 
-                $arr = Form::listAll($site);
+                $arr = Form::listAll($siteId);
                 $options = array();
 
                 // get id
@@ -130,7 +147,7 @@ class EditController extends Controller
               // inject galleries into script
               if( strpos($plugins_script, 'respond.galleries') !== false ) {
 
-                $arr = Gallery::listAll($site);
+                $arr = Gallery::listAll($siteId);
                 $options = array();
 
                 // get id
@@ -148,8 +165,8 @@ class EditController extends Controller
               // inject routes into script
               if( strpos($plugins_script, 'respond.routes') !== false ) {
 
-                $dir = $file = app()->basePath().'/public/sites/'.$site;
-                $arr = array_merge(array('/'), Utilities::listRoutes($dir, $site));
+                $dir = $file = app()->basePath().'/public/sites/'.$siteId;
+                $arr = array_merge(array('/'), Utilities::listRoutes($dir, $siteId));
 
                 $options = array();
 
@@ -245,7 +262,7 @@ class EditController extends Controller
     }
 
     /**
-     * Retrieves a mirror for hte html
+     * Retrieves a mirror for the html
      *
      * @return Response
      */
@@ -260,7 +277,7 @@ class EditController extends Controller
 
           if(sizeof($arr) > 0) {
 
-            $site = $arr[0];
+            $siteId = $arr[0];
 
             // load page
             $path = rtrim(app()->basePath('public/sites/'.$q), '/');

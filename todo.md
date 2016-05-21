@@ -5,6 +5,8 @@
 - Themes
 - Enable theme.json to set editable selector, #edit options
 - Friendly URL support within #edit
+- Paste Filter
+- Slideshow
 
 ### Research:
 - Look at removing $ dependencies from respond.site.js
@@ -12,5 +14,5 @@
 - Framework independent gallery, slideshow (no jQuery)
 
 ### Possible Bugs:
-- Delete bug messes up pages.json
+x Delete bug messes up pages.json
 - defaultContent getting published to site.json
