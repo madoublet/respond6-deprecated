@@ -84,14 +84,13 @@ export class UserService {
    * @param {string} email
    * @param {string} firstName
    * @param {string} lastName
-   * @param {string} role
    * @param {string} password
    * @param {string} language
    * @return {Observable}
    */
-  add (email: string, firstName: string, lastName: string, role: string, password: string, language: string) {
+  add (email: string, firstName: string, lastName: string, password: string, language: string) {
 
-    let body = JSON.stringify({ email, firstName, lastName, role, password, language });
+    let body = JSON.stringify({ email, firstName, lastName, password, language });
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
@@ -105,14 +104,13 @@ export class UserService {
    * @param {string} email
    * @param {string} firstName
    * @param {string} lastName
-   * @param {string} role
    * @param {string} password
    * @param {string} language
    * @return {Observable}
    */
-  edit (email: string, firstName: string, lastName: string, role: string, password: string, language: string) {
+  edit (email: string, firstName: string, lastName: string, password: string, language: string) {
 
-    let body = JSON.stringify({ email, firstName, lastName, role, password, language });
+    let body = JSON.stringify({ email, firstName, lastName, password, language });
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 

@@ -63,7 +63,6 @@ class UserController extends Controller
         	'photo' => $user->photo,
         	'fullPhotoUrl' => $fullPhotoUrl,
         	'language' => $user->language,
-        	'role' => $user->role,
         	'siteId' => $site->id
         );
 
@@ -206,7 +205,6 @@ class UserController extends Controller
     $email = $request->json()->get('email');
     $firstName = $request->json()->get('firstName');
     $lastName = $request->json()->get('lastName');
-    $role = $request->json()->get('role');
     $password = $request->json()->get('password');
     $language = $request->json()->get('language');
 
@@ -216,7 +214,6 @@ class UserController extends Controller
 
       $user->firstName = $firstName;
       $user->lastName = $lastName;
-      $user->role = $role;
       $user->language = $language;
 
       if($password !== 'currentpassword') {
@@ -250,7 +247,6 @@ class UserController extends Controller
     $email = $request->json()->get('email');
     $firstName = $request->json()->get('firstName');
     $lastName = $request->json()->get('lastName');
-    $role = $request->json()->get('role');
     $password = $request->json()->get('password');
     $language = $request->json()->get('language');
 
@@ -265,7 +261,6 @@ class UserController extends Controller
           'password' => password_hash($password, PASSWORD_DEFAULT),
           'firstName' => $firstName,
           'lastName' => $lastName,
-          'role' => $role,
           'language' => $language,
           'photo' => '',
           'token' => ''

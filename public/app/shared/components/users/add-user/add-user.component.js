@@ -45,7 +45,6 @@ System.register(['@angular/core', '@angular/router-deprecated', 'angular2-jwt/an
                             email: '',
                             firstName: '',
                             lastName: '',
-                            role: '',
                             password: '',
                             retype: '',
                             language: 'en'
@@ -77,7 +76,7 @@ System.register(['@angular/core', '@angular/router-deprecated', 'angular2-jwt/an
                         return;
                     }
                     // add user
-                    this._userService.add(this.model.email, this.model.firstName, this.model.lastName, this.model.role, this.model.password, this.model.language)
+                    this._userService.add(this.model.email, this.model.firstName, this.model.lastName, this.model.password, this.model.language)
                         .subscribe(function (data) { _this.success(); }, function (error) { _this.onError.emit(error); });
                 };
                 /**

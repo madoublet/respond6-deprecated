@@ -1,4 +1,4 @@
-System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-deprecated', '/app/shared/services/submission.service', '/app/shared/components/submissions/remove-submission/remove-submission.component', '/app/shared/components/submissions/view-submission/view-submission.component', '/app/shared/components/drawer/drawer.component', '/app/shared/pipes/time-ago.pipe'], function(exports_1, context_1) {
+System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-deprecated', 'ng2-translate/ng2-translate', '/app/shared/services/submission.service', '/app/shared/components/submissions/remove-submission/remove-submission.component', '/app/shared/components/submissions/view-submission/view-submission.component', '/app/shared/components/drawer/drawer.component', '/app/shared/pipes/time-ago.pipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, angular2_jwt_1, router_deprecated_1, submission_service_1, remove_submission_component_1, view_submission_component_1, drawer_component_1, time_ago_pipe_1;
+    var core_1, angular2_jwt_1, router_deprecated_1, ng2_translate_1, submission_service_1, remove_submission_component_1, view_submission_component_1, drawer_component_1, time_ago_pipe_1;
     var SubmissionsComponent;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
             },
             function (router_deprecated_1_1) {
                 router_deprecated_1 = router_deprecated_1_1;
+            },
+            function (ng2_translate_1_1) {
+                ng2_translate_1 = ng2_translate_1_1;
             },
             function (submission_service_1_1) {
                 submission_service_1 = submission_service_1_1;
@@ -120,7 +123,7 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
                         templateUrl: './app/submissions/submissions.component.html',
                         providers: [submission_service_1.SubmissionService],
                         directives: [remove_submission_component_1.RemoveSubmissionComponent, view_submission_component_1.ViewSubmissionComponent, drawer_component_1.DrawerComponent],
-                        pipes: [time_ago_pipe_1.TimeAgoPipe]
+                        pipes: [time_ago_pipe_1.TimeAgoPipe, ng2_translate_1.TranslatePipe]
                     }),
                     router_deprecated_1.CanActivate(function () { return angular2_jwt_1.tokenNotExpired(); }), 
                     __metadata('design:paramtypes', [(typeof (_a = typeof submission_service_1.SubmissionService !== 'undefined' && submission_service_1.SubmissionService) === 'function' && _a) || Object, router_deprecated_1.Router])

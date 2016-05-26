@@ -2,12 +2,14 @@ import {Component} from '@angular/core';
 import {HTTP_PROVIDERS} from '@angular/http';
 import {RouteConfig, Router, RouteParams, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {UserService} from '/app/shared/services/user.service';
+import {TRANSLATE_PROVIDERS, TranslateService, TranslatePipe, TranslateLoader, TranslateStaticLoader} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'respond-login',
     templateUrl: './app/login/login.component.html',
     providers: [UserService],
-    directives: [ROUTER_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES],
+    pipes: [TranslatePipe]
 })
 
 export class LoginComponent {
@@ -16,7 +18,7 @@ export class LoginComponent {
   id;
   errorMessage;
 
-  constructor (private _userService: UserService, private _routeParams: RouteParams, private _router: Router) {}
+  constructor (private _userService: UserService, private _routeParams: RouteParams, private _router: Router, private _translate: TranslateService) {}
 
   ngOnInit() {
       this.id = this._routeParams.get('id');
@@ -46,8 +48,13 @@ export class LoginComponent {
    * Handles a successful login
    */
   success() {
+  
+    console.log('language=' + this.data.user.language);
 
     toast.show('success');
+
+    // set language
+    this._translate.use(this.data.user.language);
 
     // set token
     this.setToken(this.data.token);

@@ -1,21 +1,21 @@
 <nav class="app-drawer" [class.visible]="visible === true">
 
   <ul>
-    <li class="app-drawer-title"><span>Manage your Site</span></li>
-    <li><a [routerLink]="['Pages']">Pages</a></li>
-    <li><a [routerLink]="['Menus']">Menus</a></li>
-    <li><a [routerLink]="['Galleries']">Galleries</a></li>
-    <li><a [routerLink]="['Forms']">Forms</a></li>
-    <li><a [routerLink]="['Submissions']">Submissions</a></li>
-    <li><a [routerLink]="['Files']">Files</a></li>
-    <li><a [routerLink]="['Users']">Users</a></li>
-    <li><a [routerLink]="['Settings']">Settings</a></li>
-    <li><a (click)="signOut()">Sign out</a></li>
+    <li class="app-drawer-title"><span>{{ 'Manage your Site' | translate }}</span></li>
+    <li><a [routerLink]="['Pages']">{{ 'Pages' | translate }}</a></li>
+    <li><a [routerLink]="['Menus']">{{ 'Menus' | translate }}</a></li>
+    <li><a [routerLink]="['Galleries']">{{ 'Galleries' | translate }}</a></li>
+    <li><a [routerLink]="['Forms']">{{ 'Forms' | translate }}</a></li>
+    <li><a [routerLink]="['Submissions']">{{ 'Submissions' | translate }}</a></li>
+    <li><a [routerLink]="['Files']">{{ 'Files' | translate }}</a></li>
+    <li><a [routerLink]="['Users']">{{ 'Users' | translate }}</a></li>
+    <li><a [routerLink]="['Settings']">{{ 'Settings' | translate }}</a></li>
+    <li><a (click)="signOut()">{{ 'Sign Out' | translate }}</a></li>
   </ul>
 
   <ul>
-    <li class="app-drawer-title"><span>Developer Options</span></li>
-    <li><a (click)="reload()">Reload system files</a></li>
+    <li class="app-drawer-title"><span>{{ 'Developer Options' | translate }}</span></li>
+    <li><a (click)="reload()">{{ 'Reload System Files' | translate }}</a></li>
   </ul>
 
 </nav>

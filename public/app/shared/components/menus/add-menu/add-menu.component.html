@@ -2,16 +2,16 @@
 
   <form (ngSubmit)="submit()" #addForm="ngForm">
 
-    <h2>Add Menu</h2>
+    <h2>{{ 'Add Menu' | translate }}</h2>
 
-    <label>Name</label>
+    <label>{{ 'Name' | translate }}</label>
     <input id="hashedit-add-menu-name" type="text" maxlength="128" placeholder="" required
       [(ngModel)]="model.name"
       ngControl="name">
 
     <div class="actions">
-      <a (click)="hide()">Cancel</a>
-      <button type="submit">Add</button>
+      <a (click)="hide()">{{ 'Cancel' | translate }}</a>
+      <button type="submit">{{ 'Add' | translate }}</button>
     </div>
 
   </form>

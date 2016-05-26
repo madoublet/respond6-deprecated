@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {tokenNotExpired} from 'angular2-jwt/angular2-jwt';
 import {RouteConfig, Router, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, CanActivate} from '@angular/router-deprecated';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {MenuService} from '/app/shared/services/menu.service';
 import {MenuItemService} from '/app/shared/services/menu-item.service';
 import {AddMenuComponent} from '/app/shared/components/menus/add-menu/add-menu.component';
@@ -15,7 +16,8 @@ import {DrawerComponent} from '/app/shared/components/drawer/drawer.component';
     selector: 'respond-menus',
     templateUrl: './app/menus/menus.component.html',
     providers: [MenuService, MenuItemService],
-    directives: [AddMenuComponent, EditMenuComponent, RemoveMenuComponent, AddMenuItemComponent, EditMenuItemComponent, RemoveMenuItemComponent, DrawerComponent]
+    directives: [AddMenuComponent, EditMenuComponent, RemoveMenuComponent, AddMenuItemComponent, EditMenuItemComponent, RemoveMenuItemComponent, DrawerComponent],
+    pipes: [TranslatePipe]
 })
 
 @CanActivate(() => tokenNotExpired())

@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CanActivate} from '@angular/router-deprecated';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {tokenNotExpired} from 'angular2-jwt/angular2-jwt';
 import {FileService} from '/app/shared/services/file.service';
 import {DropzoneComponent} from '/app/shared/components/dropzone/dropzone.component';
@@ -9,6 +10,7 @@ import {DropzoneComponent} from '/app/shared/components/dropzone/dropzone.compon
     templateUrl: './app/shared/components/files/select-file/select-file.component.html',
     providers: [FileService],
     directives: [DropzoneComponent],
+    pipes: [TranslatePipe]
 })
 
 @CanActivate(() => tokenNotExpired())

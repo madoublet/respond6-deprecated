@@ -1,4 +1,4 @@
-System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-deprecated', '/app/shared/services/setting.service', '/app/shared/components/drawer/drawer.component', '/app/shared/components/files/select-file/select-file.component'], function(exports_1, context_1) {
+System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-deprecated', 'ng2-translate/ng2-translate', '/app/shared/services/setting.service', '/app/shared/components/drawer/drawer.component', '/app/shared/components/files/select-file/select-file.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, angular2_jwt_1, router_deprecated_1, setting_service_1, drawer_component_1, select_file_component_1;
+    var core_1, angular2_jwt_1, router_deprecated_1, ng2_translate_1, setting_service_1, drawer_component_1, select_file_component_1;
     var SettingsComponent;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
             },
             function (router_deprecated_1_1) {
                 router_deprecated_1 = router_deprecated_1_1;
+            },
+            function (ng2_translate_1_1) {
+                ng2_translate_1 = ng2_translate_1_1;
             },
             function (setting_service_1_1) {
                 setting_service_1 = setting_service_1_1;
@@ -123,7 +126,8 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
                         selector: 'respond-settings',
                         templateUrl: './app/settings/settings.component.html',
                         providers: [setting_service_1.SettingService],
-                        directives: [select_file_component_1.SelectFileComponent, drawer_component_1.DrawerComponent]
+                        directives: [select_file_component_1.SelectFileComponent, drawer_component_1.DrawerComponent],
+                        pipes: [ng2_translate_1.TranslatePipe]
                     }),
                     router_deprecated_1.CanActivate(function () { return angular2_jwt_1.tokenNotExpired(); }), 
                     __metadata('design:paramtypes', [(typeof (_a = typeof setting_service_1.SettingService !== 'undefined' && setting_service_1.SettingService) === 'function' && _a) || Object, router_deprecated_1.Router])

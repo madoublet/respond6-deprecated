@@ -1,4 +1,4 @@
-System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-deprecated', '/app/shared/services/user.service', '/app/shared/components/users/add-user/add-user.component', '/app/shared/components/users/edit-user/edit-user.component', '/app/shared/components/users/remove-user/remove-user.component', '/app/shared/components/drawer/drawer.component'], function(exports_1, context_1) {
+System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-deprecated', 'ng2-translate/ng2-translate', '/app/shared/services/user.service', '/app/shared/components/users/add-user/add-user.component', '/app/shared/components/users/edit-user/edit-user.component', '/app/shared/components/users/remove-user/remove-user.component', '/app/shared/components/drawer/drawer.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, angular2_jwt_1, router_deprecated_1, user_service_1, add_user_component_1, edit_user_component_1, remove_user_component_1, drawer_component_1;
+    var core_1, angular2_jwt_1, router_deprecated_1, ng2_translate_1, user_service_1, add_user_component_1, edit_user_component_1, remove_user_component_1, drawer_component_1;
     var UsersComponent;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
             },
             function (router_deprecated_1_1) {
                 router_deprecated_1 = router_deprecated_1_1;
+            },
+            function (ng2_translate_1_1) {
+                ng2_translate_1 = ng2_translate_1_1;
             },
             function (user_service_1_1) {
                 user_service_1 = user_service_1_1;
@@ -128,7 +131,8 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
                         selector: 'respond-users',
                         templateUrl: './app/users/users.component.html',
                         providers: [user_service_1.UserService],
-                        directives: [add_user_component_1.AddUserComponent, edit_user_component_1.EditUserComponent, remove_user_component_1.RemoveUserComponent, drawer_component_1.DrawerComponent]
+                        directives: [add_user_component_1.AddUserComponent, edit_user_component_1.EditUserComponent, remove_user_component_1.RemoveUserComponent, drawer_component_1.DrawerComponent],
+                        pipes: [ng2_translate_1.TranslatePipe]
                     }),
                     router_deprecated_1.CanActivate(function () { return angular2_jwt_1.tokenNotExpired(); }), 
                     __metadata('design:paramtypes', [(typeof (_a = typeof user_service_1.UserService !== 'undefined' && user_service_1.UserService) === 'function' && _a) || Object, router_deprecated_1.Router])

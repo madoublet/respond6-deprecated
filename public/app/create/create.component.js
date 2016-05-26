@@ -1,4 +1,4 @@
-System.register(['@angular/core', '/app/shared/services/site.service'], function(exports_1, context_1) {
+System.register(['@angular/core', '/app/shared/services/site.service', 'ng2-translate/ng2-translate'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '/app/shared/services/site.service'], function
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, site_service_1;
+    var core_1, site_service_1, ng2_translate_1;
     var CreateComponent;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(['@angular/core', '/app/shared/services/site.service'], function
             },
             function (site_service_1_1) {
                 site_service_1 = site_service_1_1;
+            },
+            function (ng2_translate_1_1) {
+                ng2_translate_1 = ng2_translate_1_1;
             }],
         execute: function() {
             CreateComponent = (function () {
@@ -71,7 +74,8 @@ System.register(['@angular/core', '/app/shared/services/site.service'], function
                     core_1.Component({
                         selector: 'respond-create',
                         templateUrl: './app/create/create.component.html',
-                        providers: [site_service_1.SiteService]
+                        providers: [site_service_1.SiteService],
+                        pipes: [ng2_translate_1.TranslatePipe]
                     }), 
                     __metadata('design:paramtypes', [(typeof (_a = typeof site_service_1.SiteService !== 'undefined' && site_service_1.SiteService) === 'function' && _a) || Object])
                 ], CreateComponent);

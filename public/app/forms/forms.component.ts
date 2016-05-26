@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {tokenNotExpired} from 'angular2-jwt/angular2-jwt';
 import {RouteConfig, Router, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, CanActivate} from '@angular/router-deprecated';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {FormService} from '/app/shared/services/form.service';
 import {FormFieldService} from '/app/shared/services/form-field.service';
 import {AddFormComponent} from '/app/shared/components/forms/add-form/add-form.component';
@@ -15,7 +16,8 @@ import {DrawerComponent} from '/app/shared/components/drawer/drawer.component';
     selector: 'respond-forms',
     templateUrl: './app/forms/forms.component.html',
     providers: [FormService, FormFieldService],
-    directives: [AddFormComponent, EditFormComponent, RemoveFormComponent, AddFormFieldComponent, EditFormFieldComponent, RemoveFormFieldComponent, DrawerComponent]
+    directives: [AddFormComponent, EditFormComponent, RemoveFormComponent, AddFormFieldComponent, EditFormFieldComponent, RemoveFormFieldComponent, DrawerComponent],
+    pipes: [TranslatePipe]
 })
 
 @CanActivate(() => tokenNotExpired())

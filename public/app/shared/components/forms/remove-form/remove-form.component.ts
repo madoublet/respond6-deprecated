@@ -1,12 +1,14 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CanActivate} from '@angular/router-deprecated';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {tokenNotExpired} from 'angular2-jwt/angular2-jwt';
 import {FormService} from '/app/shared/services/form.service';
 
 @Component({
     selector: 'respond-remove-form',
     templateUrl: './app/shared/components/forms/remove-form/remove-form.component.html',
-    providers: [FormService]
+    providers: [FormService],
+    pipes: [TranslatePipe]
 })
 
 @CanActivate(() => tokenNotExpired())

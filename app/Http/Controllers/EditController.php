@@ -44,26 +44,26 @@ class EditController extends Controller
               // set base
               $doc['base']->attr('href', '/sites/'.$siteId.'/');
               $doc['body']->attr('hashedit-url', $q);
-              
+
               // get settings
               $sortable = Setting::getById('sortable', $siteId);
               $editable = Setting::getById('editable', $siteId);
-              
+
               // defaults
               if($sortable === NULL) {
                 $sortable = '.col, .column';
               }
-              
+
               if($editable === NULL) {
                 $editable = ['[role="main"]'];
               }
               else {
                 $editable = explode(',', $editable);
-                
+
                 // trim elements in the array
                 $editable = array_map('trim', $editable);
               }
-        
+
               // setup sortable
               $doc['body']->attr('hashedit-sortable', $sortable);
 
@@ -86,20 +86,20 @@ class EditController extends Controller
                 $doc[$value]->attr('hashedit', '');
                 $doc[$value]->attr('hashedit-selector', $value);
               }
-                
+
               // get packages
               $packages = Setting::getById('packages', $siteId);
-              
+
               // init
               $plugins_script = '';
-              
+
               if($packages != NULL) {
-              
+
                 $packages = explode(',', $packages);
-                
+
                 // trim elements in the array
                 $packages = array_map('trim', $packages);
-                
+
                 // add packages to $plugins_script
                 foreach($packages as $package) {
 
@@ -231,11 +231,20 @@ class EditController extends Controller
                             '.respond-plugin {'.
                             '  position: relative;'.
                             '  padding: 10px 0;'.
-                            '  margin: 0;'.
+                            '  margin: 0 0 20px 0;'.
                             '  background-color: #f8f8f8;'.
                             '  border: 1px solid #f0f0f0;'.
                             '  text-align: center;'.
                             '  color: #aaa;'.
+                            '}'.
+                            '.respond-plugin span {'.
+                            '  display: block;'.
+                            '  margin: 0; padding: 0;'.
+                            '  color: #aaa;'.
+                            '  text-align: center;'.
+                            '  text-transform: uppercase;'.
+                            '  font-size: 11px;'.
+                            '  font-family: "Open Sans", sans-serif;'.
                             '}'.
                             '.respond-plugin svg{'.
                             '  fill: currentColor;'.

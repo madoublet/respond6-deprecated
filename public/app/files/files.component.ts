@@ -5,12 +5,14 @@ import {FileService} from '/app/shared/services/file.service';
 import {RemoveFileComponent} from '/app/shared/components/files/remove-file/remove-file.component';
 import {DropzoneComponent} from '/app/shared/components/dropzone/dropzone.component';
 import {DrawerComponent} from '/app/shared/components/drawer/drawer.component';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'respond-files',
     templateUrl: './app/files/files.component.html',
     providers: [FileService],
-    directives: [RemoveFileComponent, DropzoneComponent, DrawerComponent]
+    directives: [RemoveFileComponent, DropzoneComponent, DrawerComponent],
+    pipes: [TranslatePipe]
 })
 
 @CanActivate(() => tokenNotExpired())

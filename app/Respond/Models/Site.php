@@ -14,7 +14,6 @@ class Site {
   public $id;
   public $name;
   public $email;
-  public $defaultContent;
 
   /**
    * Constructs a page from an array of data
@@ -147,7 +146,6 @@ class Site {
       'password' => password_hash($password, PASSWORD_DEFAULT),
       'firstName' => 'New',
       'lastName' => 'User',
-      'role' => 'Admin',
       'language' => 'en',
       'photo' => '',
       'token' => ''

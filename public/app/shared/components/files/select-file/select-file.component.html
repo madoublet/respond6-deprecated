@@ -1,6 +1,6 @@
 <div class="app-modal" [class.visible]="visible === true">
 
-  <h2>Select File</h2>
+  <h2>{{ 'Select File' | translate }}</h2>
 
   <respond-dropzone (onAdd)="list($event)"></respond-dropzone>
 
@@ -13,7 +13,7 @@
   </div>
 
   <div class="actions">
-    <a (click)="hide()" class="primary">Cancel</a>
+    <a (click)="hide()" class="primary">{{ 'Cancel' | translate }}</a>
   </div>
 
 </div>

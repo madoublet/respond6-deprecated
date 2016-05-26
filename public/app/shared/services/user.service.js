@@ -93,13 +93,12 @@ System.register(['@angular/core', '@angular/http', 'angular2-jwt/angular2-jwt'],
                  * @param {string} email
                  * @param {string} firstName
                  * @param {string} lastName
-                 * @param {string} role
                  * @param {string} password
                  * @param {string} language
                  * @return {Observable}
                  */
-                UserService.prototype.add = function (email, firstName, lastName, role, password, language) {
-                    var body = JSON.stringify({ email: email, firstName: firstName, lastName: lastName, role: role, password: password, language: language });
+                UserService.prototype.add = function (email, firstName, lastName, password, language) {
+                    var body = JSON.stringify({ email: email, firstName: firstName, lastName: lastName, password: password, language: language });
                     var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
                     var options = new http_2.RequestOptions({ headers: headers });
                     return this.authHttp.post(this._addUrl, body, options);
@@ -110,13 +109,12 @@ System.register(['@angular/core', '@angular/http', 'angular2-jwt/angular2-jwt'],
                  * @param {string} email
                  * @param {string} firstName
                  * @param {string} lastName
-                 * @param {string} role
                  * @param {string} password
                  * @param {string} language
                  * @return {Observable}
                  */
-                UserService.prototype.edit = function (email, firstName, lastName, role, password, language) {
-                    var body = JSON.stringify({ email: email, firstName: firstName, lastName: lastName, role: role, password: password, language: language });
+                UserService.prototype.edit = function (email, firstName, lastName, password, language) {
+                    var body = JSON.stringify({ email: email, firstName: firstName, lastName: lastName, password: password, language: language });
                     var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
                     var options = new http_2.RequestOptions({ headers: headers });
                     return this.authHttp.post(this._editUrl, body, options);

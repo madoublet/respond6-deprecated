@@ -1,12 +1,14 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CanActivate} from '@angular/router-deprecated';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {tokenNotExpired} from 'angular2-jwt/angular2-jwt';
 import {GalleryImageService} from '/app/shared/services/gallery-image.service';
 
 @Component({
     selector: 'respond-edit-caption',
     templateUrl: './app/shared/components/galleries/edit-caption/edit-caption.component.html',
-    providers: [GalleryImageService]
+    providers: [GalleryImageService],
+    pipes: [TranslatePipe]
 })
 
 @CanActivate(() => tokenNotExpired())

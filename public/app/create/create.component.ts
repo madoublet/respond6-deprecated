@@ -1,10 +1,12 @@
 import {Component} from '@angular/core';
 import {SiteService} from '/app/shared/services/site.service';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'respond-create',
     templateUrl: './app/create/create.component.html',
-    providers: [SiteService]
+    providers: [SiteService],
+    pipes: [TranslatePipe]
 })
 
 export class CreateComponent {

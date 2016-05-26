@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router-deprecated', '/app/shared/services/user.service'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router-deprecated', '/app/shared/services/user.service', 'ng2-translate/ng2-translate'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router-deprecated', '/app/shared/ser
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, user_service_1;
+    var core_1, router_deprecated_1, user_service_1, ng2_translate_1;
     var ForgotComponent;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(['@angular/core', '@angular/router-deprecated', '/app/shared/ser
             },
             function (user_service_1_1) {
                 user_service_1 = user_service_1_1;
+            },
+            function (ng2_translate_1_1) {
+                ng2_translate_1 = ng2_translate_1_1;
             }],
         execute: function() {
             ForgotComponent = (function () {
@@ -48,7 +51,8 @@ System.register(['@angular/core', '@angular/router-deprecated', '/app/shared/ser
                     core_1.Component({
                         selector: 'respond-forgot',
                         templateUrl: './app/forgot/forgot.component.html',
-                        providers: [user_service_1.UserService]
+                        providers: [user_service_1.UserService],
+                        pipes: [ng2_translate_1.TranslatePipe]
                     }), 
                     __metadata('design:paramtypes', [(typeof (_a = typeof user_service_1.UserService !== 'undefined' && user_service_1.UserService) === 'function' && _a) || Object, router_deprecated_1.RouteParams])
                 ], ForgotComponent);

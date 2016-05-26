@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {tokenNotExpired} from 'angular2-jwt/angular2-jwt';
 import {RouteConfig, Router, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, CanActivate} from '@angular/router-deprecated';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {GalleryService} from '/app/shared/services/gallery.service';
 import {GalleryImageService} from '/app/shared/services/gallery-image.service';
 import {SelectFileComponent} from '/app/shared/components/files/select-file/select-file.component';
@@ -15,7 +16,8 @@ import {DrawerComponent} from '/app/shared/components/drawer/drawer.component';
     selector: 'respond-galleries',
     templateUrl: './app/galleries/galleries.component.html',
     providers: [GalleryService, GalleryImageService],
-    directives: [SelectFileComponent, AddGalleryComponent, EditGalleryComponent, RemoveGalleryComponent, EditCaptionComponent, RemoveGalleryImageComponent, DrawerComponent]
+    directives: [SelectFileComponent, AddGalleryComponent, EditGalleryComponent, RemoveGalleryComponent, EditCaptionComponent, RemoveGalleryImageComponent, DrawerComponent],
+    pipes: [TranslatePipe]
 })
 
 @CanActivate(() => tokenNotExpired())

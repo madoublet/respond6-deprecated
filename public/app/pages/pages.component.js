@@ -1,4 +1,4 @@
-System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-deprecated', '/app/shared/services/page.service', '/app/shared/components/pages/add-page/add-page.component', '/app/shared/components/pages/page-settings/page-settings.component', '/app/shared/components/pages/remove-page/remove-page.component', '/app/shared/components/drawer/drawer.component', '/app/shared/pipes/time-ago.pipe'], function(exports_1, context_1) {
+System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-deprecated', '/app/shared/services/page.service', '/app/shared/components/pages/add-page/add-page.component', '/app/shared/components/pages/page-settings/page-settings.component', '/app/shared/components/pages/remove-page/remove-page.component', '/app/shared/components/drawer/drawer.component', '/app/shared/pipes/time-ago.pipe', 'ng2-translate/ng2-translate'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, angular2_jwt_1, router_deprecated_1, page_service_1, add_page_component_1, page_settings_component_1, remove_page_component_1, drawer_component_1, time_ago_pipe_1;
+    var core_1, angular2_jwt_1, router_deprecated_1, page_service_1, add_page_component_1, page_settings_component_1, remove_page_component_1, drawer_component_1, time_ago_pipe_1, ng2_translate_1;
     var PagesComponent;
     return {
         setters:[
@@ -40,6 +40,9 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
             },
             function (time_ago_pipe_1_1) {
                 time_ago_pipe_1 = time_ago_pipe_1_1;
+            },
+            function (ng2_translate_1_1) {
+                ng2_translate_1 = ng2_translate_1_1;
             }],
         execute: function() {
             PagesComponent = (function () {
@@ -140,7 +143,7 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
                         templateUrl: './app/pages/pages.component.html',
                         providers: [page_service_1.PageService],
                         directives: [add_page_component_1.AddPageComponent, page_settings_component_1.PageSettingsComponent, remove_page_component_1.RemovePageComponent, drawer_component_1.DrawerComponent],
-                        pipes: [time_ago_pipe_1.TimeAgoPipe]
+                        pipes: [time_ago_pipe_1.TimeAgoPipe, ng2_translate_1.TranslatePipe]
                     }),
                     router_deprecated_1.CanActivate(function () { return angular2_jwt_1.tokenNotExpired(); }), 
                     __metadata('design:paramtypes', [(typeof (_a = typeof page_service_1.PageService !== 'undefined' && page_service_1.PageService) === 'function' && _a) || Object, router_deprecated_1.Router])

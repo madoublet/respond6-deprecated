@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router-deprecated', './login/login.component', './forgot/forgot.component', './reset/reset.component', './create/create.component', './pages/pages.component', './files/files.component', './users/users.component', './menus/menus.component', './forms/forms.component', './settings/settings.component', './submissions/submissions.component', './galleries/galleries.component'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/ng2-translate', './login/login.component', './forgot/forgot.component', './reset/reset.component', './create/create.component', './pages/pages.component', './files/files.component', './users/users.component', './menus/menus.component', './forms/forms.component', './settings/settings.component', './submissions/submissions.component', './galleries/galleries.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router-deprecated', './login/login.c
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, login_component_1, forgot_component_1, reset_component_1, create_component_1, pages_component_1, files_component_1, users_component_1, menus_component_1, forms_component_1, settings_component_1, submissions_component_1, galleries_component_1;
+    var core_1, router_deprecated_1, ng2_translate_1, login_component_1, forgot_component_1, reset_component_1, create_component_1, pages_component_1, files_component_1, users_component_1, menus_component_1, forms_component_1, settings_component_1, submissions_component_1, galleries_component_1;
     var AppComponent;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(['@angular/core', '@angular/router-deprecated', './login/login.c
             },
             function (router_deprecated_1_1) {
                 router_deprecated_1 = router_deprecated_1_1;
+            },
+            function (ng2_translate_1_1) {
+                ng2_translate_1 = ng2_translate_1_1;
             },
             function (login_component_1_1) {
                 login_component_1 = login_component_1_1;
@@ -58,7 +61,14 @@ System.register(['@angular/core', '@angular/router-deprecated', './login/login.c
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent() {
+                function AppComponent(_translate) {
+                    this._translate = _translate;
+                    var userLang = navigator.language.split('-')[0]; // use navigator lang if available
+                    userLang = /(fr|en)/gi.test(userLang) ? userLang : 'en';
+                    // this language will be used as a fallback when a translation isn't found in the current language
+                    _translate.setDefaultLang('en');
+                    // the lang to use, if the lang isn't available, it will use the current loader to get them
+                    _translate.use(userLang);
                 }
                 AppComponent = __decorate([
                     core_1.Component({
@@ -132,7 +142,7 @@ System.register(['@angular/core', '@angular/router-deprecated', './login/login.c
                             component: galleries_component_1.GalleriesComponent
                         }
                     ]), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [ng2_translate_1.TranslateService])
                 ], AppComponent);
                 return AppComponent;
             }());

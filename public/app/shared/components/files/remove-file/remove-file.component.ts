@@ -1,12 +1,14 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CanActivate} from '@angular/router-deprecated';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {tokenNotExpired} from 'angular2-jwt/angular2-jwt';
 import {FileService} from '/app/shared/services/file.service';
 
 @Component({
     selector: 'respond-remove-file',
     templateUrl: './app/shared/components/files/remove-file/remove-file.component.html',
-    providers: [FileService]
+    providers: [FileService],
+    pipes: [TranslatePipe]
 })
 
 @CanActivate(() => tokenNotExpired())

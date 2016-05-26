@@ -2,11 +2,13 @@ import {Component} from '@angular/core';
 import {HTTP_PROVIDERS} from '@angular/http';
 import {RouteParams, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {UserService} from '/app/shared/services/user.service';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'respond-forgot',
     templateUrl: './app/forgot/forgot.component.html',
-    providers: [UserService]
+    providers: [UserService],
+    pipes: [TranslatePipe]
 })
 
 export class ForgotComponent {

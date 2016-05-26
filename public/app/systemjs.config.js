@@ -2,11 +2,12 @@
 
   // map tells the System loader where to look for things
   var map = {
-    'angular2-jwt/angular2-jwt':  'node_modules/angular2-jwt/angular2-jwt.js',
-    'app':                        'app', // 'dist',
-    'rxjs':                       'node_modules/rxjs',
-    'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
-    '@angular':                   'node_modules/@angular'
+    'angular2-jwt/angular2-jwt':   'node_modules/angular2-jwt/angular2-jwt.js',
+    'ng2-translate/ng2-translate': 'node_modules/ng2-translate/ng2-translate.js',
+    'app':                         'app', // 'dist',
+    'rxjs':                        'node_modules/rxjs',
+    'angular2-in-memory-web-api':  'node_modules/angular2-in-memory-web-api',
+    '@angular':                    'node_modules/@angular'
   };
 
   // packages tells the System loader how to load when no filename and/or no extension
@@ -35,6 +36,7 @@
   });
 
   var config = {
+    defaultJSExtensions: true,
     map: map,
     packages: packages
   }

@@ -7,13 +7,14 @@ import {PageSettingsComponent} from '/app/shared/components/pages/page-settings/
 import {RemovePageComponent} from '/app/shared/components/pages/remove-page/remove-page.component';
 import {DrawerComponent} from '/app/shared/components/drawer/drawer.component';
 import {TimeAgoPipe} from '/app/shared/pipes/time-ago.pipe';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'respond-pages',
     templateUrl: './app/pages/pages.component.html',
     providers: [PageService],
     directives: [AddPageComponent, PageSettingsComponent, RemovePageComponent, DrawerComponent],
-    pipes: [TimeAgoPipe]
+    pipes: [TimeAgoPipe, TranslatePipe]
 })
 
 @CanActivate(() => tokenNotExpired())
