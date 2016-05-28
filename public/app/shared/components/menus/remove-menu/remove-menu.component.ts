@@ -1,7 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CanActivate} from '@angular/router-deprecated'
-import {tokenNotExpired} from 'angular2-jwt/angular2-jwt'
-import {MenuService} from '/app/shared/services/menu.service'
+import {CanActivate} from '@angular/router-deprecated';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
+import {tokenNotExpired} from 'angular2-jwt/angular2-jwt';
+import {MenuService} from '/app/shared/services/menu.service';
+import {GalleryService} from '/app/shared/services/gallery.service';
 
 @Component({
     selector: 'respond-remove-menu',

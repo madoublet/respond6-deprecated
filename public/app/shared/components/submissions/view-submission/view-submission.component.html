@@ -1,15 +1,15 @@
 <div class="app-modal" [class.visible]="visible === true">
 
-  <h2>View Submission</h2>
+  <h2>{{ 'View Submission' | translate }}</h2>
 
   <table class="details">
 
     <tr>
-      <td>Date</td>
+      <td>{{ 'Date' | translate }}</td>
       <td>{{ model.date }}</td>
     </tr>
     <tr>
-      <td>Form</td>
+      <td>{{ 'Form' | translate }}</td>
       <td>{{ model.formId }}</td>
     </tr>
     <tr *ngFor="let field of model.fields">
@@ -20,7 +20,7 @@
   </table>
 
   <div class="actions">
-    <a (click)="hide()" class="primary">Done</a>
+    <a (click)="hide()" class="primary">{{ 'Done' | translate }}</a>
   </div>
 
 </div>

@@ -2,49 +2,49 @@
 
   <form (ngSubmit)="submit()" #addForm="ngForm">
 
-    <h2>Add User</h2>
+    <h2>{{ 'Add User' | translate }}</h2>
 
     <div class="app-modal-body">
 
-      <label>Email</label>
+      <label>{{ 'Email' | translate }}</label>
       <input id="hashedit-add-user-email" type="text" maxlength="128" required
         [(ngModel)]="model.email"
         ngControl="email">
 
-      <label>First Name</label>
+      <label>{{ 'First Name' | translate }}</label>
       <input id="hashedit-add-user-first-name" type="text" maxlength="128" required
         [(ngModel)]="model.firstName"
         ngControl="firstName">
 
-      <label>Last Name</label>
+      <label>{{ 'Last Name' | translate }}</label>
       <input id="hashedit-add-user-last-name" type="text" maxlength="128" required
         [(ngModel)]="model.lastName"
         ngControl="lastName">
 
-      <label>Password</label>
+      <label>{{ 'Password' | translate }}</label>
       <input id="hashedit-add-user-password" type="password" maxlength="128" required
         [(ngModel)]="model.password"
         ngControl="password">
 
-      <label>Retype Password</label>
+      <label>{{ 'Retype Password' | translate }}</label>
       <input id="hashedit-add-user-retype" type="password" maxlength="128" required
         [(ngModel)]="model.retype"
         ngControl="retype">
 
-      <label>Language</label>
+      <label>{{ 'Language' | translate }}</label>
       <select id="hashedit-add-user-language"
         [(ngModel)]="model.language"
         ngControl="language">
-        <option value="en">English</option>
-        <option value="es">Spanish</option>
+        <option value="en">English (en)</option>
+        <option value="es-ES">Spanish (es-ES)</option>
       </select>
 
     </div>
     <!-- /.app-modal-body -->
 
     <div class="actions">
-      <a (click)="hide()">Cancel</a>
-      <button type="submit">Add User</button>
+      <a (click)="hide()">{{ 'Cancel' | translate }}</a>
+      <button type="submit">{{ 'Add User' | translate }}</button>
     </div>
 
   </form>

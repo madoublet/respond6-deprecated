@@ -1,13 +1,15 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CanActivate} from '@angular/router-deprecated'
-import {tokenNotExpired} from 'angular2-jwt/angular2-jwt'
-import {PageService} from '/app/shared/services/page.service'
-import {RouteService} from '/app/shared/services/route.service'
+import {CanActivate} from '@angular/router-deprecated';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
+import {tokenNotExpired} from 'angular2-jwt/angular2-jwt';
+import {PageService} from '/app/shared/services/page.service';
+import {RouteService} from '/app/shared/services/route.service';
 
 @Component({
     selector: 'respond-page-settings',
     templateUrl: './app/shared/components/pages/page-settings/page-settings.component.html',
-    providers: [PageService, RouteService]
+    providers: [PageService, RouteService],
+    pipes: [TranslatePipe]
 })
 
 @CanActivate(() => tokenNotExpired())

@@ -2,9 +2,9 @@
 
   <form (ngSubmit)="submit()" #removeForm="ngForm">
 
-    <h2>Remove Menu Item</h2>
+    <h2>{{ 'Remove Menu Item' | translate }}</h2>
 
-    <p>Confirm you want to remove:</p>
+    <p>{{ 'Confirm you want to remove:' | translate }}</p>
 
     <div class="to-be-removed">
       <h3>{{model.html}}</h3>
@@ -12,8 +12,8 @@
     </div>
 
     <div class="actions">
-      <a (click)="hide()">Cancel</a>
-      <button type="submit">Remove</button>
+      <a (click)="hide()">{{ 'Cancel' | translate }}</a>
+      <button type="submit">{{ 'Remove' | translate }}</button>
     </div>
 
   </form>

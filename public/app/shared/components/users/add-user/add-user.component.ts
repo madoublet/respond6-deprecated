@@ -1,12 +1,14 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CanActivate} from '@angular/router-deprecated'
-import {tokenNotExpired} from 'angular2-jwt/angular2-jwt'
-import {UserService} from '/app/shared/services/user.service'
+import {CanActivate} from '@angular/router-deprecated';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
+import {tokenNotExpired} from 'angular2-jwt/angular2-jwt';
+import {UserService} from '/app/shared/services/user.service';
 
 @Component({
     selector: 'respond-add-user',
     templateUrl: './app/shared/components/users/add-user/add-user.component.html',
-    providers: [UserService]
+    providers: [UserService],
+    pipes: [TranslatePipe]
 })
 
 @CanActivate(() => tokenNotExpired())
