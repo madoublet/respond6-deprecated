@@ -1,0 +1,33 @@
+{% spaceless %}
+{% for form in forms %}
+
+  {% if form.id == attributes.form  %}
+
+    {% for field in form.fields %}
+      <div class="form-field">
+
+        <label for="{{ field.id }}">{{ field.label }}</label>
+
+        {% if field.type == 'text'  %}
+        <input id="{{ field.id }}" type="text">
+        {% endif %}
+
+        {% if field.type == 'select'  %}
+
+        {% set options = field.options|split(',') %}
+
+        <select id="{{ field.id }}">
+        {% for option in options %}
+          <option value="{{ option }}">{{ option }}</option>
+        {% endfor %}
+        </select>
+
+        {% endif %}
+
+      </div>
+    {% endfor %}
+
+  {% endif %}
+
+{% endfor %}
+{% endspaceless %}

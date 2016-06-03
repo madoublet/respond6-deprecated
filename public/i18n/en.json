@@ -88,5 +88,21 @@
     "Retype Password": "Retype Password",
     "Language": "Language",
     "Edit User": "Edit User",
-    "Remove User": "Remove User"
+    "Remove User": "Remove User",
+    "Link": "Link",
+    "ID": "ID",
+    "Select URL": "Select URL",
+    "Target": "Target",
+    "Title": "Title",
+    "Image": "Image",
+    "Source": "Source",
+    "Upload or Select": "Upload or Select",
+    "Target": "Target",
+    "Select Image": "Select Image",
+    "Placeholder": "Placeholder",
+    "Element": "Element",
+    "Map": "Map",
+    "List": "List",
+    "Gallery": "Gallery"
+    
 }

@@ -8,7 +8,8 @@ import {GalleryService} from '/app/shared/services/gallery.service';
 @Component({
     selector: 'respond-remove-menu',
     templateUrl: './app/shared/components/menus/remove-menu/remove-menu.component.html',
-    providers: [MenuService]
+    providers: [MenuService],
+    pipes: [TranslatePipe]
 })
 
 @CanActivate(() => tokenNotExpired())

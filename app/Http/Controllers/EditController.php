@@ -43,7 +43,6 @@ class EditController extends Controller
 
               // set base
               $doc['base']->attr('href', '/sites/'.$siteId.'/');
-              $doc['body']->attr('hashedit-url', $q);
 
               // get settings
               $sortable = Setting::getById('sortable', $siteId);
@@ -59,64 +58,25 @@ class EditController extends Controller
               }
               else {
                 $editable = explode(',', $editable);
-
                 // trim elements in the array
                 $editable = array_map('trim', $editable);
               }
-
-              // setup sortable
-              $doc['body']->attr('hashedit-sortable', $sortable);
-
-              // setup login
-              $doc['body']->attr('hashedit-login', '/login/'.$siteId);
-
-              // setup auth
-              $doc['body']->attr('hashedit-auth', 'token');
-              $doc['body']->attr('hashedit-auth-header', 'X-AUTH');
-
-              // add development (for now)
-              $doc['body']->attr('hashedit-dev', '');
-
+    
               // set active attribute
               $doc['body']->attr('hashedit-active', '');
-              $doc['body']->attr('edit', '');
-
+              
               // setup editable area
               foreach($editable as $value){
                 $doc[$value]->attr('hashedit', '');
                 $doc[$value]->attr('hashedit-selector', $value);
               }
 
-              // get packages
-              $packages = Setting::getById('packages', $siteId);
 
               // init
               $plugins_script = '';
 
-              if($packages != NULL) {
-
-                $packages = explode(',', $packages);
-
-                // trim elements in the array
-                $packages = array_map('trim', $packages);
-
-                // add packages to $plugins_script
-                foreach($packages as $package) {
-
-                  $js_file = app()->basePath().'/resources/plugins/'.$package.'.js';
-
-                  if(file_exists($js_file)) {
-
-                    $plugins_script .= file_get_contents($js_file);
-
-                  }
-
-                }
-
-              }
-
               // get custom plugins
-              $js_file = app()->basePath().'/resources/sites/'.$siteId.'/custom.plugins.js';
+              $js_file = app()->basePath().'/resources/sites/'.$siteId.'/plugins.js';
 
               if(file_exists($js_file)) {
 
@@ -125,9 +85,9 @@ class EditController extends Controller
                 }
 
               }
-
+              
               // inject forms into script
-              if( strpos($plugins_script, 'respond.forms') !== false ) {
+              if(strpos($plugins_script, 'respond.forms') !== false ) {
 
                 $arr = Form::listAll($siteId);
                 $options = array();
@@ -145,7 +105,7 @@ class EditController extends Controller
               }
 
               // inject galleries into script
-              if( strpos($plugins_script, 'respond.galleries') !== false ) {
+              if(strpos($plugins_script, 'respond.galleries') !== false ) {
 
                 $arr = Gallery::listAll($siteId);
                 $options = array();
@@ -163,7 +123,7 @@ class EditController extends Controller
               }
 
               // inject routes into script
-              if( strpos($plugins_script, 'respond.routes') !== false ) {
+              if(strpos($plugins_script, 'respond.routes') !== false ) {
 
                 $dir = $file = app()->basePath().'/public/sites/'.$siteId;
                 $arr = array_merge(array('/'), Utilities::listRoutes($dir, $siteId));
@@ -203,29 +163,54 @@ class EditController extends Controller
               if(env('APP_ENV') == 'development') {
 
                 // hashedit development stack
-                $hashedit = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">'.
-                            '<script src="/dev/hashedit/js/fetch.min.js"></script>'.
-                            '<script src="/node_modules/dropzone/dist/min/dropzone.min.js"></script>'.
-                            '<link type="text/css" href="/node_modules/dropzone/dist/min/dropzone.min.css" rel="stylesheet">'.
-                            '<script src="/node_modules/sortablejs/Sortable.min.js"></script>'.
-                            '<script src="/dev/hashedit/js/hashedit.js"></script>'.
-                            '<script>'.$plugins_script.'</script>'.
-                            '<script>hashedit.setup();</script>';
-
-              }
+                $hashedit = <<<EOD
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+<link type="text/css" href="/node_modules/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
+<script src="/dev/hashedit/js/fetch.min.js"></script>
+<script src="/dev/hashedit/js/i18next.js"></script>
+<script src="/node_modules/dropzone/dist/min/dropzone.min.js"></script>
+<script src="/node_modules/sortablejs/Sortable.min.js"></script>
+<script src="/dev/hashedit/js/hashedit.js"></script>
+<script>$plugins_script</script>
+<script>
+hashedit.setup({
+  dev: true,
+  url: '$q',
+  sortable: '$sortable',
+  login: '/login/$siteId',
+  translate: true,
+  languagePath: '/i18n/{{language}}.json',
+  auth: 'token',
+  authHeader: 'X-AUTH'
+});
+</script>
+EOD;
+}
               else {
-
+              
                 // hashedit production stack
-                $hashedit = '<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">'.
-                            '<script src="/node_modules/hashedit/js/fetch.min.js"></script>'.
-                            '<script src="/node_modules/dropzone/dist/min/dropzone.min.js"></script>'.
-                            '<link type="text/css" href="/node_modules/dropzone/dist/min/dropzone.min.css" rel="stylesheet">'.
-                            '<script src="/node_modules/sortablejs/Sortable.min.js"></script>'.
-                            '<script src="/node_modules/hashedit/js/hashedit.js"></script>'.
-                            '<script>'.$plugins_script.'</script>'.
-                            '<script>hashedit.setup();</script>';
-
-              }
+                $hashedit = <<<EOD
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+<link type="text/css" href="/node_modules/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
+<script src="/node_modules/hashedit/js/fetch.min.js"></script>
+<script src="/node_modules/hashedit/js/i18next.js"></script>
+<script src="/node_modules/dropzone/dist/min/dropzone.min.js"></script>
+<script src="/node_modules/sortablejs/Sortable.min.js"></script>
+<script src="/node_modules/hashedit/js/hashedit.js"></script>
+<script>$plugins_script</script>
+<script>
+hashedit.setup({
+  url: '$q'
+  sortable: '$sortable',
+  login: '/login/$siteId'
+  translate: true,
+  languagePath: '/i18n/{{language}}.json',
+  auth: 'token',
+  authHeader: 'X-AUTH'
+});
+</script>
+EOD;
+}
 
               $hashedit .= '<style type="text/css">'.
                             '.respond-plugin {'.

@@ -69,10 +69,9 @@ class SiteController extends Controller
     // get user
     $user = User::getByEmail($email, $siteId);
 
-    // publish components
-    Publish::publishComponents($site);
-    Publish::publishSnippets($user, $site);
-
+    // publish blocks
+    Publish::publishBlocks($user, $site);
+    
     return response('Ok', 200);
 
   }

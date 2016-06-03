@@ -1,0 +1,15 @@
+{% spaceless %}
+{% for page in pages %}
+
+  {% if 'post/' in page.url %}
+
+      <h2>{{ page.title }}</h2>
+      
+      <p>{{ page.description }}</p>
+      
+      <p><a href="{{ page.url }}">Read more...</a></p>
+     
+  {% endif %} 
+      
+{% endfor %}
+{% endspaceless %}

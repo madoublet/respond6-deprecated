@@ -7,10 +7,11 @@
   "require": {
     "php": ">=5.5.9",
     "laravel/lumen-framework": "5.2.*",
+    "twig/twig": "~1.0",
     "vlucas/phpdotenv": "~2.2",
     "firebase/php-jwt": "dev-master",
     "phpmailer/phpmailer": "5.2.8",
-    "electrolinux/phpquery": "0.9.6",
+    "sunra/php-simple-html-dom-parser": "1.5.1",
     "symfony/yaml": "3.0.3"
   },
   "require-dev": {

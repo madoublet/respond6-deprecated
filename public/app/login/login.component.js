@@ -55,10 +55,9 @@ System.register(['@angular/core', '@angular/router-deprecated', '/app/shared/ser
                  * Handles a successful login
                  */
                 LoginComponent.prototype.success = function () {
-                    console.log('language=' + this.data.user.language);
                     toast.show('success');
                     // set language
-                    this._translate.use(this.data.user.language);
+                    this.setLanguage(this.data.user.language);
                     // set token
                     this.setToken(this.data.token);
                     // navigate
@@ -69,6 +68,14 @@ System.register(['@angular/core', '@angular/router-deprecated', '/app/shared/ser
                  */
                 LoginComponent.prototype.forgot = function () {
                     this._router.navigate(['Forgot', { id: this.id }]);
+                };
+                /**
+                 * Sets the language for the app
+                 */
+                LoginComponent.prototype.setLanguage = function (language) {
+                    localStorage.setItem('user_language', language);
+                    // set language
+                    this._translate.use(language);
                 };
                 /**
                  * Sets the token in local storage

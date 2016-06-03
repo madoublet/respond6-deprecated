@@ -35,7 +35,7 @@ class FormField {
   }
 
   /**
-   * lists all menu items
+   * lists all form fields
    *
    * @param {files} $data
    * @return {array}

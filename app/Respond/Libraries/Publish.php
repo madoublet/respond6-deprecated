@@ -2,11 +2,15 @@
 
 namespace App\Respond\Libraries;
 
+// respond libraries
 use App\Respond\Models\Site;
 use App\Respond\Models\User;
 use App\Respond\Models\Page;
+use App\Respond\Models\Form;
 use App\Respond\Libraries\Utilities;
-use App\Respond\Libraries\Components;
+
+// DOM parser
+use Sunra\PhpSimple\HtmlDomParser;
 
 class Publish
 {
@@ -51,50 +55,20 @@ class Publish
         Utilities::copyDirectory($src, $dest);
     }
 
+
     /**
-     * Pubishes components
+     * Publishes blocks
      *
      * @param {Site} $site
      */
-    public static function publishComponents($site)
+    public static function publishBlocks($user, $site)
     {
-
-        // production
-        $dir = app()->basePath() . '/node_modules';
-
-        if (env('APP_ENV') == 'development') {
-            $dir = app()->basePath() . '/public/dev';
-        }
-
-        // publish components polyfil
-        $src = $dir . '/respond-components/bower_components/webcomponentsjs';
-        $dest = app()->basePath() . '/public/sites/' . $site->id . '/components/lib';
-
-        // copy the directory
-        Utilities::copyDirectory($src, $dest);
-
-        // paths to build file
-        $src = $dir . '/respond-components/build';
-        $dest = app()->basePath() . '/public/sites/' . $site->id . '/components/';
-
-        // copy the directory
-        Utilities::copyDirectory($src, $dest);
-
-    }
-
-    /**
-     * Pubishes snippets
-     *
-     * @param {Site} $site
-     */
-    public static function publishSnippets($user, $site)
-    {
-        // get snippets
-        $dir = app()->basePath().'/public/sites/'.$site->id.'/snippets/';
+        // get blocks
+        $dir = app()->basePath().'/public/sites/'.$site->id.'/blocks/';
         $exts = array('html');
 
         $files = Utilities::listFiles($dir, $site->id, $exts);
-        $snippets = array();
+        $blocks = array();
 
         foreach($files as $file) {
 
@@ -106,46 +80,87 @@ class Publish
             $id = basename($path);
             $id = str_replace('.html', '', $id);
 
-            // push snippet to array
-            array_push($snippets, array(
-              'id' => $id,
-              'html' => $html
-              ));
+            // push block to array
+            array_push($blocks, $id);
 
           }
 
         }
 
-        // get all pages
-        $arr = Page::listAll($user, $site);
+        // setup twig
+        $loader = new \Twig_Loader_Filesystem(app()->basePath().'/public/sites/'.$site->id.'/blocks');
 
-        foreach($arr as $item) {
+        $twig = new \Twig_Environment($loader);
+
+        // get all pages
+        $pages = Page::listAll($user, $site);
+
+        // list all forms
+        $forms = Form::listExtended($site->id);
+
+        foreach($pages as $item) {
 
           // get page
           $page = new Page($item);
 
           $location = app()->basePath().'/public/sites/'.$site->id.'/'.$page->url.'.html';
 
-          // get layout html
+          // get html from page
           $html = file_get_contents($location);
 
-          foreach($snippets as $snippet) {
+          // walk through blocks
+          foreach($blocks as $block) {
 
-            $start = '<!-- snippet:'.$snippet['id'].' -->';
-            $end = '<!-- /snippet:'.$snippet['id'].' -->';
+            // insert into block comments
+            $start = '<!-- block:'.$block.' -->';
+            $end = '<!-- /block:'.$block.' -->';
 
             // check for start and end
             if(strpos($html, $start) !== FALSE && strpos($html, $end) !== FALSE) {
-              $html = Utilities::replaceBetween($html, $start, $end, $snippet['html']);
+
+              // load the template
+              $template = $twig->loadTemplate($block.'.html');
+
+              // render the template
+              $block_html = $template->render(array('pages' => $pages));
+
+              // replace content
+              $html = Utilities::replaceBetween($html, $start, $end, $block_html);
+            }
+
+          }
+
+          // load the parser
+          $dom = HtmlDomParser::str_get_html($html, $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
+
+          // insert into [block] elements
+          foreach($dom->find('[block]') as $el) {
+
+            if(isset($el->type)) {
+
+              if(array_search($el->type, $blocks) !== FALSE) {
+
+                // load the template
+                $template = $twig->loadTemplate($el->type.'.html');
+
+                $render_arr = array('pages' => $pages, 'forms' => $forms, 'attributes' => $el->attr);
+
+                // render the template
+                $block_html = $template->render($render_arr);
+
+                // set the inner text
+                $el->innertext = $block_html;
+
+              }
+
             }
 
           }
 
           // put html back
-          file_put_contents($location, $html);
+          file_put_contents($location, $dom);
 
         }
-
 
     }
 
@@ -195,60 +210,6 @@ class Publish
             file_put_contents($file, $content);
 
         }
-
-    }
-
-    /**
-     * Republish site components
-     *
-     * @param {Site} $site
-     * @param {Page} $page
-     * @param {User} $user
-     */
-    public static function republishComponents($site, $user) {
-
-      $arr = Page::listAll($user, $site);
-
-      foreach($arr as $item) {
-
-        // get page
-        $page = new Page($item);
-
-        $location = app()->basePath().'/public/sites/'.$site->id.'/'.$page->url.'.html';
-
-        // get layout html
-        $html = file_get_contents($location);
-
-        // get phpQuery of file
-        $doc = \phpQuery::newDocument($html);
-
-        foreach ($doc['[respond-menu], respond-menu'] as $el) {
-
-            $type = pq($el)->attr('type');
-            $cssClass = pq($el)->attr('class');
-
-            // get the type
-            if ($type != NULL) {
-
-              $attrs = array('type' => $type, 'cssClass' => $cssClass);
-
-              // get the menu HTML
-              $html = Components::respondMenu($attrs, $site, $page);
-
-              // get menu HTML
-              pq($el)->replaceWith($html);
-
-            }
-            /* isset */
-
-        }
-        /* foreach */
-
-        // publish
-        $html = $doc->htmlOuter();
-        file_put_contents($location, $html);
-
-      }
 
     }
 

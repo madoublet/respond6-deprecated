@@ -33,18 +33,9 @@
   <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
   <script src="js/respond.site.js"></script>
 
-  <!-- snippet:components -->
-  <script hashedit-exclude src="components/lib/webcomponentsjs/webcomponents-lite.min.js"></script>
-  <link hashedit-exclude rel="import" href="components/respond-base.html">
-  <link hashedit-exclude rel="import" href="components/respond-core.html">
-  <!-- /snippet:components -->
-
 </head>
 
 <body class="content">
-
-<respond-cart></respond-cart>
-<respond-search></respond-search>
 
 <!-- background and mask -->
 <div class="background"></div>
@@ -54,11 +45,6 @@
 <header role="banner">
 
   <nav class="navbar" role="navigation">
-
-    <div class="nav-toggles">
-			<respond-cart-toggle></respond-cart-toggle>
-    </div>
-    <!-- ./nav-toggles -->
 
   	<div class="navbar-header">
 	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -73,7 +59,7 @@
 
     <div class="collapse navbar-collapse navbar-ex1-collapse">
 
-      <ul class="nav navbar-nav" respond-menu type="primary">
+      <ul class="nav navbar-nav" type="primary">
         <li active><a href="index.html">Home</a></li>
         <li><a href="blog.html">Blog</a></li>
         <li><a href="page/about.html">About</a></li>
@@ -87,14 +73,21 @@
 
 </header>
 
-<div id="content" class="container" role="main">
+<div class="container" role="main">
   <div id="block-1" class="block row">
     <div class="col col-md-12">
-		  <respond-list id="list1" display="list-blog" url="/post" label="/post" length="250" pagesize="10" tag="" orderby="Created" pageresults="false"></respond-list>
+		  <h2>Recent Posts</h2>
     </div>
 </div>
 
-<!-- snippet:footer -->
+<div class="container">
+  <div id="block-1" class="block row">
+    <div class="col col-md-12">
+		  <div block type="posts"></div>
+    </div>
+</div>
+
+<!-- block:footer -->
 <footer role="contentinfo">
 
   <div class="container">
@@ -111,7 +104,7 @@
 
     <div class="block row">
       <div class="col col-md-12">
-          <ul respond-menu type="footer">
+          <ul type="footer">
             <li active><a href="index.html">Home</a></li>
             <li><a href="blog.html">Blog</a></li>
             <li><a href="page/about.html">About</a></li>
@@ -124,7 +117,7 @@
   <!-- /.container -->
 
 </footer>
-<!-- /snippet:footer -->
+<!-- /block:footer -->
 
 </body>
 

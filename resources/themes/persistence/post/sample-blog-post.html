@@ -33,17 +33,9 @@
   <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
   <script src="js/respond.site.js"></script>
 
-  <!-- snippet:components -->
-  <script hashedit-exclude src="components/lib/webcomponentsjs/webcomponents-lite.min.js"></script>
-  <link hashedit-exclude rel="import" href="components/respond-base.html">
-  <link hashedit-exclude rel="import" href="components/respond-core.html">
-  <!-- /snippet:components -->
-
 </head>
 
 <body class="content">
-
-<respond-search></respond-search>
 
 <!-- background and mask -->
 <div class="background"></div>
@@ -53,11 +45,6 @@
 <header role="banner">
 
   <nav class="navbar" role="navigation">
-
-    <div class="nav-toggles">
-			<respond-search-toggle></respond-search-toggle>
-    </div>
-    <!-- ./nav-toggles -->
 
   	<div class="navbar-header">
 	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -72,7 +59,7 @@
 
     <div class="collapse navbar-collapse navbar-ex1-collapse">
 
-      <ul class="nav navbar-nav" respond-menu type="primary">
+      <ul class="nav navbar-nav" type="primary">
         <li active><a href="index.html">Home</a></li>
         <li><a href="blog.html">Blog</a></li>
         <li><a href="page/about.html">About</a></li>
@@ -103,7 +90,7 @@
   </div>
 </div>
 
-<!-- snippet:footer -->
+<!-- block:footer -->
 <footer role="contentinfo">
 
   <div class="container">
@@ -120,7 +107,7 @@
 
     <div class="block row">
       <div class="col col-md-12">
-          <ul respond-menu type="footer">
+          <ul type="footer">
             <li active><a href="index.html">Home</a></li>
             <li><a href="blog.html">Blog</a></li>
             <li><a href="page/about.html">About</a></li>
@@ -133,7 +120,7 @@
   <!-- /.container -->
 
 </footer>
-<!-- /snippet:footer -->
+<!-- /block:footer -->
 
 </body>
 

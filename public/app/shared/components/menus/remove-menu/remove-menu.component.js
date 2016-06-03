@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router-deprecated', 'angular2-jwt/angular2-jwt', '/app/shared/services/menu.service'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/ng2-translate', 'angular2-jwt/angular2-jwt', '/app/shared/services/menu.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router-deprecated', 'angular2-jwt/an
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, angular2_jwt_1, menu_service_1;
+    var core_1, router_deprecated_1, ng2_translate_1, angular2_jwt_1, menu_service_1;
     var RemoveMenuComponent;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(['@angular/core', '@angular/router-deprecated', 'angular2-jwt/an
             },
             function (router_deprecated_1_1) {
                 router_deprecated_1 = router_deprecated_1_1;
+            },
+            function (ng2_translate_1_1) {
+                ng2_translate_1 = ng2_translate_1_1;
             },
             function (angular2_jwt_1_1) {
                 angular2_jwt_1 = angular2_jwt_1_1;
@@ -112,7 +115,8 @@ System.register(['@angular/core', '@angular/router-deprecated', 'angular2-jwt/an
                     core_1.Component({
                         selector: 'respond-remove-menu',
                         templateUrl: './app/shared/components/menus/remove-menu/remove-menu.component.html',
-                        providers: [menu_service_1.MenuService]
+                        providers: [menu_service_1.MenuService],
+                        pipes: [ng2_translate_1.TranslatePipe]
                     }),
                     router_deprecated_1.CanActivate(function () { return angular2_jwt_1.tokenNotExpired(); }), 
                     __metadata('design:paramtypes', [(typeof (_a = typeof menu_service_1.MenuService !== 'undefined' && menu_service_1.MenuService) === 'function' && _a) || Object])

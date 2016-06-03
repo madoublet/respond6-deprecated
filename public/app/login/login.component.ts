@@ -48,13 +48,11 @@ export class LoginComponent {
    * Handles a successful login
    */
   success() {
-  
-    console.log('language=' + this.data.user.language);
 
     toast.show('success');
 
     // set language
-    this._translate.use(this.data.user.language);
+    this.setLanguage(this.data.user.language);
 
     // set token
     this.setToken(this.data.token);
@@ -72,10 +70,20 @@ export class LoginComponent {
   }
 
   /**
+   * Sets the language for the app
+   */
+  setLanguage(language) {
+      localStorage.setItem('user_language', language);
+
+      // set language
+      this._translate.use(language);
+  }
+
+  /**
    * Sets the token in local storage
    */
   setToken(token) {
-      localStorage.setItem('id_token', token)
+      localStorage.setItem('id_token', token);
   }
 
   /**

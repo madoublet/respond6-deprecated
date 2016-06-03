@@ -7,6 +7,7 @@ use App\Respond\Libraries\Publish;
 
 use App\Respond\Models\Site;
 use App\Respond\Models\User;
+use App\Respond\Models\FormField;
 
 /**
  * Models a form
@@ -32,7 +33,7 @@ class Form {
   }
 
   /**
-   * lists all files
+   * Lists all forms
    *
    * @param {files} $data
    * @return {array}
@@ -68,6 +69,28 @@ class Form {
     }
 
     return $arr;
+
+  }
+
+   /**
+   * Lists all forms and fields
+   *
+   * @param {files} $data
+   * @return {array}
+   */
+  public static function listExtended($siteId) {
+
+    $forms = Form::listAll($siteId);
+    $i = 0;
+
+    foreach($forms as $form) {
+
+      $forms[$i]['fields'] = FormField::listAll($form['id'], $siteId);
+
+      $i++;
+    }
+
+    return $forms;
 
   }
 
@@ -147,10 +170,10 @@ class Form {
         'cssClass' => $cssClass,
         'fields' => array()
       ));
-      
+
       // create gallery
       if(!file_exists($dir)) {
-  			mkdir($dir, 0777, true);	
+  			mkdir($dir, 0777, true);
   		}
 
       file_put_contents($file, json_encode($form, JSON_PRETTY_PRINT));
