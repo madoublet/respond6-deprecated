@@ -7,6 +7,8 @@ use App\Respond\Models\Site;
 use App\Respond\Models\User;
 use App\Respond\Models\Page;
 use App\Respond\Models\Form;
+use App\Respond\Models\Menu;
+use App\Respond\Models\Gallery;
 use App\Respond\Libraries\Utilities;
 
 // DOM parser
@@ -57,18 +59,18 @@ class Publish
 
 
     /**
-     * Publishes blocks
+     * Publishes plugins for the site
      *
      * @param {Site} $site
      */
-    public static function publishBlocks($user, $site)
+    public static function publishPlugins($user, $site)
     {
-        // get blocks
-        $dir = app()->basePath().'/public/sites/'.$site->id.'/blocks/';
+        // get plugins for the site
+        $dir = app()->basePath().'/public/sites/'.$site->id.'/plugins/';
         $exts = array('html');
 
         $files = Utilities::listFiles($dir, $site->id, $exts);
-        $blocks = array();
+        $plugins = array();
 
         foreach($files as $file) {
 
@@ -80,52 +82,71 @@ class Publish
             $id = basename($path);
             $id = str_replace('.html', '', $id);
 
-            // push block to array
-            array_push($blocks, $id);
+            // push plugin to array
+            array_push($plugins, $id);
 
           }
 
         }
 
         // setup twig
-        $loader = new \Twig_Loader_Filesystem(app()->basePath().'/public/sites/'.$site->id.'/blocks');
+        $loader = new \Twig_Loader_Filesystem(app()->basePath().'/public/sites/'.$site->id.'/plugins');
 
         $twig = new \Twig_Environment($loader);
 
         // get all pages
         $pages = Page::listAll($user, $site);
 
-        // list all forms
+        // list all forms, menus, galleries
         $forms = Form::listExtended($site->id);
+        $menus = Menu::listExtended($site->id);
+        $galleries = Gallery::listExtended($site->id);
 
         foreach($pages as $item) {
 
           // get page
           $page = new Page($item);
 
+          // setup current page
+          $current_page = array(
+            'url' => $page->url,
+            'title' => $page->title,
+            'description' => $page->description,
+            'keywords' => $page->keywords,
+            'callout' => $page->callout,
+            'photo' => $page->photo,
+            'thumb' => $page->thumb,
+            'language' => $page->language,
+            'direction' => $page->direction,
+            'firstName' => $page->firstName,
+            'lastName' => $page->lastName,
+            'lastModifiedBy' => $page->lastModifiedBy,
+            'lastModifiedDate' => $page->lastModifiedDate
+          );
+
           $location = app()->basePath().'/public/sites/'.$site->id.'/'.$page->url.'.html';
 
           // get html from page
           $html = file_get_contents($location);
 
-          // walk through blocks
-          foreach($blocks as $block) {
+          // walk through plugins
+          foreach($plugins as $plugin) {
 
-            // insert into block comments
-            $start = '<!-- block:'.$block.' -->';
-            $end = '<!-- /block:'.$block.' -->';
+            // insert into respond-plugin comments
+            $start = '<!-- respond-plugin:'.$plugin.' -->';
+            $end = '<!-- /respond-plugin:'.$plugin.' -->';
 
             // check for start and end
             if(strpos($html, $start) !== FALSE && strpos($html, $end) !== FALSE) {
 
               // load the template
-              $template = $twig->loadTemplate($block.'.html');
+              $template = $twig->loadTemplate($plugin.'.html');
 
               // render the template
-              $block_html = $template->render(array('pages' => $pages));
+              $plugin_html = $template->render(array('pages' => $pages));
 
               // replace content
-              $html = Utilities::replaceBetween($html, $start, $end, $block_html);
+              $html = Utilities::replaceBetween($html, $start, $end, $plugin_html);
             }
 
           }
@@ -133,23 +154,23 @@ class Publish
           // load the parser
           $dom = HtmlDomParser::str_get_html($html, $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
 
-          // insert into [block] elements
-          foreach($dom->find('[block]') as $el) {
+          // insert into [respond-plugin] elements
+          foreach($dom->find('[respond-plugin]') as $el) {
 
             if(isset($el->type)) {
 
-              if(array_search($el->type, $blocks) !== FALSE) {
+              if(array_search($el->type, $plugins) !== FALSE) {
 
                 // load the template
                 $template = $twig->loadTemplate($el->type.'.html');
 
-                $render_arr = array('pages' => $pages, 'forms' => $forms, 'attributes' => $el->attr);
+                $render_arr = array('page' => $current_page, 'pages' => $pages, 'forms' => $forms, 'galleries' => $galleries, 'menus' => $menus, 'attributes' => $el->attr);
 
                 // render the template
-                $block_html = $template->render($render_arr);
+                $plugin_html = $template->render($render_arr);
 
                 // set the inner text
-                $el->innertext = $block_html;
+                $el->innertext = $plugin_html;
 
               }
 

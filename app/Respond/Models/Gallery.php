@@ -7,6 +7,7 @@ use App\Respond\Libraries\Publish;
 
 use App\Respond\Models\Site;
 use App\Respond\Models\User;
+use App\Respond\Models\GalleryImage;
 
 /**
  * Models a gallery
@@ -40,38 +41,60 @@ class Gallery {
 
     $dir = app()->basePath().'/public/sites/'.$siteId.'/data/galleries/';
     $exts = array('json');
-    
+
     $arr = array();
-    
+
     if(file_exists($dir)) {
 
       $files = Utilities::listFiles($dir, $siteId, $exts);
       $arr = array();
-  
+
       foreach($files as $file) {
-  
+
         $path = app()->basePath().'/public/sites/'.$siteId.'/'.$file;
-  
+
         if(file_exists($path)) {
-  
+
           $json = json_decode(file_get_contents($path), true);
-  
+
           $id = str_replace('.json', '', $file);
           $id = str_replace('data/galleries/', '', $id);
           $id = str_replace('/', '', $id);
-  
+
           array_push($arr, array(
             'id' => $id,
             'name' => $json['name']
             ));
-  
+
         }
-  
+
       }
 
     }
-    
+
     return $arr;
+
+  }
+
+  /**
+   * Lists all galleries and images
+   *
+   * @param {string} $siteId
+   * @return {array}
+   */
+  public static function listExtended($siteId) {
+
+    $galleries = Gallery::listAll($siteId);
+    $i = 0;
+
+    foreach($galleries as $gallery) {
+
+      $galleries[$i]['images'] = GalleryImage::listAll($gallery['id'], $siteId);
+
+      $i++;
+    }
+
+    return $galleries;
 
   }
 
@@ -148,13 +171,13 @@ class Gallery {
         'name' => $name,
         'images' => array()
       ));
-      
+
       // create gallery
       if(!file_exists($dir)) {
-  			mkdir($dir, 0777, true);	
+  			mkdir($dir, 0777, true);
   		}
-  		
-      // add file 
+
+      // add file
       file_put_contents($file, json_encode($gallery, JSON_PRETTY_PRINT));
 
       return $gallery;

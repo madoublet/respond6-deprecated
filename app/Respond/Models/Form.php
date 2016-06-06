@@ -72,10 +72,10 @@ class Form {
 
   }
 
-   /**
+  /**
    * Lists all forms and fields
    *
-   * @param {files} $data
+   * @param {string} $siteId
    * @return {array}
    */
   public static function listExtended($siteId) {

@@ -113,16 +113,16 @@ class Page {
 
       // place content in the file
       file_put_contents($dest.'/'.$page->url.'.html', $content);
-      
+
       // parse HTML
       $dom = HtmlDomParser::str_get_html($content, $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
-      
+
       // find fragment content
       $el = $dom->find('[role=main]');
-      
+
       // get the fragment content
       $fragment_content = $el->innertext;
-    
+
     }
 
     // get text
@@ -203,12 +203,12 @@ class Page {
 
         // apply changes to the document
         $els = $dom->find($selector);
-        
+
         if(isset($els[0])) {
           $els[0]->innertext = $change['html'];
         }
-        
-        
+
+
 
       }
 
@@ -331,49 +331,49 @@ class Page {
 
     // set full file path
     $file = app()->basePath() . '/public/sites/' . $site->id . '/' . $this->url . '.html';
-    
+
     // set parser
     $dom = HtmlDomParser::str_get_html(file_get_contents($file), $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
-    
+
     // set title
     $els = $dom->find('title');
-    
+
     if(isset($els[0])) {
       $els[0]->innertext = $this->title;
     }
-    
+
     // set description
     $els = $dom->find('meta[name=description]');
-    
+
     if(isset($els[0])) {
       $els[0]->content = $this->description;
     }
-    
+
     // set keywords
     $els = $dom->find('meta[name=keywords]');
-    
+
     if(isset($els[0])) {
       $els[0]->content = $this->keywords;
     }
-     
+
     // set language and direction
     $els = $dom->find('html');
-    
+
     if(isset($els[0])) {
       $els[0]->lang = $this->language;
       $els[0]->dir = $this->direction;
     }
-    
+
     // photos
     $photo = '';
-    
+
     // get photo
     $photos = $dom->find('[role=main] img');
-    
+
     if(isset($photos[0])) {
       $photo = $photos[0]->src;
     }
-    
+
     // default thumb
     $thumb = '';
 
@@ -399,7 +399,7 @@ class Page {
 
     // save page
     file_put_contents($file, $html);
-    
+
     // set timestamp
     $timestamp = date('Y-m-d\TH:i:s.Z\Z', time());
 
@@ -508,7 +508,7 @@ class Page {
       // list files
       $files = Utilities::ListFiles($dir, $site->id,
               array('html'),
-              array('blocks/',
+              array('plugins/',
                     'components/',
                     'css/',
                     'data/',
@@ -546,38 +546,38 @@ class Page {
 
           // set full file path
           $file = app()->basePath() . '/public/sites/' . $site->id . '/' . $file;
-          
+
           // set parser
           $dom = HtmlDomParser::str_get_html(file_get_contents($file), $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
-          
+
           // get title
           $els = $dom->find('title');
-          
+
           if(isset($els[0])) {
             $title = $els[0]->innertext;
           }
-          
+
           // get description
           $els = $dom->find('meta[name=description]');
-          
+
           if(isset($els[0])) {
             $description = $els[0]->content;
           }
-          
+
           // get keywords
           $els = $dom->find('meta[name=keywords]');
-          
+
           if(isset($els[0])) {
             $keywords = $els[0]->content;
           }
-          
+
           // get text
           $els = $dom->find('[role=main]');
-          
+
           if(isset($els[0])) {
             $main_content = $els[0]->innertext;
           }
-          
+
           // get the text from the content
           $text = strip_tags($main_content);
           $text = preg_replace("/\s+/", " ", $text);
@@ -586,7 +586,7 @@ class Page {
 
           // get photo
           $photos = $dom->find('[role=main] img');
-          
+
           if(isset($photos[0])) {
             $photo = $photos[0]->src;
           }
@@ -604,10 +604,10 @@ class Page {
             }
 
           }
-          
+
           // get language and direction
           $els = $dom->find('html');
-          
+
           if(isset($els[0])) {
             $language = $els[0]->lang;
             $direction = $els[0]->dir;

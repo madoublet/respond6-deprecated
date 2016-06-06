@@ -1,0 +1,46 @@
+{% spaceless %}
+<form respond-form data-id="{{ site.id }}" data-page="{{ page.url }}">
+
+{% for form in forms %}
+
+  {% if form.id == attributes.form  %}
+
+    {% for field in form.fields %}
+      <div class="form-group">
+
+        <label for="{{ field.id }}" class="control-label">{{ field.label }}</label>
+
+        {% if field.type == 'text'  %}
+        <input id="{{ field.id }}" type="text" class="form-control">
+        {% endif %}
+
+        {% if field.type == 'select'  %}
+
+        {% set options = field.options|split(',') %}
+
+        <select id="{{ field.id }}" class="form-control">
+        {% for option in options %}
+          <option value="{{ option }}">{{ option }}</option>
+        {% endfor %}
+        </select>
+
+        {% endif %}
+
+      </div>
+    {% endfor %}
+
+  {% endif %}
+
+{% endfor %}
+  <button type="button" class="btn btn-primary" on-click="submitForm">Submit</button>
+
+  <span class="loading">
+  	<!-- ack: https://github.com/jxnblk/loading -->
+  	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g><path opacity=".25" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"/><path d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"><animateTransform attributeName="transform" type="rotate" from="0 16 16" to="360 16 16" dur="0.8s" repeatCount="indefinite" /></path></g></svg>
+  </span>
+
+  <span class="success">Form submitted successfully</span>
+
+  <span class="error">There was an error submitting your form</span>
+</form>
+{% endspaceless %}

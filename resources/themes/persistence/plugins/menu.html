@@ -1,0 +1,15 @@
+{% spaceless %}
+{% for menu in menus %}
+
+  {% if menu.id == attributes.menu  %}
+
+    {% for item in menu.items %}
+
+      <li><a href="{{ item.url }}">{{ item.html }}</li>
+
+    {% endfor %}
+
+  {% endif %}
+
+{% endfor %}
+{% endspaceless %}

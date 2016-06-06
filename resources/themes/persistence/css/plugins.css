@@ -1,0 +1,54 @@
+/* messages */
+[respond-form] .success, [respond-form] .error{
+	display: none;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	padding: 10px 15px;
+	font-size: 16px;
+	margin: 0 0 0 15px;
+}
+
+	[respond-form] .success[visible], [respond-form] .error[visible]{
+		display: inline-block;
+	}
+
+[respond-form] .error{
+	border: 1px solid #CF4647;
+	color: #fff;
+	background-color: #CF4647;
+}
+
+[respond-form] .success{
+	border: 1px solid #08B168;
+	color: #fff;
+	background-color: #08B168;
+}
+
+/* loading */
+[respond-form] .loading{
+	display: none;
+	color: #888;
+	vertical-align: top;
+	width: 25px;
+	height: 25px;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+	[respond-form] .loading[visible]{
+		display: inline-block;
+	}
+
+	[respond-form] .loading svg{
+		display: block;
+		vertical-align: top;
+		width: 25px;
+	    height: 25px;
+	  	margin: 0;
+	  	padding: 0;
+	  	line-height: 25px;
+	  	display: inline-block;
+	  	vertical-align: middle;
+	  	text-align: center;
+	  	fill: currentColor;
+	}

@@ -156,8 +156,8 @@ class Site {
     // publish theme
     Publish::publishTheme($theme, $site);
 
-    // publish blocks
-    Publish::publishBlocks($user, $site);
+    // publish plugins
+    Publish::publishPlugins($user, $site);
 
     // publish locales
     Publish::publishLocales($site);
