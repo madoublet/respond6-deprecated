@@ -159,12 +159,6 @@ class Site {
     // publish plugins
     Publish::publishPlugins($user, $site);
 
-    // publish locales
-    Publish::publishLocales($site);
-
-    // inject site settings
-    Publish::injectSiteSettings($site);
-
     // return site information
     return array(
       'id' => $id,

@@ -8,23 +8,40 @@ respond.plugins = {
 
 	init:function(){
 
+    var forms, x;
+
+    // setup [respond-form]
+    forms = document.querySelectorAll('[respond-form]');
+    
+    // setup submit event for form
+    for(x=0; x<forms.length; x++) {
+      forms[x].addEventListener('submit', respond.plugins.submitForm);
+    }
+
   },
 
+  /**
+   * Submits a form
+   *
+   */
   submitForm: function(e) {
+  
+    e.preventDefault();
+  
+    var form, api, groups, siteId, submission, label, id, type, required, x, hasError = false;
 
     // get reference to form
-    var form = e.target.parentNode;
-
-
+    form = e.target;
+    
+    // get api
+    api = form.getAttribute('action');
+    siteId = form.getAttribute('data-site');
+    
 		// select all inputs in the local DOM
-		var groups = form.querySelectorAll('.form-group');
-
-		// get page information
-		var siteId = respond.site.settings.id;
-		var api = respond.site.settings.api;
+		groups = form.querySelectorAll('.form-group');
 
 		// create submission
-		var submission = {
+		submission = {
 			url: window.location.href,
 			siteId: siteId,
 			formId: this.id,
@@ -35,10 +52,10 @@ respond.plugins = {
 		for(x=0; x<groups.length; x++) {
 
 			// get name, id, type
-			var label = groups[x].getAttribute('data-label');
-			var id = groups[x].getAttribute('data-id');
-			var type = groups[x].getAttribute('data-type');
-			var required = groups[x].getAttribute('data-required');
+			label = groups[x].getAttribute('data-label');
+			id = groups[x].getAttribute('data-id');
+			type = groups[x].getAttribute('data-type');
+			required = groups[x].getAttribute('data-required');
 
 			// get value by type
 			var value = '';
@@ -82,20 +99,21 @@ respond.plugins = {
 
 			// check required fields
 			if(required == 'true' && value == ''){
-				this.showError = true;
 				groups[x].className += ' has-error';
+				hasError = true;
 			}
 
 		}
 
 		// exit if error
-		if(this.showError == true) {
+		if(hasError == true) {
+		  form.querySelector('.error').setAttribute('visible', '');
 			return false;
 		}
 
 		// set loading
-		this.loading = true;
-
+		form.querySelector('.loading').setAttribute('visible', '');
+		
 		// set context
 		var context = this;
 
@@ -110,20 +128,82 @@ respond.plugins = {
 		// handle success
 		xhr.onload = function() {
 		    if(xhr.status === 200){
+		    	
 		    	// clear form, hide loading
-		    	context.loading = false;
-		    	context.showSuccess = true;
-		    	context.clearForm();
+          form.querySelector('.loading').removeAttribute('visible');
+          form.querySelector('.error').removeAttribute('visible');
+          form.querySelector('.success').setAttribute('visible', '');
+		    	
+		    	// clear the form
+		    	respond.plugins.clearForm(form);
 		    }
 		    else if(xhr.status !== 200){
-		    	context.loading = false;
-		        console.log('[respond.error] respond-form component: failed post, xhr.status='+xhr.status);
+		    
+		      // show error
+		    	form.querySelector('.loading').removeAttribute('visible');
+          form.querySelector('.error').setAttribute('visible', '');
+          
+		      console.log('[respond.error] respond-form component: failed post, xhr.status='+xhr.status);
 		    }
 		};
 
 		// send serialized data
 		xhr.send(JSON.stringify(submission));
-  }
+		
+		return false;
+  },
+  
+  /**
+   * clears the form a form
+   *
+   */
+	clearForm:function(form) {
+	
+	  var els, x;
+	
+	  // remove .has-error
+		els = form.querySelectorAll('.has-error');
+		
+		for(x=0; x<els.length; x++){
+			els[x].classList.remove('has-error');
+		}
+	
+		// clear text fields
+		els = form.querySelectorAll('input[type=text]');
+		
+		for(x=0; x<els.length; x++){
+			els[x].value = '';
+		}
+		
+		// clear text areas
+		els = form.querySelectorAll('textarea');
+		
+		for(x=0; x<els.length; x++){
+			els[x].value = '';
+		}
+		
+		// clear checkboxes
+		els = form.querySelectorAll('input[type=checkbox]');
+		
+		for(x=0; x<els.length; x++){
+			els[x].checked = false;
+		}
+		
+		// clear radios
+		els = form.querySelectorAll('input[type=radio]');
+		
+		for(x=0; x<els.length; x++){
+			els[x].checked = false;
+		}
+		
+		// reset selects
+		els = form.querySelectorAll('select');
+		
+		for(x=0; x<els.length; x++){
+			els[x].selectedIndex = 0;
+		}
+		
+	}
 
 };
 

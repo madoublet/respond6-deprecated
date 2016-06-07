@@ -42,23 +42,6 @@ class Publish
     }
 
     /**
-     * Pubishes the localse to the site
-     *
-     * @param {Site} $site
-     */
-    public static function publishLocales($site)
-    {
-
-        // publish theme files
-        $src = app()->basePath() . '/resources/locales';
-        $dest = app()->basePath() . '/public/sites/' . $site->id . '/locales';
-
-        // copy the directory
-        Utilities::copyDirectory($src, $dest);
-    }
-
-
-    /**
      * Publishes plugins for the site
      *
      * @param {Site} $site
@@ -123,6 +106,22 @@ class Publish
             'lastModifiedBy' => $page->lastModifiedBy,
             'lastModifiedDate' => $page->lastModifiedDate
           );
+          
+          // setup whether the site is using friendly urls
+          $useFriendlyURLs = false;
+  
+          if(env('FRIENDLY_URLS') === true || env('FRIENDLY_URLS') === 'true') {
+            $useFriendlyURLs = true;
+          }
+          
+          // setup current site
+          $current_site = array(
+            'id' => $site->id,
+            'name' => $site->name,
+            'email' => $site->email,
+            'api' => Utilities::retrieveAppUrl() . '/api',
+            'useFriendlyURLs' => $useFriendlyURLs
+          );
 
           $location = app()->basePath().'/public/sites/'.$site->id.'/'.$page->url.'.html';
 
@@ -164,7 +163,13 @@ class Publish
                 // load the template
                 $template = $twig->loadTemplate($el->type.'.html');
 
-                $render_arr = array('page' => $current_page, 'pages' => $pages, 'forms' => $forms, 'galleries' => $galleries, 'menus' => $menus, 'attributes' => $el->attr);
+                $render_arr = array('page' => $current_page, 
+                                      'site' => $current_site, 
+                                      'pages' => $pages, 
+                                      'forms' => $forms, 
+                                      'galleries' => $galleries, 
+                                      'menus' => $menus, 
+                                      'attributes' => $el->attr);
 
                 // render the template
                 $plugin_html = $template->render($render_arr);
@@ -180,55 +185,6 @@ class Publish
 
           // put html back
           file_put_contents($location, $dom);
-
-        }
-
-    }
-
-    /**
-     * Injects site settings the JS to the site
-     *
-     * @param {Site} $site
-     */
-    public static function injectSiteSettings($site)
-    {
-        // inject whether to use friendly urls
-        $useFriendlyURLs = false;
-
-        if(env('FRIENDLY_URLS') === true || env('FRIENDLY_URLS') === 'true') {
-          $useFriendlyURLs = true;
-        }
-
-        // create settings
-        $settings = array(
-            'id' => $site->id,
-            'api' => Utilities::retrieveAppUrl() . '/api',
-            'useFriendlyURLs' => $useFriendlyURLs
-        );
-
-        // settings
-        $str_settings = json_encode($settings);
-
-        // get site file
-        $file = app()->basePath() . '/public/sites/' . $site->id . '/js/respond.site.js';
-
-        if (file_exists($file)) {
-
-            // get contents
-            $content = file_get_contents($file);
-
-            $start = 'settings: {';
-            $end = '}';
-
-            // remove { }
-            $new = str_replace('{', '', $str_settings);
-            $new = str_replace('}', '', $new);
-
-            // replace
-            $content = preg_replace('#(' . preg_quote($start) . ')(.*?)(' . preg_quote($end) . ')#si', '$1' . $new . '$3', $content);
-
-            // publish updates
-            file_put_contents($file, $content);
 
         }
 

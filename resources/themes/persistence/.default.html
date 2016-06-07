@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>{{page.Title}}</title>
+  <title>About</title>
 
   <!-- meta -->
   <meta charset="utf-8">
@@ -12,7 +12,7 @@
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 
   <!-- base -->
-  <base href="">
+  <base href="../">
 
   <!-- icons -->
   <link theme-icon rel="icon" href="">
@@ -26,17 +26,13 @@
   <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.css" rel="stylesheet">
 
   <!-- css -->
-  <link type="text/css" href="css/libs.min.css?t=1461263684" rel="stylesheet">
-  <link type="text/css" href="css/respond.min.css?t=1461263684" rel="stylesheet">
+  <link type="text/css" href="css/libs.min.css" rel="stylesheet">
+  <link type="text/css" href="css/plugins.css" rel="stylesheet">
+  <link type="text/css" href="css/site.css" rel="stylesheet">
 
-  <!-- js -->
-  <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script><script src="js/respond.site.js"></script><!-- web components --><script src="components/lib/webcomponentsjs/webcomponents-lite.min.js"></script><link rel="import" href="components/respond-build.html">
 </head>
 
 <body class="content">
-
-<respond-cart theme-show-cart show-cart="true"></respond-cart>
-<respond-search theme-show-search show-search="true"></respond-search>
 
 <!-- background and mask -->
 <div class="background"></div>
@@ -46,12 +42,6 @@
 <header role="banner">
 
   <nav class="navbar" role="navigation">
-
-    <div class="nav-toggles">
-			<respond-search-toggle theme-show-cart show-cart="true"></respond-search-toggle>
-			<respond-cart-toggle theme-show-search show-search="true"></respond-cart-toggle>
-    </div>
-    <!-- ./nav-toggles -->
 
   	<div class="navbar-header">
 	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -66,7 +56,7 @@
 
     <div class="collapse navbar-collapse navbar-ex1-collapse">
 
-      <ul class="nav navbar-nav" respond-menu type="primary">
+      <ul respond-plugin type="menu" menu="primary" class="nav navbar-nav">
         <li active><a href="index.html">Home</a></li>
         <li><a href="blog.html">Blog</a></li>
         <li><a href="page/about.html">About</a></li>
@@ -81,10 +71,14 @@
 </header>
 
 <div id="content" class="container" role="main">
-  <div id="block-1" class="block row">
+
+  <div class="block row">
+
     <div class="col col-md-12">
-        <h1>{{page.Title}}</h1>
-        <p>{{page.Description}}</p>
+
+  		<h1>{{page.Title}}</h1>
+  		<p>{{page.Description}}</p>
+
     </div>
   </div>
 </div>
@@ -105,8 +99,8 @@
 
     <div class="block row">
       <div class="col col-md-12">
-          <ul respond-menu type="footer">
-            <li active><a href="index.html">Home</a></li>
+          <ul respond-plugin type="menu" menu="footer">
+            <li><a href="index.html">Home</a></li>
             <li><a href="blog.html">Blog</a></li>
             <li><a href="page/about.html">About</a></li>
             <li><a href="page/contact.html">Contact</a></li>
@@ -123,5 +117,6 @@
 
 <!-- js -->
 <script src="js/libs.min.js"></script>
+<script src="js/plugins.js"></script>
 
 </html>
