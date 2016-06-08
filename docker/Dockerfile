@@ -1,5 +1,9 @@
 FROM coderstephen/php7:latest
 
+# install supervisord
+RUN apt-get install -y supervisor && \
+mkdir -p /var/log/supervisor
+
 # install nodejs 6
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && \
 apt-get install -y nodejs
@@ -33,10 +37,14 @@ npm install && \
 composer install
 
 # update apache config and mod
-RUN sed  "s/var\\/www/var\\/www\\/public/" /etc/apache2/sites-enabled/000-default.conf
+RUN sed -i "s/var\\/www/var\\/www\\/public/" /etc/apache2/sites-enabled/000-default.conf
 RUN a2enmod rewrite
+
+VOLUME /var/www
 
 EXPOSE 80
 VOLUME ["/var/www/public/sites", "/var/www/resources"]
 
-CMD ["/usr/bin/supervisord"]
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

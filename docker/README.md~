@@ -33,7 +33,7 @@ Run below commands if you want to store site contents into your docker host inst
 Please check [data volumes](https://docs.docker.com/engine/userguide/containers/dockervolumes/) for details.
 
 ``` bash
-$ export DATA_DIR=${HOME}/respond-data
+$ DATA_DIR=${HOME}/respond-data
 $ mkdir -p ${DATA_DIR}/sites 
 $ mkdir -p ${DATA_DIR}/resources 
 $ docker run --name=respond -p 80:80 \
