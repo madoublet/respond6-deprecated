@@ -94,7 +94,7 @@ class Page {
         $content = file_get_contents($default_content);
       }
       else {
-        $content = '<html><body><p>You must specify default content in .default.html</p></body></html>';
+        $content = '<html><head></head><body><p>You must specify default content in .default.html</p></body></html>';
       }
 
       // replace
@@ -121,7 +121,20 @@ class Page {
       $el = $dom->find('[role=main]');
 
       // get the fragment content
-      $fragment_content = $el->innertext;
+      if(isset($el[0])) {
+        $fragment_content = $el[0]->innertext;
+      }
+      
+      // find body
+      $els = $dom->find('body');
+        
+      // set timestamp in head
+      if(isset($els[0])) {
+        
+        $timestamp = date('Y-m-d\TH:i:s.Z\Z', time());
+        $els[0]->setAttribute('data-lastmodified', $timestamp);
+        
+      }
 
     }
 
@@ -216,7 +229,7 @@ class Page {
       foreach($dom->find('[data-ref]') as $el) {
         $el->removeAttr('data-ref');
       }
-
+      
       // update the page
       file_put_contents($location, $dom);
 
@@ -275,48 +288,18 @@ class Page {
    * @param {id} $id
    * @return Response
    */
-  public function remove($id){
+  public function remove($user, $site){
 
     // remove the page and fragment
-    $page = app()->basePath().'/public/sites/'.$id.'/'.$this->url.'.html';
-    $name = $new_name = str_replace('/', '.', $this->url);
-    $fragment = app()->basePath().'/public/sites/'.$id.'/fragments/page/'.$name.'.html';
-
+    $page = app()->basePath().'/public/sites/'.$site->id.'/'.$this->url.'.html';
+ 
     if(file_exists($page)) {
       unlink($page);
     }
 
-    if(file_exists($fragment)) {
-      unlink($fragment);
-    }
-
-    // remove the page from JSON
-    $json_file = app()->basePath().'/public/sites/'.$id.'/data/pages.json';
-
-    if(file_exists($json_file)) {
-
-      $json = file_get_contents($json_file);
-
-      // decode json file
-      $pages = json_decode($json, true);
-      $i = 0;
-
-      foreach($pages as $page){
-
-        // remove page
-        if($page['url'] == $this->url) {
-          unset($pages[$i]);
-        }
-
-        $i++;
-
-      }
-
-      // save pages
-      file_put_contents($json_file, json_encode($pages, JSON_PRETTY_PRINT));
-
-    }
-
+    // refresh the JSON file
+    $arr = Page::refreshJSON($user, $site);
+    
     return TRUE;
 
   }
@@ -332,80 +315,96 @@ class Page {
     // set full file path
     $file = app()->basePath() . '/public/sites/' . $site->id . '/' . $this->url . '.html';
 
-    // set parser
-    $dom = HtmlDomParser::str_get_html(file_get_contents($file), $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
+    $html = file_get_contents($file);
 
-    // set title
-    $els = $dom->find('title');
-
-    if(isset($els[0])) {
-      $els[0]->innertext = $this->title;
-    }
-
-    // set description
-    $els = $dom->find('meta[name=description]');
-
-    if(isset($els[0])) {
-      $els[0]->content = $this->description;
-    }
-
-    // set keywords
-    $els = $dom->find('meta[name=keywords]');
-
-    if(isset($els[0])) {
-      $els[0]->content = $this->keywords;
-    }
-
-    // set language and direction
-    $els = $dom->find('html');
-
-    if(isset($els[0])) {
-      $els[0]->lang = $this->language;
-      $els[0]->dir = $this->direction;
-    }
-
-    // photos
-    $photo = '';
-
-    // get photo
-    $photos = $dom->find('[role=main] img');
-
-    if(isset($photos[0])) {
-      $photo = $photos[0]->src;
-    }
-
-    // default thumb
-    $thumb = '';
-
-    // get thumb
-    if ($photo === NULL || $photo === '') {
+    if(!empty($html)) {
+    
+      // set parser
+    $dom = HtmlDomParser::str_get_html($html, $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
+    
+      // set title
+      $els = $dom->find('title');
+  
+      if(isset($els[0])) {
+        $els[0]->innertext = $this->title;
+      }
+  
+      // set description
+      $els = $dom->find('meta[name=description]');
+  
+      if(isset($els[0])) {
+        $els[0]->content = $this->description;
+      }
+  
+      // set keywords
+      $els = $dom->find('meta[name=keywords]');
+  
+      if(isset($els[0])) {
+        $els[0]->content = $this->keywords;
+      }
+  
+      // set language and direction
+      $els = $dom->find('html');
+  
+      if(isset($els[0])) {
+        $els[0]->lang = $this->language;
+        $els[0]->dir = $this->direction;
+      }
+  
+      // photos
       $photo = '';
-    }
-    else {
-      if (substr($photo, 0, 4) === "http") {
-        $thumb = $photo;
+  
+      // get photo
+      $photos = $dom->find('[role=main] img');
+  
+      if(isset($photos[0])) {
+        $photo = $photos[0]->src;
+      }
+  
+      // default thumb
+      $thumb = '';
+  
+      // get thumb
+      if ($photo === NULL || $photo === '') {
+        $photo = '';
       }
       else {
-        $thumb = str_replace('files/', 'files/thumbs/', $photo);
+        if (substr($photo, 0, 4) === "http") {
+          $thumb = $photo;
+        }
+        else {
+          $thumb = str_replace('files/', 'files/thumbs/', $photo);
+        }
+  
       }
-
+      
+      // find body
+      $els = $dom->find('body');
+        
+      // set timestamp in head
+      if(isset($els[0])) {
+        
+        $timestamp = date('Y-m-d\TH:i:s.Z\Z', time());
+        $els[0]->setAttribute('data-lastmodified', $timestamp);
+        
+      }
+  
+      // set photo and thumb
+      $this->photo = $photo;
+      $this->thumb = $thumb;
+  
+      $html = $dom;
+  
+      // save page
+      file_put_contents($file, $html);
+    
     }
-
-    // set photo and thumb
-    $this->photo = $photo;
-    $this->thumb = $thumb;
-
-    $html = $doc->htmlOuter();
-
-    // save page
-    file_put_contents($file, $html);
 
     // set timestamp
     $timestamp = date('Y-m-d\TH:i:s.Z\Z', time());
 
     // edit the json file
     $json_file = app()->basePath().'/public/sites/'.$site->id.'/data/pages.json';
-
 
     // save
     if(file_exists($json_file)) {
@@ -500,162 +499,192 @@ class Page {
 
       $arr = json_decode($json, true);
     }
-    else {  // create the JSON file
+    else { 
 
-      // set dir
-      $dir = app()->basePath().'/public/sites/'.$site->id;
-
-      // list files
-      $files = Utilities::ListFiles($dir, $site->id,
-              array('html'),
-              array('plugins/',
-                    'components/',
-                    'css/',
-                    'data/',
-                    'files/',
-                    'js/',
-                    'locales/',
-                    'fragments/',
-                    'themes/'));
-
-      // setup arrays to hold data
-      $arr = array();
-
-      // setup timestamp as JS date
-      $timestamp = date('Y-m-d\TH:i:s.Z\Z', time());
-
-      foreach ($files as $file) {
-
-          // defaults
-          $title       = '';
-          $description = '';
-          $keywords    = '';
-          $callout     = '';
-          $layout      = 'content';
-          $url         = $file;
-          $text        = '';
-          $html = '';
-          $language = 'en';
-          $direction = 'ltr';
-          $photo = '';
-          $thumb = '';
-
-          if ($url == 'index.html') {
-              $layout = 'home';
-          }
-
-          // set full file path
-          $file = app()->basePath() . '/public/sites/' . $site->id . '/' . $file;
-
-          // set parser
-          $dom = HtmlDomParser::str_get_html(file_get_contents($file), $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
-
-          // get title
-          $els = $dom->find('title');
-
-          if(isset($els[0])) {
-            $title = $els[0]->innertext;
-          }
-
-          // get description
-          $els = $dom->find('meta[name=description]');
-
-          if(isset($els[0])) {
-            $description = $els[0]->content;
-          }
-
-          // get keywords
-          $els = $dom->find('meta[name=keywords]');
-
-          if(isset($els[0])) {
-            $keywords = $els[0]->content;
-          }
-
-          // get text
-          $els = $dom->find('[role=main]');
-
-          if(isset($els[0])) {
-            $main_content = $els[0]->innertext;
-          }
-
-          // get the text from the content
-          $text = strip_tags($main_content);
-          $text = preg_replace("/\s+/", " ", $text);
-          $text = trim($text);
-          $text = preg_replace('/[[:^print:]]/', '', $text);
-
-          // get photo
-          $photos = $dom->find('[role=main] img');
-
-          if(isset($photos[0])) {
-            $photo = $photos[0]->src;
-          }
-          $thumb = '';
-
-          if ($photo === NULL || $photo === '') {
-            $photo = '';
-          }
-          else {
-            if (substr($photo, 0, 4) === "http") {
-              $thumb = $photo;
-            }
-            else {
-              $thumb = str_replace('files/', 'files/thumbs/', $photo);
-            }
-
-          }
-
-          // get language and direction
-          $els = $dom->find('html');
-
-          if(isset($els[0])) {
-            $language = $els[0]->lang;
-            $direction = $els[0]->dir;
-          }
-
-          // cleanup url
-          $url = ltrim($url, '/');
-
-          // strip any trailing .html from url
-          $url = preg_replace('/\\.[^.\\s]{3,4}$/', '', $url);
-
-          // setup data
-          $data = array(
-              'title' => $title,
-              'description' => $description,
-              'text' => $text,
-              'html' => $main_content,
-              'keywords' => $keywords,
-              'callout' => $callout,
-              'url' => $url,
-              'photo' => $photo,
-              'thumb' => $thumb,
-              'layout' => 'content',
-              'language' => $language,
-              'direction' => $direction,
-              'firstName' => $user->firstName,
-              'lastName' => $user->lastName,
-              'lastModifiedBy' => $user->email,
-              'lastModifiedDate' => $timestamp
-          );
-
-          // push to array
-          if(substr($url, 0, strlen('.default')) !== '.default') {
-            array_push($arr, $data);
-          }
-
-      }
-
-      // encode arr
-      $content = json_encode($arr, JSON_PRETTY_PRINT);
-
-      // update content
-      file_put_contents($json_file, $content);
-
+      // refresh the JSON file
+      $arr = Page::refreshJSON($user, $site);
     }
 
     return $arr;
 
+  }
+  
+  /**
+   * Refreshes the page JSON
+   *
+   * @param {User} $user
+   * @param {string} $id friendly id of site (e.g. site-name)
+   * @return Response
+   */
+  public static function refreshJSON($user, $site) {
+  
+    // get base path for the site
+    $json_file = app()->basePath().'/public/sites/'.$site->id.'/data/pages.json';
+    
+    // set dir
+    $dir = app()->basePath().'/public/sites/'.$site->id;
+
+    // list files
+    $files = Utilities::ListFiles($dir, $site->id,
+            array('html'),
+            array('plugins/',
+                  'components/',
+                  'css/',
+                  'data/',
+                  'files/',
+                  'js/',
+                  'locales/',
+                  'fragments/',
+                  'themes/'));
+
+    // setup arrays to hold data
+    $arr = array();
+
+    foreach ($files as $file) {
+
+        // defaults
+        $title       = '';
+        $description = '';
+        $keywords    = '';
+        $callout     = '';
+        $layout      = 'content';
+        $url         = $file;
+        $text        = '';
+        $html = '';
+        $language = 'en';
+        $direction = 'ltr';
+        $photo = '';
+        $thumb = '';
+        $lastModifiedDate = date('Y-m-d\TH:i:s.Z\Z', time());
+       
+        if ($url == 'index.html') {
+            $layout = 'home';
+        }
+
+        // set full file path
+        $file = app()->basePath() . '/public/sites/' . $site->id . '/' . $file;
+        
+        $file_modified_time = filemtime($file);
+        
+        // setup timestamp as JS date
+        $timestamp = date('Y-m-d\TH:i:s.Z\Z', $file_modified_time);
+
+        // set parser
+        $dom = HtmlDomParser::str_get_html(file_get_contents($file), $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
+
+        // get title
+        $els = $dom->find('title');
+
+        if(isset($els[0])) {
+          $title = $els[0]->innertext;
+        }
+        
+        // get els
+        $els = $dom->find('body');
+        
+         // set timestamp in head
+        if(isset($els[0])) {
+          $lastModifiedDate = $els[0]->getAttribute('data-lastmodified');
+        }
+        
+
+        // get description
+        $els = $dom->find('meta[name=description]');
+
+        if(isset($els[0])) {
+          $description = $els[0]->content;
+        }
+
+        // get keywords
+        $els = $dom->find('meta[name=keywords]');
+
+        if(isset($els[0])) {
+          $keywords = $els[0]->content;
+        }
+
+        // get text
+        $els = $dom->find('[role=main]');
+
+        if(isset($els[0])) {
+          $main_content = $els[0]->innertext;
+        }
+
+        // get the text from the content
+        $text = strip_tags($main_content);
+        $text = preg_replace("/\s+/", " ", $text);
+        $text = trim($text);
+        $text = preg_replace('/[[:^print:]]/', '', $text);
+
+        // get photo
+        $photos = $dom->find('[role=main] img');
+
+        if(isset($photos[0])) {
+          $photo = $photos[0]->src;
+        }
+        $thumb = '';
+
+        if ($photo === NULL || $photo === '') {
+          $photo = '';
+        }
+        else {
+          if (substr($photo, 0, 4) === "http") {
+            $thumb = $photo;
+          }
+          else {
+            $thumb = str_replace('files/', 'files/thumbs/', $photo);
+          }
+
+        }
+
+        // get language and direction
+        $els = $dom->find('html');
+
+        if(isset($els[0])) {
+          $language = $els[0]->lang;
+          $direction = $els[0]->dir;
+        }
+
+        // cleanup url
+        $url = ltrim($url, '/');
+
+        // strip any trailing .html from url
+        $url = preg_replace('/\\.[^.\\s]{3,4}$/', '', $url);
+
+        // setup data
+        $data = array(
+            'title' => $title,
+            'description' => $description,
+            'text' => $text,
+            'html' => $main_content,
+            'keywords' => $keywords,
+            'callout' => $callout,
+            'url' => $url,
+            'photo' => $photo,
+            'thumb' => $thumb,
+            'layout' => 'content',
+            'language' => $language,
+            'direction' => $direction,
+            'firstName' => $user->firstName,
+            'lastName' => $user->lastName,
+            'lastModifiedBy' => $user->email,
+            'lastModifiedDate' => $timestamp
+        );
+
+        // push to array
+        if(substr($url, 0, strlen('.default')) !== '.default') {
+          array_push($arr, $data);
+        }
+
+    }
+
+    // encode arr
+    $content = json_encode($arr, JSON_PRETTY_PRINT);
+
+    // update content
+    file_put_contents($json_file, $content);
+
+    return $arr;
+    
   }
 
 

@@ -210,13 +210,17 @@ class PageController extends Controller
     // get request data
     $email = $request->input('auth-email');
     $id = $request->input('auth-id');
+    
+    // get the site
+    $site = Site::getById($id);
+    $user = User::getByEmail($email, $id);
 
     // get url, title and description
     $url = $request->json()->get('url');
 
     $page = Page::getByUrl($url, $id);
 
-    $page->remove($id);
+    $page->remove($user, $site);
 
     // return OK
     return response('OK, page removed at = '.$page->url, 200);

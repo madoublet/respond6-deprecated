@@ -79,8 +79,8 @@ class GalleryImageController extends Controller
     $site = Site::getById($siteId);
     $user = User::getByEmail($email, $siteId);
 
-    // re-publish components
-    Publish::republishComponents($site, $user);
+    // re-publish plugins
+    Publish::publishPlugins($user, $site);
 
     if($image !== NULL) {
      return response('OK, image added', 200);
@@ -127,8 +127,8 @@ class GalleryImageController extends Controller
       $site = Site::getById($siteId);
       $user = User::getByEmail($email, $siteId);
 
-      // re-publish components
-      Publish::republishComponents($site, $user);
+      // re-publish plugins
+      Publish::publishPlugins($user, $site);
 
       return response('Ok', 200);
     }
@@ -164,8 +164,8 @@ class GalleryImageController extends Controller
       $site = Site::getById($siteId);
       $user = User::getByEmail($email, $siteId);
 
-      // re-publish components
-      Publish::republishComponents($site, $user);
+      // re-publish plugins
+      Publish::publishPlugins($user, $site);
 
 
       return response('Ok', 200);
@@ -205,8 +205,8 @@ class GalleryImageController extends Controller
       $site = Site::getById($siteId);
       $user = User::getByEmail($email, $siteId);
 
-      // re-publish components
-      Publish::republishComponents($site, $user);
+      // re-publish plugins
+      Publish::publishPlugins($user, $site);
 
       return response('Ok', 200);
     }

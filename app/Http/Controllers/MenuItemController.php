@@ -68,8 +68,8 @@ class MenuItemController extends Controller
     $site = Site::getById($siteId);
     $user = User::getByEmail($email, $siteId);
 
-    // re-publish components
-    Publish::republishComponents($site, $user);
+    // re-publish plugins
+    Publish::publishPlugins($user, $site);
 
     if($item !== NULL) {
      return response('OK, menu item added', 200);
@@ -120,8 +120,8 @@ class MenuItemController extends Controller
       $site = Site::getById($siteId);
       $user = User::getByEmail($email, $siteId);
 
-      // re-publish components
-      Publish::republishComponents($site, $user);
+      // re-publish plugins
+      Publish::publishPlugins($user, $site);
 
       return response('Ok', 200);
     }
@@ -157,8 +157,8 @@ class MenuItemController extends Controller
       $site = Site::getById($siteId);
       $user = User::getByEmail($email, $siteId);
 
-      // re-publish components
-      Publish::republishComponents($site, $user);
+      // re-publish plugins
+      Publish::publishPlugins($user, $site);
 
       return response('Ok', 200);
     }
@@ -194,8 +194,8 @@ class MenuItemController extends Controller
       $site = Site::getById($siteId);
       $user = User::getByEmail($email, $siteId);
 
-      // re-publish components
-      Publish::republishComponents($site, $user);
+      // re-publish plugins
+      Publish::publishPlugins($user, $site);
 
       return response('Ok', 200);
     }

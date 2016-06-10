@@ -14,6 +14,9 @@ use App\Respond\Libraries\Utilities;
 // DOM parser
 use Sunra\PhpSimple\HtmlDomParser;
 
+// Twig Extensions
+use App\Respond\Extensions\BetterSortTwigExtension;
+
 class Publish
 {
 
@@ -76,6 +79,7 @@ class Publish
         $loader = new \Twig_Loader_Filesystem(app()->basePath().'/public/sites/'.$site->id.'/plugins');
 
         $twig = new \Twig_Environment($loader);
+        $twig->addExtension(new BetterSortTwigExtension());
 
         // get all pages
         $pages = Page::listAll($user, $site);
@@ -125,66 +129,76 @@ class Publish
 
           $location = app()->basePath().'/public/sites/'.$site->id.'/'.$page->url.'.html';
 
-          // get html from page
-          $html = file_get_contents($location);
-
-          // walk through plugins
-          foreach($plugins as $plugin) {
-
-            // insert into respond-plugin comments
-            $start = '<!-- respond-plugin:'.$plugin.' -->';
-            $end = '<!-- /respond-plugin:'.$plugin.' -->';
-
-            // check for start and end
-            if(strpos($html, $start) !== FALSE && strpos($html, $end) !== FALSE) {
-
-              // load the template
-              $template = $twig->loadTemplate($plugin.'.html');
-
-              // render the template
-              $plugin_html = $template->render(array('pages' => $pages));
-
-              // replace content
-              $html = Utilities::replaceBetween($html, $start, $end, $plugin_html);
-            }
-
-          }
-
-          // load the parser
-          $dom = HtmlDomParser::str_get_html($html, $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
-
-          // insert into [respond-plugin] elements
-          foreach($dom->find('[respond-plugin]') as $el) {
-
-            if(isset($el->type)) {
-
-              if(array_search($el->type, $plugins) !== FALSE) {
-
+          // check for valid location
+          if(file_exists($location)) {
+          
+            // get html from page
+            $html = file_get_contents($location);
+  
+            // walk through plugins
+            foreach($plugins as $plugin) {
+  
+              // insert into respond-plugin comments
+              $start = '<!-- respond-plugin:'.$plugin.' -->';
+              $end = '<!-- /respond-plugin:'.$plugin.' -->';
+  
+              // check for start and end
+              if(strpos($html, $start) !== FALSE && strpos($html, $end) !== FALSE) {
+  
                 // load the template
-                $template = $twig->loadTemplate($el->type.'.html');
-
-                $render_arr = array('page' => $current_page, 
-                                      'site' => $current_site, 
-                                      'pages' => $pages, 
-                                      'forms' => $forms, 
-                                      'galleries' => $galleries, 
-                                      'menus' => $menus, 
-                                      'attributes' => $el->attr);
-
+                $template = $twig->loadTemplate($plugin.'.html');
+  
                 // render the template
-                $plugin_html = $template->render($render_arr);
-
-                // set the inner text
-                $el->innertext = $plugin_html;
-
+                $plugin_html = $template->render(array('pages' => $pages));
+  
+                // replace content
+                $html = Utilities::replaceBetween($html, $start, $end, $plugin_html);
               }
-
+  
             }
-
+  
+            // make sure the html is not empty
+            if(!empty($html)) {
+  
+              // load the parser
+              $dom = HtmlDomParser::str_get_html($html, $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
+    
+              // insert into [respond-plugin] elements
+              foreach($dom->find('[respond-plugin]') as $el) {
+    
+                if(isset($el->type)) {
+    
+                  if(array_search($el->type, $plugins) !== FALSE) {
+    
+                    // load the template
+                    $template = $twig->loadTemplate($el->type.'.html');
+    
+                    $render_arr = array('page' => $current_page, 
+                                          'site' => $current_site, 
+                                          'pages' => $pages, 
+                                          'forms' => $forms, 
+                                          'galleries' => $galleries, 
+                                          'menus' => $menus, 
+                                          'attributes' => $el->attr);
+    
+                    // render the template
+                    $plugin_html = $template->render($render_arr);
+    
+                    // set the inner text
+                    $el->innertext = $plugin_html;
+    
+                  }
+    
+                }
+    
+              }
+            
+            }
+  
+            // put html back
+            file_put_contents($location, $dom);
+          
           }
-
-          // put html back
-          file_put_contents($location, $dom);
 
         }
 

@@ -80,8 +80,8 @@ class FormFieldController extends Controller
     $site = Site::getById($siteId);
     $user = User::getByEmail($email, $siteId);
 
-    // re-publish components
-    Publish::republishComponents($site, $user);
+    // re-publish plugins
+    Publish::publishPlugins($user, $site);
 
     if($field !== NULL) {
      return response('OK, form field added', 200);
@@ -140,8 +140,8 @@ class FormFieldController extends Controller
       $site = Site::getById($siteId);
       $user = User::getByEmail($email, $siteId);
 
-      // re-publish components
-      Publish::republishComponents($site, $user);
+      // re-publish plugins
+      Publish::publishPlugins($user, $site);
 
       return response('Ok', 200);
     }
@@ -177,8 +177,8 @@ class FormFieldController extends Controller
       $site = Site::getById($siteId);
       $user = User::getByEmail($email, $siteId);
 
-      // re-publish components
-      Publish::republishComponents($site, $user);
+      // re-publish plugins
+      Publish::publishPlugins($user, $site);
 
       return response('Ok', 200);
     }
@@ -214,8 +214,8 @@ class FormFieldController extends Controller
       $site = Site::getById($siteId);
       $user = User::getByEmail($email, $siteId);
 
-      // re-publish components
-      Publish::republishComponents($site, $user);
+      // re-publish plugins
+      Publish::publishPlugins($user, $site);
 
       return response('Ok', 200);
     }
