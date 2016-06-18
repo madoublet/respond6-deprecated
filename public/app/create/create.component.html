@@ -1,38 +1,60 @@
 <div class="logo"><img src="/app/shared/resources/respond-logo.png"></div>
 
-<form class="app-form standalone" (ngSubmit)="submit()" #createForm="ngForm">
+ <div class="app-slideshow">
+  <div class="app-slideshow-item" *ngFor="let theme of themes" [class.selected]="theme === selectedTheme">
 
-    <h2>{{ 'Create Site' | translate }}</h2>
+    <div class="app-slideshow-container">
+      <div class="screenshot">
+        <img src="themes/{{theme.location}}/screenshot.png">
+      </div>
+      <div class="description">
+        <h2>{{ theme.name }}</h2>
+        <p>{{ theme.desc }}</p>
+        <p>
+          <a class="primary" (click)="useTheme()">Use this theme</a>
+          <a (click)="next()">Next Theme</a>
+        </p>
+      </div>
+    </div>
 
-    <label>{{ 'Site Name' | translate }}</label>
-    <input type="text" name="name"
-      [(ngModel)]="model.name"
-      ngControl="name" required>
-    
-    <label>{{ 'Theme' | translate }}</label>
-    <select name="theme"
-      [(ngModel)]="model.theme"
-      ngControl="theme" required>
-      <option value="persistence">Persistence</option>
-    </select>
+  </div>
 
-    <label>{{ 'Email' | translate }}</label>
-    <input type="text" name="email"
-      [(ngModel)]="model.email"
-      ngControl="email" required>
+</div>
 
-    <label>{{ 'Password' | translate }}</label>
-    <input type="password" name="password"
-      [(ngModel)]="model.password"
-      ngControl="password" required>
+<div class="app-modal" [class.visible]="visible === true">
 
-    <label>{{ 'Passcode' | translate }}</label>
-    <input type="text" name="passcode"
-      [(ngModel)]="model.passcode"
-      ngControl="passcode" required>
+  <form (ngSubmit)="submit()" #createForm="ngForm">
 
-    <button type="submit">{{ 'Create' | translate }}</button>
+      <h2>{{ 'Create Site' | translate }}</h2>
 
-    <p>{{ 'By creating a site you are accepting our terms of service.' | translate }}</p>
+      <label>{{ 'Site Name' | translate }}</label>
+      <input type="text" name="name"
+        [(ngModel)]="model.name"
+        ngControl="name" required>
 
-</form>
+
+      <label>{{ 'Email' | translate }}</label>
+      <input type="text" name="email"
+        [(ngModel)]="model.email"
+        ngControl="email" required>
+
+      <label>{{ 'Password' | translate }}</label>
+      <input type="password" name="password"
+        [(ngModel)]="model.password"
+        ngControl="password" required>
+
+      <label>{{ 'Passcode' | translate }}</label>
+      <input type="text" name="passcode"
+        [(ngModel)]="model.passcode"
+        ngControl="passcode" required>
+
+      <div class="actions">
+        <a (click)="hide()">{{ 'Cancel' | translate }}</a>
+        <button type="submit">{{ 'Create' | translate }}</button>
+      </div>
+
+      <p>{{ 'By creating a site you are accepting our terms of service.' | translate }}</p>
+
+  </form>
+
+</div>

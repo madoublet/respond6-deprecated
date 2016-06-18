@@ -58,6 +58,9 @@ $app->get('/api/auth', ['middleware' => 'jwtauth', 'uses'=> 'UserController@auth
 // test site
 $app->get('/api/sites/test', 'SiteController@test');
 
+// app
+$app->get('/api/themes/list', 'AppController@listThemes');
+
 // site
 $app->post('/api/sites/create', 'SiteController@create');
 $app->get('/api/sites/reload', ['middleware' => 'jwtauth', 'uses'=> 'SiteController@reload']);

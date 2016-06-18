@@ -44,6 +44,15 @@ class MenuItem {
       
       $arr = $json['items'];
     }
+    
+    // append .html for non-friendly URLs
+    if(env('FRIENDLY_URLS') === false) {
+      
+      foreach($arr as &$item) {
+        $item['url'] = $item['url'].'.html';
+      }
+      
+    }
 
     return $arr;
 
@@ -58,6 +67,9 @@ class MenuItem {
   public static function add($html, $cssClass, $isNested, $url, $menuId, $siteId) {
     
     $menu = Menu::getById($menuId, $siteId);
+    
+    // strip any trailing .html from url
+    $url = preg_replace('/\\.[^.\\s]{3,4}$/', '', $url);
     
     $item = array(
       'html' => $html,

@@ -30,9 +30,20 @@ class EditController extends Controller
           if(sizeof($arr) > 0) {
 
             $siteId = $arr[0];
-
+            
+            // set html if hiddne
+            $url = $q;
+            
+            // strip any trailing .html from url
+            $url = preg_replace('/\\.[^.\\s]{3,4}$/', '', $url);
+            
+            // add .html for non-friendly URLs
+            if(env('FRIENDLY_URLS') === false) {
+              $url .= '.html';
+            }
+            
             // load page
-            $path = rtrim(app()->basePath('public/sites/'.$q), '/');
+            $path = rtrim(app()->basePath('public/sites/'.$url), '/');
 
             if(file_exists($path)) {
 
@@ -141,6 +152,24 @@ class EditController extends Controller
                 // inject galleries into script
                 $plugins_script = str_replace("['respond.routes']", json_encode($options), $plugins_script);
               }
+              
+              // inject pages into script
+              if(strpos($plugins_script, 'respond.pages') !== false ) {
+
+                $arr = Pages::listAllBySite($siteId);
+                $options = array();
+
+                // get id
+                foreach($arr as $item) {
+                  array_push($options, array(
+                    'text' => $item['title'],
+                    'value' => $item['url']
+                  ));
+                }
+
+                // inject galleries into script
+                $plugins_script = str_replace("['respond.galleries']", json_encode($options), $plugins_script);
+              }
 
               // setup references
               $els = $doc['[hashedit-exclude]'];
@@ -175,7 +204,7 @@ class EditController extends Controller
 <script>
 hashedit.setup({
   dev: true,
-  url: '$q',
+  url: '$url',
   sortable: '$sortable',
   login: '/login/$siteId',
   translate: true,
@@ -200,7 +229,7 @@ EOD;
 <script>$plugins_script</script>
 <script>
 hashedit.setup({
-  url: '$q'
+  url: '$url'
   sortable: '$sortable',
   login: '/login/$siteId'
   translate: true,

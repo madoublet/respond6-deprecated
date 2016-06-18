@@ -25,7 +25,6 @@ class Page {
   public $url;
   public $photo;
   public $thumb;
-  public $layout;
   public $language;
   public $direction;
   public $firstName;
@@ -427,7 +426,6 @@ class Page {
           $page['callout'] = $this->callout;
           $page['photo'] = $this->photo;
           $page['thumb'] = $this->thumb;
-          $page['layout'] = $this->layout;
           $page['language'] = $this->language;
           $page['direction'] = $this->direction;
           $page['lastModifiedBy'] = $user->email;
@@ -504,6 +502,41 @@ class Page {
       // refresh the JSON file
       $arr = Page::refreshJSON($user, $site);
     }
+    
+    // append .html for non-friendly URLs
+    if(env('FRIENDLY_URLS') === false) {
+      
+      foreach($arr as &$page) {
+        $page['url'] = $page['url'].'.html';
+      }
+      
+    }
+  
+    return $arr;
+
+  }
+  
+  /**
+   * Lists pages
+   *
+   * @param {User} $user
+   * @param {string} $id friendly id of site (e.g. site-name)
+   * @return Response
+   */
+  public static function listAllBySite($siteId){
+
+    $arr = array();
+
+    // get base path for the site
+    $json_file = app()->basePath().'/public/sites/'.$siteId.'/data/pages.json';
+
+    if(file_exists($json_file)) {
+
+      // list the contents of the json file
+      $json = file_get_contents($json_file);
+
+      $arr = json_decode($json, true);
+    }
 
     return $arr;
 
@@ -547,7 +580,6 @@ class Page {
         $description = '';
         $keywords    = '';
         $callout     = '';
-        $layout      = 'content';
         $url         = $file;
         $text        = '';
         $html = '';
@@ -556,10 +588,6 @@ class Page {
         $photo = '';
         $thumb = '';
         $lastModifiedDate = date('Y-m-d\TH:i:s.Z\Z', time());
-       
-        if ($url == 'index.html') {
-            $layout = 'home';
-        }
 
         // set full file path
         $file = app()->basePath() . '/public/sites/' . $site->id . '/' . $file;
@@ -661,7 +689,6 @@ class Page {
             'url' => $url,
             'photo' => $photo,
             'thumb' => $thumb,
-            'layout' => 'content',
             'language' => $language,
             'direction' => $direction,
             'firstName' => $user->firstName,

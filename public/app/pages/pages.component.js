@@ -126,7 +126,7 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
                  * @param {Page} page
                  */
                 PagesComponent.prototype.edit = function (page) {
-                    window.location = '/edit?q=' + this.id + '/' + page.url + '.html';
+                    window.location = '/edit?q=' + this.id + '/' + page.url;
                 };
                 /**
                  * handles error

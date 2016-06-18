@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use \Illuminate\Http\Request;
+
+use App\Respond\Libraries\Utilities;
+
+class AppController extends Controller
+{
+
+  /**
+   * Lists the themes available for the app
+   *
+   * @return Response
+   */
+  public function listThemes(Request $request)
+  {
+
+    // list pages in the site
+    $dir = app()->basePath().'/public/themes';
+
+    // list files
+    $arr = Utilities::listSpecificFiles($dir, 'theme.json');
+
+    $result = array();
+
+    foreach ($arr as $item) {
+
+      // get contents of file
+      $json = json_decode(file_get_contents($item));
+
+      // get location of theme
+      $temp = explode('public/themes/', $item);
+      $location = substr($temp[1], 0, strpos($temp[1], '/theme.json'));
+
+      $json->location = $location;
+
+      array_push($result, $json);
+
+    }
+
+    return response()->json($result);
+
+  }
+
+
+}

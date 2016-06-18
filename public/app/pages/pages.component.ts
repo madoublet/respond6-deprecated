@@ -123,7 +123,7 @@ export class PagesComponent {
    * @param {Page} page
    */
   edit(page) {
-    window.location = '/edit?q=' + this.id + '/' + page.url + '.html';
+    window.location = '/edit?q=' + this.id + '/' + page.url;
   }
 
   /**

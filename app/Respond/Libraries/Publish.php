@@ -29,7 +29,7 @@ class Publish
     {
 
         // publish theme files
-        $src = app()->basePath() . '/resources/themes/' . $theme;
+        $src = app()->basePath() . '/public/themes/' . $theme;
         $dest = app()->basePath() . '/public/sites/' . $site->id;
 
         // copy the directory
@@ -126,8 +126,12 @@ class Publish
             'api' => Utilities::retrieveAppUrl() . '/api',
             'useFriendlyURLs' => $useFriendlyURLs
           );
+          
+          // set url
+          $url = $page->url;
+          $url = preg_replace('/\\.[^.\\s]{3,4}$/', '', $url);
 
-          $location = app()->basePath().'/public/sites/'.$site->id.'/'.$page->url.'.html';
+          $location = app()->basePath().'/public/sites/'.$site->id.'/'.$url.'.html';
 
           // check for valid location
           if(file_exists($location)) {
@@ -180,7 +184,7 @@ class Publish
                                           'galleries' => $galleries, 
                                           'menus' => $menus, 
                                           'attributes' => $el->attr);
-    
+                                          
                     // render the template
                     $plugin_html = $template->render($render_arr);
     

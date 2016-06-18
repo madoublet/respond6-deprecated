@@ -99,13 +99,60 @@ class Utilities
         return $result;
 
     }
+    
+    /**
+     * Returns a list of specific files
+     *
+     * @param {string} $path the recipient's email address
+     * @return {Array} list occurrences of a specific file (e.g. find all screenshot.png files in a directory)
+     */
+    public static function listSpecificFiles($dir, $fileName)
+    {
+
+        $root = scandir($dir);
+
+        if (!isset($result)) {
+            $result = array();
+        }
+
+        foreach ($root as $value) {
+
+            if ($value === '.' || $value === '..' || $value === '.htaccess') {
+                continue;
+            }
+
+            if (is_file("$dir/$value")) {
+
+                $file = "$dir/$value";
+
+                // match against filename
+                if ($value === $fileName) {
+                  $path = "$dir/$value";
+                  
+                  $result[] = $path;             
+                }
+     
+
+               
+                continue;
+            }
+
+            foreach (Utilities::listSpecificFiles("$dir/$value", $fileName) as $value) {
+                $result[] = $value;
+            }
+
+        }
+
+        return $result;
+
+    }
 
 
     /**
      * Returns all routes
      *
      * @param {string} $path the recipient's email address
-     * @return {Array} list of HTML fiels
+     * @return {Array} list of routes
      */
     public static function listRoutes($dir, $id)
     {

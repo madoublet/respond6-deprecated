@@ -44,13 +44,13 @@ a, a:visited {
 
 /* logo */
 body .logo {
-  width: 50px;
+  width: 200px;
   margin: 50px auto 0 auto;
   padding: 0;
 }
 
 body .logo img {
-  width: 50px;
+  width: 200px;
 }
 
 body .app-selector ul {
@@ -170,7 +170,7 @@ body .app-list {
     height: 0;
     transition: all 0.2s ease;
   }
-  
+
   body .app-list-item .app-list-alternate-actions{
     margin-right: 25px;
   }
@@ -223,7 +223,7 @@ body .app-list {
   .app-drawer[visible], .app-drawer.visible {
     left: 0;
   }
-  
+
   .app-overflow[visible], .app-overflow.visible {
     right: 0;
   }
@@ -356,7 +356,7 @@ body .app-modal {
     margin: 0;
     padding: 0 0 5px 0;
   }
- 
+
   body .app-modal label a {
     float: right;
     cursor: pointer;
@@ -370,7 +370,7 @@ body .app-modal {
     width: 100%;
     font-size: 14px;
   }
-  
+
   body .app-modal small {
     font-weight: normal;
     font-size: 12px;
@@ -469,33 +469,33 @@ body .app-modal {
     color: #CF4647;
     text-transform: uppercase;
   }
-  
+
   /* app-modal-list */
   body .app-modal .app-modal-list {
     margin: 0;
     border: 1px solid #ddd;
   }
-  
+
     body .app-modal .app-modal-list-item {
       position: relative;
       border-top: 1px solid #ddd;
       cursor: pointer;
     }
-    
+
     body .app-modal .app-modal-list-item:first-child {
       border: none;
     }
-  
+
     body .app-modal .app-modal-list-item.image {
       padding-left: 80px;
       min-height: 70px;
     }
-  
+
     body .app-modal .app-modal-list-item.selected {
       background-color: #fff;
       box-shadow: 2px 2px 8px rgba(0, 0, 0, .15);
     }
-  
+
     body .app-modal .app-modal-list-item h2 {
       font-size: 15px;
       font-weight: bold;
@@ -503,7 +503,7 @@ body .app-modal {
       margin: 0 0 2px 0;
       padding: 15px 0 0 0;
     }
-  
+
     body .app-modal .app-modal-list-item small {
       display: block;
       margin: 10px 0 0 0;
@@ -512,7 +512,7 @@ body .app-modal {
       color: #00ADE3;
       text-transform: uppercase;
     }
-  
+
     body .app-modal .app-modal-list-item h2 span.secondary {
       font-weight: normal;
       color: #888;
@@ -520,7 +520,7 @@ body .app-modal {
       float: right;
       font-size: 11px;
     }
-  
+
     body .app-modal .app-modal-list-item p {
       font-weight: 400;
       color: #aaa;
@@ -529,7 +529,7 @@ body .app-modal {
       line-height: 18px;
       font-size: 13px;
     }
-  
+
     body .app-modal .app-modal-list-item label {
       display: block;
       margin: 0;
@@ -539,7 +539,7 @@ body .app-modal {
       min-width: 25%;
       text-transform: uppercase;
     }
-  
+
     body .app-modal .app-modal-list-item .image {
       position: absolute;
       top: 10px;
@@ -684,7 +684,7 @@ body .dropzone {
 
 /* app-form */
 body .app-form {
-  padding: 15px;  
+  padding: 15px;
 }
 
 body .app-form.standalone {
@@ -736,15 +736,15 @@ body .app-form.standalone {
     font-size: 14px;
     min-width: 250px;
   }
-  
+
   body .app-form input[type=color] {
     margin: 0 0 25px 0;
   }
-  
+
     body .app-form.standalone input, body .app-form.standalone select {
       width: 100%;
     }
-    
+
   body .app-form small {
     display: block;
     margin-top: -20px;
@@ -761,7 +761,7 @@ body .app-form.standalone {
     border: 1px solid #ddd;
     min-width: 125px;
   }
-  
+
     body .app-form.standalone button {
       width: 100%;
     }
@@ -984,7 +984,72 @@ body .dropzone .dz-message {
   font-size: 13px;
 }
 
+/* slideshow */
+.app-slideshow {
+  width: 100%;
+  position: relative;
+  max-width: 1000px;
+  margin: 75px auto;
+}
+
+  .app-slideshow-item {
+    display: none;
+  }
+
+  .app-slideshow-item.selected{
+    display: block;
+  }
+
+  .app-slideshow-container {
+    display: block;
+  }
+
+  .app-slideshow-container div.screenshot img {
+    width: calc(100% - 20px);
+    border: 10px solid #f8f8f8;
+  }
+
+  .app-slideshow-container div.description h2, .app-slideshow-container div.description p {
+    margin: 0 0 25px 25px;
+  }
+
+  .app-slideshow-container div.description h2 {
+    margin-top: 25px;
+  }
+
+  .app-slideshow-container div.description p {
+    color: #888;
+    line-height: 25px;
+  }
+
+  .app-slideshow-container div.description a {
+    display: inline-block;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    color: #666;
+    margin-right: 15px;
+    min-width: 100px;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .app-slideshow-container div.description a.primary {
+    border: 1px solid #00ADE3;
+    color: #00ADE3;
+  }
+
+
 @media (min-width:768px) {
+
+  .app-slideshow-container {
+    display: -ms-flex;
+  	display: -webkit-flex;
+  	display: flex;
+    flex-direction: row;
+    flex: 80% 0;
+  }
 
 
   body .app-modal {
