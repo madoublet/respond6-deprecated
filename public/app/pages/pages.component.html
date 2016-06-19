@@ -8,19 +8,23 @@
 
 </menu>
 
-<div id="pages-list" class="app-list">
-  <div class="app-list-item" *ngFor="let page of pages" (click)="setActive(page)" [class.selected]="page === selectedPage" [class.image]="page.thumb !== ''">
-    <h2><span class="primary">{{ page.title }}</span><span class="secondary">{{ page.lastModifiedDate | timeAgo }}</span></h2>
-    <img *ngIf="page.thumb !== ''" class="image" src="sites/{{id}}/{{page.thumb}}">
-    <small>/{{ page.url }}</small>
-    <p>{{ page.description }}</p>
-    <div class="app-list-actions">
-        <a (click)="showRemove(page)">{{'Remove' | translate }}</a>
-        <a (click)="showSettings(page)">{{'Settings' | translate }}</a>
-        <a class="primary" (click)="edit(page)">{{'Edit' | translate }}</a>
+<section class="app-main">
+
+  <div id="pages-list" class="app-list">
+    <div class="app-list-item" *ngFor="let page of pages" (click)="setActive(page)" [class.selected]="page === selectedPage" [class.image]="page.thumb !== ''">
+      <h2><span class="primary">{{ page.title }}</span><span class="secondary">{{ page.lastModifiedDate | timeAgo }}</span></h2>
+      <img *ngIf="page.thumb !== ''" class="image" src="sites/{{id}}/{{page.thumb}}">
+      <small>/{{ page.url }}</small>
+      <p>{{ page.description }}</p>
+      <div class="app-list-actions">
+          <a (click)="showRemove(page)">{{'Remove' | translate }}</a>
+          <a (click)="showSettings(page)">{{'Settings' | translate }}</a>
+          <a class="primary" (click)="edit(page)">{{'Edit' | translate }}</a>
+      </div>
     </div>
   </div>
-</div>
+
+</section>
 
 <respond-add-page [visible]="addVisible" (onCancel)="reset($event)" (onAdd)="list($event)" (onError)="failure($event)"></respond-add-page>
 

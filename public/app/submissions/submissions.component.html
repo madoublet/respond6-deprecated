@@ -6,16 +6,20 @@
 
 </menu>
 
-<div id="submissions-list" class="app-list">
-  <div class="app-list-item" *ngFor="let submission of submissions" (click)="setActive(submission)" [class.selected]="submission === selectedSubmission">
-    <h2><span class="primary">{{ submission.name }}</span><span class="secondary">{{ submission.date | timeAgo }}</span></h2>
-    <small>{{ submission.formId }}</small>
-    <div class="app-list-actions">
-        <a (click)="showRemove(submission)">Remove</a>
-        <a (click)="showView(submission)" class="primary">View</a>
+<section class="app-main">
+
+  <div id="submissions-list" class="app-list">
+    <div class="app-list-item" *ngFor="let submission of submissions" (click)="setActive(submission)" [class.selected]="submission === selectedSubmission">
+      <h2><span class="primary">{{ submission.name }}</span><span class="secondary">{{ submission.date | timeAgo }}</span></h2>
+      <small>{{ submission.formId }}</small>
+      <div class="app-list-actions">
+          <a (click)="showRemove(submission)">Remove</a>
+          <a (click)="showView(submission)" class="primary">View</a>
+      </div>
     </div>
   </div>
-</div>
+
+</section>
 
 <respond-view-submission [visible]="viewVisible" [submission]="submission" (onCancel)="reset($event)" (onUpdate)="list($event)" (onError)="failure($event)"></respond-view-submission>
 <respond-remove-submission [visible]="removeVisible" [submission]="submission" (onCancel)="reset($event)" (onUpdate)="list($event)" (onError)="failure($event)"></respond-remove-submission>

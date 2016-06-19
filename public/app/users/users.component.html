@@ -8,16 +8,20 @@
 
 </menu>
 
-<div id="users-list" class="app-list">
-  <div class="app-list-item" *ngFor="let user of users" (click)="setActive(user)" [class.selected]="user === selectedUser">
-    <h2><span class="primary">{{ user.firstName }} {{ user.lastName }}</span></h2>
-    <small>{{ user.email }}</small>
-    <div class="app-list-actions">
-        <a (click)="showRemove(user)">{{ 'Remove' | translate }}</a>
-        <a (click)="showEdit(user)" class="primary">{{ 'Edit' | translate }}</a>
+<section class="app-main">
+
+  <div id="users-list" class="app-list">
+    <div class="app-list-item" *ngFor="let user of users" (click)="setActive(user)" [class.selected]="user === selectedUser">
+      <h2><span class="primary">{{ user.firstName }} {{ user.lastName }}</span></h2>
+      <small>{{ user.email }}</small>
+      <div class="app-list-actions">
+          <a (click)="showRemove(user)">{{ 'Remove' | translate }}</a>
+          <a (click)="showEdit(user)" class="primary">{{ 'Edit' | translate }}</a>
+      </div>
     </div>
   </div>
-</div>
+
+</section>
 
 <respond-add-user [visible]="addVisible" (onCancel)="reset($event)" (onAdd)="list($event)" (onError)="failure($event)"></respond-add-user>
 

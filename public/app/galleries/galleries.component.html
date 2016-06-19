@@ -10,29 +10,33 @@
 
 </menu>
 
-<nav class="app-selector">
-  <ul>
-    <li *ngFor="let gallery of galleries" [class.selected]="gallery.id === selectedGallery.id" (click)="setActive(gallery)">
-      <a>{{gallery.name}}</a>
-    </li>
-  </ul>
-</nav>
+<section class="app-main">
 
-<div id="images-list" class="app-list">
-  <div class="app-list-item" *ngFor="let image of images" (click)="setImageActive(image)" [class.selected]="image === selectedImage" [class.image]="image.thumb !== ''">
-    <h2><span class="primary">{{ image.name }}</span></h2>
-    <img *ngIf="image.thumb !== ''" class="image" src="sites/{{id}}/{{image.thumb}}">
-    <small>{{ image.caption }}</small>
-    <div class="app-list-actions">
-        <span class="app-list-alternate-actions">
-          <a (click)="moveImageDown(image)">{{ 'Move Down' | translate }}</a>
-          <a (click)="moveImageUp(image)">{{ 'Move Up' | translate }}</a>
-        </span>
-        <a (click)="showRemoveImage(image)">{{ 'Remove' | translate }}</a>
-        <a (click)="showEditImage(image)" class="primary">{{ 'Edit Caption' | translate }}</a>
+  <nav class="app-selector">
+    <ul>
+      <li *ngFor="let gallery of galleries" [class.selected]="gallery.id === selectedGallery.id" (click)="setActive(gallery)">
+        <a>{{gallery.name}}</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div id="images-list" class="app-list">
+    <div class="app-list-item" *ngFor="let image of images" (click)="setImageActive(image)" [class.selected]="image === selectedImage" [class.image]="image.thumb !== ''">
+      <h2><span class="primary">{{ image.name }}</span></h2>
+      <img *ngIf="image.thumb !== ''" class="image" src="sites/{{id}}/{{image.thumb}}">
+      <small>{{ image.caption }}</small>
+      <div class="app-list-actions">
+          <span class="app-list-alternate-actions">
+            <a (click)="moveImageDown(image)">{{ 'Move Down' | translate }}</a>
+            <a (click)="moveImageUp(image)">{{ 'Move Up' | translate }}</a>
+          </span>
+          <a (click)="showRemoveImage(image)">{{ 'Remove' | translate }}</a>
+          <a (click)="showEditImage(image)" class="primary">{{ 'Edit Caption' | translate }}</a>
+      </div>
     </div>
   </div>
-</div>
+
+</section>
 
 <respond-add-gallery [visible]="addVisible" (onCancel)="reset($event)" (onAdd)="list($event)" (onError)="failure($event)"></respond-add-gallery>
 

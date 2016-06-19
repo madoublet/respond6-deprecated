@@ -35,7 +35,7 @@ a, a:visited {
 }
 
 /* containers */
-.app-menu, .app-toast, app-drawer, .app-config, .app-modal,
+.app-menu, .app-toast, .app-drawer, .app-config, .app-modal,
 .app-menu *, .app-toast *, .app-drawer *, .app-overflow *, .app-config * , .app-modal * {
   margin: 0;
   padding: 0;
@@ -78,10 +78,21 @@ body .app-selector li.selected a {
   border: 1px solid #ccc;
 }
 
+/* .app-main */
+body .app-main { }
+
 /* .app-list */
 body .app-list {
   margin: 0;
+  padding: 0;
+  border-top: 1px solid #ddd;
 }
+
+  .app-list-item {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+  }
 
   body .app-list-item {
     position: relative;
@@ -99,7 +110,7 @@ body .app-list {
 
   body .app-list-item h2 {
     font-size: 15px;
-    font-weight: bold;
+    font-weight: normal;
     color: #111;
     margin: 0 0 2px 0;
     padding: 0;
@@ -191,6 +202,57 @@ body .app-list {
   body .app-list-item.selected .app-list-actions {
     visibility: visible;
     height: 15px;
+  }
+
+  /* .app-list in modal */
+  body .app-modal .app-list {
+    max-height: 220px;
+    overflow: auto;
+    margin: 25px 0;
+  }
+
+  body .app-modal .app-card .app-list {
+    max-height: 355px;
+  }
+
+  body .app-modal .app-list-item h2 {
+    font-weight: bold;
+    color: #111;
+    margin: 0 0 2px 0;
+    padding: 0;
+  }
+
+  body .app-modal .app-list-item small {
+    color: #888;
+    text-transform: uppercase;
+  }
+
+  body .app-modal .app-list-item h2 span {
+    font-weight: normal;
+    color: #888;
+    text-transform: uppercase;
+    float: right;
+  }
+
+  body .app-modal .app-list-item p {
+    font-weight: normal;
+    color: #888;
+    margin: 0 0 2px 0;
+    padding: 0;
+  }
+
+  .app-list-item label {
+    display: block;
+    margin: 0;
+    padding: 0 0 5px 0;
+    font-weight: normal;
+    color: #aaa;
+    min-width: 25%;
+    text-transform: uppercase;
+  }
+
+  .app-list-item:last-child {
+    border-bottom: none;
   }
 
 /* app-overflow */
@@ -620,68 +682,6 @@ body .dropzone {
     text-transform: uppercase;
   }
 
-/* .app-list */
-.app-list {
-  margin: 25px 0;
-  padding: 0;
-  border: 1px solid #ddd;
-}
-
-  body .app-modal .app-list {
-    max-height: 220px;
-    overflow: auto;
-  }
-
-  .app-card .app-list {
-    max-height: 355px;
-  }
-
-  .app-list-item {
-    padding: 20px;
-    border-bottom: 1px solid #ddd;
-    cursor: pointer;
-  }
-
-  body .app-modal .app-list-item h2 {
-    font-weight: bold;
-    color: #111;
-    margin: 0 0 2px 0;
-    padding: 0;
-  }
-
-  body .app-modal .app-list-item small {
-    color: #888;
-    text-transform: uppercase;
-  }
-
-  body .app-modal .app-list-item h2 span {
-    font-weight: normal;
-    color: #888;
-    text-transform: uppercase;
-    float: right;
-  }
-
-  body .app-modal .app-list-item p {
-    font-weight: normal;
-    color: #888;
-    margin: 0 0 2px 0;
-    padding: 0;
-  }
-
-  .app-list-item label {
-    display: block;
-    margin: 0;
-    padding: 0 0 5px 0;
-    font-weight: normal;
-    color: #aaa;
-    min-width: 25%;
-    text-transform: uppercase;
-  }
-
-  .app-list-item:last-child {
-    border-bottom: none;
-  }
-
 /* app-form */
 body .app-form {
   padding: 15px;
@@ -1043,6 +1043,10 @@ body .dropzone .dz-message {
 
 @media (min-width:768px) {
 
+  body .app-main {
+    padding-left: 250px;
+  }
+
   .app-slideshow-container {
     display: -ms-flex;
   	display: -webkit-flex;
@@ -1050,6 +1054,50 @@ body .dropzone .dz-message {
     flex-direction: row;
     flex: 80% 0;
   }
+
+  .app-drawer {
+    top: 0;
+    height: 100%;
+    left: 0;
+    box-shadow: none;
+    background-color: #00ADE3;
+    color: #fff;
+    border-right: none;
+  }
+
+    .app-drawer ul {
+      border: none;
+    }
+
+    .app-drawer li, .app-drawer li.app-drawer-title, .app-drawer a {
+      color: #fff;
+    }
+
+    .app-drawer li:hover{
+      background-color: #0690BA;
+    }
+
+  .app-more {
+    display: none;
+  }
+
+  .app-menu {
+    margin-left: 250px;
+    padding-left: 5px;
+    background-color: #fff;
+    color: #111;
+  }
+
+    .app-menu h1{
+      color: #000;
+      font-weight: bold;
+    }
+
+    .app-menu .app-add, .app-menu .app-overflow {
+      background-color: #fff;
+      color: #00ADE3 !important;
+      box-shadow: none;
+    }
 
 
   body .app-modal {

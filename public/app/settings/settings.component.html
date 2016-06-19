@@ -6,46 +6,50 @@
 
 </menu>
 
-<form class="app-form" (ngSubmit)="submit()" #settingsForm="ngForm">
+<section class="app-main">
 
-  <div *ngFor="let setting of settings">
+  <form class="app-form" (ngSubmit)="submit()" #settingsForm="ngForm">
 
-    <div [ngSwitch]="setting.type">
+    <div *ngFor="let setting of settings">
 
-      <div *ngSwitchWhen="'text'">
-        <label>{{setting.label}}</label>
-        <input type="text" id="{{setting.id}}" ngControl="{{setting.id}}" [(ngModel)]="setting.value">
+      <div [ngSwitch]="setting.type">
+
+        <div *ngSwitchWhen="'text'">
+          <label>{{setting.label}}</label>
+          <input type="text" id="{{setting.id}}" ngControl="{{setting.id}}" [(ngModel)]="setting.value">
+        </div>
+
+        <div *ngSwitchWhen="'color'">
+          <label>{{setting.label}}</label>
+          <input type="color" id="{{setting.id}}" ngControl="{{setting.id}}" [(ngModel)]="setting.value">
+        </div>
+
+        <div *ngSwitchWhen="'image'">
+          <label>{{setting.label}} <a (click)="showSelect(setting)">Select</a></label>
+          <input type="text" id="{{setting.id}}" ngControl="{{setting.id}}" [(ngModel)]="setting.value">
+        </div>
+
+        <div *ngSwitchWhen="'select'">
+          <label>{{setting.label}}</label>
+          <select id="{{setting.id}}" ngControl="{{setting.id}}" [(ngModel)]="setting.value">
+            <option *ngFor="let option of setting.options" [value]="option">{{option}}</option>
+          </select>
+        </div>
+
       </div>
 
-      <div *ngSwitchWhen="'color'">
-        <label>{{setting.label}}</label>
-        <input type="color" id="{{setting.id}}" ngControl="{{setting.id}}" [(ngModel)]="setting.value">
-      </div>
-
-      <div *ngSwitchWhen="'image'">
-        <label>{{setting.label}} <a (click)="showSelect(setting)">Select</a></label>
-        <input type="text" id="{{setting.id}}" ngControl="{{setting.id}}" [(ngModel)]="setting.value">
-      </div>
-
-      <div *ngSwitchWhen="'select'">
-        <label>{{setting.label}}</label>
-        <select id="{{setting.id}}" ngControl="{{setting.id}}" [(ngModel)]="setting.value">
-          <option *ngFor="let option of setting.options" [value]="option">{{option}}</option>
-        </select>
-      </div>
+      <small>{{setting.description}}</small>
 
     </div>
 
-    <small>{{setting.description}}</small>
 
-  </div>
+    <div class="actions">
+      <button type="submit">{{ 'Update' | translate }}</button>
+    </div>
 
+  </form>
 
-  <div class="actions">
-    <button type="submit">{{ 'Update' | translate }}</button>
-  </div>
-
-</form>
+</section>
 
 
 <respond-select-file [visible]="selectVisible" (onCancel)="reset($event)"  (onSelect)="select($event)"></respond-select-file>

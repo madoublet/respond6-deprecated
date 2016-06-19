@@ -123,16 +123,16 @@ class Page {
       if(isset($el[0])) {
         $fragment_content = $el[0]->innertext;
       }
-      
+
       // find body
       $els = $dom->find('body');
-        
+
       // set timestamp in head
       if(isset($els[0])) {
-        
+
         $timestamp = date('Y-m-d\TH:i:s.Z\Z', time());
         $els[0]->setAttribute('data-lastmodified', $timestamp);
-        
+
       }
 
     }
@@ -228,7 +228,7 @@ class Page {
       foreach($dom->find('[data-ref]') as $el) {
         $el->removeAttr('data-ref');
       }
-      
+
       // update the page
       file_put_contents($location, $dom);
 
@@ -291,14 +291,14 @@ class Page {
 
     // remove the page and fragment
     $page = app()->basePath().'/public/sites/'.$site->id.'/'.$this->url.'.html';
- 
+
     if(file_exists($page)) {
       unlink($page);
     }
 
     // refresh the JSON file
     $arr = Page::refreshJSON($user, $site);
-    
+
     return TRUE;
 
   }
@@ -317,52 +317,52 @@ class Page {
     $html = file_get_contents($file);
 
     if(!empty($html)) {
-    
+
       // set parser
     $dom = HtmlDomParser::str_get_html($html, $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
-    
+
       // set title
       $els = $dom->find('title');
-  
+
       if(isset($els[0])) {
         $els[0]->innertext = $this->title;
       }
-  
+
       // set description
       $els = $dom->find('meta[name=description]');
-  
+
       if(isset($els[0])) {
         $els[0]->content = $this->description;
       }
-  
+
       // set keywords
       $els = $dom->find('meta[name=keywords]');
-  
+
       if(isset($els[0])) {
         $els[0]->content = $this->keywords;
       }
-  
+
       // set language and direction
       $els = $dom->find('html');
-  
+
       if(isset($els[0])) {
         $els[0]->lang = $this->language;
         $els[0]->dir = $this->direction;
       }
-  
+
       // photos
       $photo = '';
-  
+
       // get photo
       $photos = $dom->find('[role=main] img');
-  
+
       if(isset($photos[0])) {
         $photo = $photos[0]->src;
       }
-  
+
       // default thumb
       $thumb = '';
-  
+
       // get thumb
       if ($photo === NULL || $photo === '') {
         $photo = '';
@@ -374,29 +374,29 @@ class Page {
         else {
           $thumb = str_replace('files/', 'files/thumbs/', $photo);
         }
-  
+
       }
-      
+
       // find body
       $els = $dom->find('body');
-        
+
       // set timestamp in head
       if(isset($els[0])) {
-        
+
         $timestamp = date('Y-m-d\TH:i:s.Z\Z', time());
         $els[0]->setAttribute('data-lastmodified', $timestamp);
-        
+
       }
-  
+
       // set photo and thumb
       $this->photo = $photo;
       $this->thumb = $thumb;
-  
+
       $html = $dom;
-  
+
       // save page
       file_put_contents($file, $html);
-    
+
     }
 
     // set timestamp
@@ -450,6 +450,9 @@ class Page {
    */
   public static function getByUrl($url, $id){
 
+    // strip any trailing .html from url
+    $url = preg_replace('/\\.[^.\\s]{3,4}$/', '', $url);
+
     $file = app()->basePath().'/public/sites/'.$id.'/data/pages.json';
 
     if(file_exists($file)) {
@@ -497,25 +500,25 @@ class Page {
 
       $arr = json_decode($json, true);
     }
-    else { 
+    else {
 
       // refresh the JSON file
       $arr = Page::refreshJSON($user, $site);
     }
-    
+
     // append .html for non-friendly URLs
     if(env('FRIENDLY_URLS') === false) {
-      
+
       foreach($arr as &$page) {
         $page['url'] = $page['url'].'.html';
       }
-      
+
     }
-  
+
     return $arr;
 
   }
-  
+
   /**
    * Lists pages
    *
@@ -541,7 +544,7 @@ class Page {
     return $arr;
 
   }
-  
+
   /**
    * Refreshes the page JSON
    *
@@ -550,10 +553,10 @@ class Page {
    * @return Response
    */
   public static function refreshJSON($user, $site) {
-  
+
     // get base path for the site
     $json_file = app()->basePath().'/public/sites/'.$site->id.'/data/pages.json';
-    
+
     // set dir
     $dir = app()->basePath().'/public/sites/'.$site->id;
 
@@ -591,9 +594,9 @@ class Page {
 
         // set full file path
         $file = app()->basePath() . '/public/sites/' . $site->id . '/' . $file;
-        
+
         $file_modified_time = filemtime($file);
-        
+
         // setup timestamp as JS date
         $timestamp = date('Y-m-d\TH:i:s.Z\Z', $file_modified_time);
 
@@ -606,15 +609,15 @@ class Page {
         if(isset($els[0])) {
           $title = $els[0]->innertext;
         }
-        
+
         // get els
         $els = $dom->find('body');
-        
+
          // set timestamp in head
         if(isset($els[0])) {
           $lastModifiedDate = $els[0]->getAttribute('data-lastmodified');
         }
-        
+
 
         // get description
         $els = $dom->find('meta[name=description]');
@@ -711,7 +714,7 @@ class Page {
     file_put_contents($json_file, $content);
 
     return $arr;
-    
+
   }
 
 

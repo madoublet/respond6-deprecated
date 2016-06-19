@@ -6,18 +6,22 @@
 
 </menu>
 
-<respond-dropzone (onAdd)="list($event)"></respond-dropzone>
+<section class="app-main">
 
-<div id="files-list" class="app-list">
-  <div class="app-list-item" *ngFor="#file of files" (click)="setActive(file)" [class.selected]="file === selectedFile" [class.image]="file.thumb !== ''">
-    <h2><span class="primary">{{ file.name }}</span><span class="secondary">{{ file.size }} MB</span></h2>
-    <img *ngIf="file.thumb !== ''" class="image" src="{{file.thumb}}">
-    <small>/files/{{ file.name }}</small>
-    <div class="app-list-actions">
-        <a (click)="showRemove(file)">Remove</a>
+  <respond-dropzone (onAdd)="list($event)"></respond-dropzone>
+
+  <div id="files-list" class="app-list">
+    <div class="app-list-item" *ngFor="#file of files" (click)="setActive(file)" [class.selected]="file === selectedFile" [class.image]="file.thumb !== ''">
+      <h2><span class="primary">{{ file.name }}</span><span class="secondary">{{ file.size }} MB</span></h2>
+      <img *ngIf="file.thumb !== ''" class="image" src="{{file.thumb}}">
+      <small>/files/{{ file.name }}</small>
+      <div class="app-list-actions">
+          <a (click)="showRemove(file)">Remove</a>
+      </div>
     </div>
   </div>
-</div>
+
+</section>
 
 <respond-remove-file [visible]="removeVisible" [file]="file" (onCancel)="reset($event)" (onUpdate)="list($event)" (onError)="failure($event)"></respond-remove-file>
 

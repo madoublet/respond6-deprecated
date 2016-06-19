@@ -210,7 +210,7 @@ class PageController extends Controller
     // get request data
     $email = $request->input('auth-email');
     $id = $request->input('auth-id');
-    
+
     // get the site
     $site = Site::getById($id);
     $user = User::getByEmail($email, $id);

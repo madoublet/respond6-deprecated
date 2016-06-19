@@ -10,29 +10,33 @@
 
 </menu>
 
-<nav class="app-selector">
-  <ul>
-    <li *ngFor="let menu of menus" [class.selected]="menu.id === selectedMenu.id" (click)="setActive(menu)">
-      <a>{{menu.name}}</a>
-    </li>
-  </ul>
-</nav>
+<section class="app-main">
+
+  <nav class="app-selector">
+    <ul>
+      <li *ngFor="let menu of menus" [class.selected]="menu.id === selectedMenu.id" (click)="setActive(menu)">
+        <a>{{menu.name}}</a>
+      </li>
+    </ul>
+  </nav>
 
 
-<div id="items-list" class="app-list">
-  <div class="app-list-item" *ngFor="let item of items" (click)="setItemActive(item)" [class.selected]="item === selectedItem">
-    <h2><span class="primary">{{ item.html }}</span></h2>
-    <small>{{ item.url }}</small>
-    <div class="app-list-actions">
-        <span class="app-list-alternate-actions">
-          <a (click)="moveItemDown(item)">{{ 'Move Down' | translate }}</a>
-          <a (click)="moveItemUp(item)">{{ 'Move Up' | translate }}</a>
-        </span>
-        <a (click)="showRemoveItem(item)">{{ 'Remove' | translate }}</a>
-        <a class="primary" (click)="showEditItem(item)">{{ 'Edit' | translate }}</a>
+  <div id="items-list" class="app-list">
+    <div class="app-list-item" *ngFor="let item of items" (click)="setItemActive(item)" [class.selected]="item === selectedItem">
+      <h2><span class="primary">{{ item.html }}</span></h2>
+      <small>{{ item.url }}</small>
+      <div class="app-list-actions">
+          <span class="app-list-alternate-actions">
+            <a (click)="moveItemDown(item)">{{ 'Move Down' | translate }}</a>
+            <a (click)="moveItemUp(item)">{{ 'Move Up' | translate }}</a>
+          </span>
+          <a (click)="showRemoveItem(item)">{{ 'Remove' | translate }}</a>
+          <a class="primary" (click)="showEditItem(item)">{{ 'Edit' | translate }}</a>
+      </div>
     </div>
   </div>
-</div>
+
+</section>
 
 <respond-add-menu [visible]="addVisible" (onCancel)="reset($event)" (onAdd)="list($event)" (onError)="failure($event)"></respond-add-menu>
 
@@ -51,7 +55,7 @@
 <nav class="app-overflow" [class.visible]="overflowVisible === true">
 
   <ul>
-    <li class="app-overflow-title"><span>Additional Options' | translate }}</span></li>
+    <li class="app-overflow-title"><span>{{ 'Additional Options' | translate }}</span></li>
     <li><a (click)="showAdd()">{{ 'Add Menu' | translate }}</a></li>
     <li><a (click)="showEdit()">{{ 'Edit Menu' | translate }}</a></li>
     <li><a (click)="showRemove()">{{ 'Remove Menu' | translate }}</a></li>
