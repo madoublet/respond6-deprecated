@@ -3,11 +3,12 @@ import {CanActivate} from '@angular/router-deprecated';
 import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {tokenNotExpired} from 'angular2-jwt/angular2-jwt';
 import {UserService} from '/app/shared/services/user.service';
+import {AppService} from '/app/shared/services/app.service';
 
 @Component({
     selector: 'respond-add-user',
     templateUrl: './app/shared/components/users/add-user/add-user.component.html',
-    providers: [UserService],
+    providers: [UserService, AppService],
     pipes: [TranslatePipe]
 })
 
@@ -44,7 +45,7 @@ export class AddUserComponent {
       retype: '',
       language: 'en'
     };
-
+   
   }
 
   get visible() { return this._visible; }
@@ -53,13 +54,26 @@ export class AddUserComponent {
   @Output() onAdd = new EventEmitter<any>();
   @Output() onError = new EventEmitter<any>();
 
-  constructor (private _userService: UserService) {}
+  constructor (private _userService: UserService, private _appService: AppService) {}
 
   /**
    * Inits component
    */
   ngOnInit() {
-
+    this.languages = [];
+  
+    this.list();
+  }
+  
+  /**
+   * Lists available languages
+   */
+  list() {
+    this._appService.listLanguages()
+                     .subscribe(
+                       data => { this.languages = data;},
+                       error =>  { this.onError.emit(<any>error); }
+                      );
   }
 
   /**

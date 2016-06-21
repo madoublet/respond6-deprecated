@@ -55,8 +55,8 @@ export class GalleriesComponent {
     this.removeImageVisible = false;
     this.drawerVisible = false;
     this.overflowVisible = false;
-    this.galleries;
-    this.images;
+    this.galleries = [];
+    this.images = [];
     this.selectedGallery = null;
     this.selectedImage = null;
 

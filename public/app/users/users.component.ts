@@ -44,6 +44,7 @@ export class UsersComponent {
     this.removeVisible = false;
     this.drawerVisible = false;
     this.user = {};
+    this.users = [];
 
     this.list();
 

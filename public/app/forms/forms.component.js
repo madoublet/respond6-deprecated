@@ -75,7 +75,7 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
                     this.drawerVisible = false;
                     this.overflowVisible = false;
                     this.forms;
-                    this.fields;
+                    this.fields = [];
                     this.list();
                 };
                 /**

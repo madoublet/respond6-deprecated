@@ -74,8 +74,8 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
                     this.removeItemVisible = false;
                     this.drawerVisible = false;
                     this.overflowVisible = false;
-                    this.menus;
-                    this.items;
+                    this.menus = [];
+                    this.items = [];
                     this.list();
                 };
                 /**

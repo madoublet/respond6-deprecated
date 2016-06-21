@@ -20,6 +20,8 @@
       </div>
     </div>
   </div>
+  
+  <p class="no-list-items" *ngIf="users.length === 0">{{ 'Nothing here yet' | translate }}</p>
 
 </section>
 
@@ -29,4 +31,4 @@
 
 <respond-remove-user [visible]="removeVisible" [user]="user" (onCancel)="reset($event)" (onUpdate)="list($event)" (onError)="failure($event)"></respond-remove-user>
 
-<respond-drawer [visible]="drawerVisible" (onHide)="reset($event)"></respond-drawer>
+<respond-drawer active="users" [visible]="drawerVisible" (onHide)="reset($event)"></respond-drawer>

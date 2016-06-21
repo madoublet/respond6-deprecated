@@ -18,10 +18,12 @@
       </div>
     </div>
   </div>
+  
+  <p class="no-list-items" *ngIf="submissions.length === 0">{{ 'Nothing here yet' | translate }}</p>
 
 </section>
 
 <respond-view-submission [visible]="viewVisible" [submission]="submission" (onCancel)="reset($event)" (onUpdate)="list($event)" (onError)="failure($event)"></respond-view-submission>
 <respond-remove-submission [visible]="removeVisible" [submission]="submission" (onCancel)="reset($event)" (onUpdate)="list($event)" (onError)="failure($event)"></respond-remove-submission>
 
-<respond-drawer [visible]="drawerVisible" (onHide)="reset($event)"></respond-drawer>
+<respond-drawer active="submissions" [visible]="drawerVisible" (onHide)="reset($event)"></respond-drawer>

@@ -58,6 +58,7 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
                     this.removeVisible = false;
                     this.drawerVisible = false;
                     this.user = {};
+                    this.users = [];
                     this.list();
                 };
                 /**

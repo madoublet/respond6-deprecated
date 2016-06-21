@@ -45,6 +45,14 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/n
                     enumerable: true,
                     configurable: true
                 });
+                Object.defineProperty(DrawerComponent.prototype, "active", {
+                    get: function () { return this._active; },
+                    set: function (active) {
+                        this._active = active;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 /**
                  * Init pages
                  */
@@ -79,6 +87,11 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/n
                     __metadata('design:type', Boolean), 
                     __metadata('design:paramtypes', [Boolean])
                 ], DrawerComponent.prototype, "visible", null);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', String), 
+                    __metadata('design:paramtypes', [String])
+                ], DrawerComponent.prototype, "active", null);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', Object)

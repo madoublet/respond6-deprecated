@@ -73,8 +73,8 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
                     this.removeImageVisible = false;
                     this.drawerVisible = false;
                     this.overflowVisible = false;
-                    this.galleries;
-                    this.images;
+                    this.galleries = [];
+                    this.images = [];
                     this.selectedGallery = null;
                     this.selectedImage = null;
                     this.list();

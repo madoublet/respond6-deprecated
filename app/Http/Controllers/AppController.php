@@ -43,6 +43,30 @@ class AppController extends Controller
     return response()->json($result);
 
   }
+  
+  /**
+   * Lists the languages available for the app
+   *
+   * @return Response
+   */
+  public function listLanguages(Request $request)
+  {
+
+    // list pages in the site
+    $file = app()->basePath().'/public/i18n/languages.json';
+    
+    $result = array();
+
+    if(file_exists($file)) {
+      
+      $json = file_get_contents($file);
+      $result = json_decode($json);
+      
+    }
+
+    return response()->json($result);
+
+  }
 
 
 }

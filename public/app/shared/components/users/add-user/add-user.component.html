@@ -35,8 +35,7 @@
       <select id="hashedit-add-user-language"
         [(ngModel)]="model.language"
         ngControl="language">
-        <option value="en">English (en)</option>
-        <option value="es-ES">Spanish (es-ES)</option>
+        <option *ngFor="let language of languages" [value]="language.code">{{language.text}}</option>
       </select>
 
     </div>

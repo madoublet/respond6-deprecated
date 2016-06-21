@@ -61,6 +61,7 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
                     this.settingsVisible = false;
                     this.drawerVisible = false;
                     this.page = {};
+                    this.pages = [];
                     this.list();
                 };
                 /**

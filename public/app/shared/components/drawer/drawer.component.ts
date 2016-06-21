@@ -25,6 +25,14 @@ export class DrawerComponent {
 
   get visible() { return this._visible; }
 
+  @Input()
+  set active(active: string){
+    this._active = active;
+  }
+
+  get active() { return this._active; }
+
+
   @Output() onHide = new EventEmitter<any>();
 
   constructor (private _siteService: SiteService, private _router: Router) {}

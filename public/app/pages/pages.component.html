@@ -23,6 +23,8 @@
       </div>
     </div>
   </div>
+  
+  <p class="no-list-items" *ngIf="pages.length === 0">{{ 'Nothing here yet' | translate }}</p>
 
 </section>
 
@@ -32,4 +34,4 @@
 
 <respond-remove-page [visible]="removeVisible" [page]="page" (onCancel)="reset($event)" (onUpdate)="list($event)" (onError)="failure($event)"></respond-remove-page>
 
-<respond-drawer [visible]="drawerVisible" (onHide)="reset($event)"></respond-drawer>
+<respond-drawer active="pages" [visible]="drawerVisible" (onHide)="reset($event)"></respond-drawer>

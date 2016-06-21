@@ -34,6 +34,13 @@ System.register(['@angular/core', '@angular/http'], function(exports_1, context_
                 AppService.prototype.listThemes = function () {
                     return this.http.get(this._themesListUrl).map(function (res) { return res.json(); });
                 };
+                /**
+                 * Lists languages available to the application
+                 *
+                 */
+                AppService.prototype.listLanguages = function () {
+                    return this.http.get(this._languagesListUrl).map(function (res) { return res.json(); });
+                };
                 AppService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http])

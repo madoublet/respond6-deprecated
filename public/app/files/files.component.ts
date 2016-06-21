@@ -40,6 +40,7 @@ export class FilesComponent {
     this.removeVisible = false;
     this.drawerVisible = false;
     this.file = {};
+    this.files = [];
 
     // list files
     this.list();

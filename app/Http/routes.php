@@ -60,6 +60,7 @@ $app->get('/api/sites/test', 'SiteController@test');
 
 // app
 $app->get('/api/themes/list', 'AppController@listThemes');
+$app->get('/api/languages/list', 'AppController@listLanguages');
 
 // site
 $app->post('/api/sites/create', 'SiteController@create');

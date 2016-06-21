@@ -56,8 +56,9 @@ body .logo img {
 body .app-selector ul {
   display: block;
   list-style: none;
-  background-color: #f0f0f0;
-  padding: 5px;
+  padding: 0;
+  margin: 0;
+  background-color: #00ADE3;
 }
 
 body .app-selector li {
@@ -66,20 +67,24 @@ body .app-selector li {
 
 body .app-selector li a {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 5px 20px 15px 20px;
   font-size: 14px;
   cursor: pointer;
-  border: 1px solid transparent;
+  color: #fff;
 }
 
 body .app-selector li.selected a {
   font-weight: bold;
-  background-color: #fff;
-  border: 1px solid #ccc;
+  border-bottom: 3px solid #fff;
 }
 
 /* .app-main */
 body .app-main { }
+
+  body .app-main p {
+    padding: 20px;
+    color: #888;
+  }
 
 /* .app-list */
 body .app-list {
@@ -270,7 +275,6 @@ body .app-list {
   color: #888;
   border-right: 1px solid #DDD;
   overflow-x: auto;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, .1);
   transition: all 0.2s ease;
   font-size: 13px;
 }
@@ -280,6 +284,7 @@ body .app-list {
     right: -275px;
     border-right: none;
     border-left: 1px solid #DDD;
+    border-top: 1px solid #ddd;
   }
 
   .app-drawer[visible], .app-drawer.visible {
@@ -317,8 +322,8 @@ body .app-list {
 
   .app-drawer li.app-drawer-title, .app-overflow li.app-overflow-title {
     margin-top: 5px;
-    height: 40px;
-    line-height: 40px;
+    height: 45px;
+    line-height: 45px;
     color: #aaa;
     padding: 0 5px;
     text-transform: uppercase;
@@ -814,6 +819,10 @@ body .app-form.standalone {
   -ms-overflow-style: none;
 }
 
+  .app-menu.no-border {
+    border: none !important;
+  }
+
   .app-menu::-webkit-scrollbar  {
     display: none;
   }
@@ -1073,6 +1082,10 @@ body .dropzone .dz-message {
       color: #fff;
     }
 
+    .app-drawer li.active {
+      background-color: rgba(255,255,255,.2);
+    }
+
     .app-drawer li:hover{
       background-color: #0690BA;
     }
@@ -1136,5 +1149,18 @@ body .dropzone .dz-message {
     height: 395px;
     border-bottom: 1px solid #ddd;
   }
+  
+  /* selector */
+  body .app-selector ul {
+    background-color: #fff;
+  }
+    
+    body .app-selector li a {
+      color: #00ADE3;
+    }
+    
+    body .app-selector li.selected a {
+      border-bottom: 3px solid #00ADE3;
+    }
 
 }

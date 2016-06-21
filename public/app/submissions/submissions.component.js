@@ -56,6 +56,7 @@ System.register(['@angular/core', 'angular2-jwt/angular2-jwt', '@angular/router-
                     this.removeVisible = false;
                     this.drawerVisible = false;
                     this.submission = {};
+                    this.submissions = [];
                     this.list();
                 };
                 /**

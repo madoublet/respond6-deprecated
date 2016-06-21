@@ -19,6 +19,16 @@ export class AppService {
     return this.http.get(this._themesListUrl).map((res:Response) => res.json());
 
   }
+  
+  /**
+   * Lists languages available to the application
+   *
+   */
+  listLanguages () {
+
+    return this.http.get(this._languagesListUrl).map((res:Response) => res.json());
+
+  }
 
 
 }

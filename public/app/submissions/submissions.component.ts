@@ -41,6 +41,7 @@ export class SubmissionsComponent {
     this.removeVisible = false;
     this.drawerVisible = false;
     this.submission = {};
+    this.submissions = [];
 
     this.list();
 

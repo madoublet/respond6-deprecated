@@ -1,4 +1,4 @@
-<menu class="app-menu">
+<menu class="app-menu no-border">
 
     <button class="app-more" (click)="toggleDrawer()"><svg viewBox="0 0 24 24" width="24" height="24" preserveAspectRatio="xMidYMid meet"><g><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></g></svg></button>
 
@@ -34,6 +34,9 @@
           <a (click)="showEditImage(image)" class="primary">{{ 'Edit Caption' | translate }}</a>
       </div>
     </div>
+    
+    <p class="no-list-items" *ngIf="images.length === 0">{{ 'Nothing here yet' | translate }}</p>
+    
   </div>
 
 </section>
@@ -50,7 +53,7 @@
 
 <respond-remove-gallery-image [visible]="removeImageVisible" [gallery]="selectedGallery" [image]="selectedImage" (onCancel)="reset($event)" (onUpdate)="list($event)" (onError)="failure($event)"></respond-remove-gallery-image>
 
-<respond-drawer [visible]="drawerVisible" (onHide)="reset($event)"></respond-drawer>
+<respond-drawer active="galleries" [visible]="drawerVisible" (onHide)="reset($event)"></respond-drawer>
 
 <nav class="app-overflow" [class.visible]="overflowVisible === true">
 

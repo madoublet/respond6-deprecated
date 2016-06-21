@@ -8,20 +8,20 @@
     <input id="hashedit-edit-menu-item-html" type="text" required
       [(ngModel)]="model.html"
       ngControl="html">
-      
+
     <label>{{ 'CSS Class' | translate }}</label>
     <input id="hashedit-edit-menu-item-css-class" type="text" maxlength="128"
       [(ngModel)]="model.cssClass"
       ngControl="cssClass">
-    
+
     <label>{{ 'Is Nested?' | translate }}</label>
     <select id="hashedit-edit-menu-item-is-nested"
       [(ngModel)]="model.isNested"
       ngControl="isNested">
-      <option value="true">Yes' | translate }}</option>
-      <option value="false">No' | translate }}</option>
+      <option value="true">{{ 'Yes' | translate }}</option>
+      <option value="false">{{ 'No' | translate }}</option>
     </select>
-    
+
     <label>{{ 'URL' | translate }}</label>
     <select id="hashedit-edit-menu-item-url"
       [(ngModel)]="model.url"

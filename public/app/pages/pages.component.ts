@@ -45,6 +45,7 @@ export class PagesComponent {
     this.settingsVisible = false;
     this.drawerVisible = false;
     this.page = {};
+    this.pages = [];
 
     this.list();
 

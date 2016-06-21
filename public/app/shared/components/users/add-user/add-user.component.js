@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/ng2-translate', 'angular2-jwt/angular2-jwt', '/app/shared/services/user.service'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/ng2-translate', 'angular2-jwt/angular2-jwt', '/app/shared/services/user.service', '/app/shared/services/app.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/n
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, ng2_translate_1, angular2_jwt_1, user_service_1;
+    var core_1, router_deprecated_1, ng2_translate_1, angular2_jwt_1, user_service_1, app_service_1;
     var AddUserComponent;
     return {
         setters:[
@@ -28,11 +28,15 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/n
             },
             function (user_service_1_1) {
                 user_service_1 = user_service_1_1;
+            },
+            function (app_service_1_1) {
+                app_service_1 = app_service_1_1;
             }],
         execute: function() {
             AddUserComponent = (function () {
-                function AddUserComponent(_userService) {
+                function AddUserComponent(_userService, _appService) {
                     this._userService = _userService;
+                    this._appService = _appService;
                     this._visible = false;
                     this.onCancel = new core_1.EventEmitter();
                     this.onAdd = new core_1.EventEmitter();
@@ -60,6 +64,16 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/n
                  * Inits component
                  */
                 AddUserComponent.prototype.ngOnInit = function () {
+                    this.languages = [];
+                    this.list();
+                };
+                /**
+                 * Lists available languages
+                 */
+                AddUserComponent.prototype.list = function () {
+                    var _this = this;
+                    this._appService.listLanguages()
+                        .subscribe(function (data) { _this.languages = data; }, function (error) { _this.onError.emit(error); });
                 };
                 /**
                  * Hides the modal
@@ -111,14 +125,14 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/n
                     core_1.Component({
                         selector: 'respond-add-user',
                         templateUrl: './app/shared/components/users/add-user/add-user.component.html',
-                        providers: [user_service_1.UserService],
+                        providers: [user_service_1.UserService, app_service_1.AppService],
                         pipes: [ng2_translate_1.TranslatePipe]
                     }),
                     router_deprecated_1.CanActivate(function () { return angular2_jwt_1.tokenNotExpired(); }), 
-                    __metadata('design:paramtypes', [(typeof (_a = typeof user_service_1.UserService !== 'undefined' && user_service_1.UserService) === 'function' && _a) || Object])
+                    __metadata('design:paramtypes', [(typeof (_a = typeof user_service_1.UserService !== 'undefined' && user_service_1.UserService) === 'function' && _a) || Object, (typeof (_b = typeof app_service_1.AppService !== 'undefined' && app_service_1.AppService) === 'function' && _b) || Object])
                 ], AddUserComponent);
                 return AddUserComponent;
-                var _a;
+                var _a, _b;
             }());
             exports_1("AddUserComponent", AddUserComponent);
         }
