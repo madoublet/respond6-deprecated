@@ -127,6 +127,7 @@ $app->post('/api/settings/edit', ['middleware' => 'jwtauth', 'uses'=> 'SettingCo
 $app->get('/api/submissions/list', ['middleware' => 'jwtauth', 'uses'=> 'SubmissionController@listAll']);
 $app->post('/api/submissions/remove', ['middleware' => 'jwtauth', 'uses'=> 'SubmissionController@remove']);
 $app->post('/api/submissions/add', 'SubmissionController@add');
+$app->post('/api/submissions/submit', 'SubmissionController@submit');
 
 // galleries
 $app->get('/api/galleries/list', ['middleware' => 'jwtauth', 'uses'=> 'GalleryController@listAll']);

@@ -74,6 +74,68 @@ class SubmissionController extends Controller
   }
   
   /**
+   * Handles a standard form submit
+   *
+   * @return Response
+   */
+  public function submit(Request $request)
+  {
+  
+    // get referer
+    $referer = $request->header('referer');
+  
+    // get the site
+    $siteId = $request->input('siteid');
+    $url = $referer;
+    $formId = $request->input('formid');
+    $timestamp = gmdate('D M d Y H:i:s O', time());
+    
+    // get all fields
+    $all_fields = $request->all();
+    $fields = array();
+  
+  
+    // walk through form fields
+    foreach($all_fields as $key => $value) {
+      
+      if($key != 'siteid' && $key != 'url' && $key != 'formid') {
+        
+        // push field
+        array_push($fields, array(
+          'id' => $key,
+          'value' => $value
+        ));
+        
+      }
+    }
+  
+    // get name of 
+    $name = 'New Submission';
+    
+    if(sizeof($fields) > 0) {
+      $name = $fields[0]['value'];
+    }
+    
+    $arr = array(
+      'id' => Utilities::getGUID(),
+      'name' => $name,
+      'url' => $url,
+      'formId' => $formId,
+      'date' => $timestamp,
+      'fields' => $fields
+    );
+    
+    // create a submission from the json file
+    $submission = new Submission($arr);
+    
+    // save the submission
+    $submission->save($siteId);
+
+    return redirect($referer.'#success');
+
+  }
+  
+  /**
    * Removes a submission
    *
    * @return Response

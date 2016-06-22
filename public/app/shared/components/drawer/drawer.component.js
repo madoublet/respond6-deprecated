@@ -58,6 +58,11 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/n
                  */
                 DrawerComponent.prototype.ngOnInit = function () {
                     this.id = localStorage.getItem('respond.siteId');
+                    this.dev = false;
+                    var url = window.location.href;
+                    if (url.indexOf('?dev') !== -1) {
+                        this.dev = true;
+                    }
                 };
                 /**
                  * Hides the add page modal

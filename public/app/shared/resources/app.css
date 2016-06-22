@@ -1048,7 +1048,15 @@ body .dropzone .dz-message {
     border: 1px solid #00ADE3;
     color: #00ADE3;
   }
+  
+/* dev menu */
+#dev-menu {
+  display: none;
+}
 
+  #dev-menu.visible {
+    display: block;
+  }
 
 @media (min-width:768px) {
 

@@ -34,6 +34,14 @@ class PageController extends Controller
     // list pages in the site
     $arr = Page::listAll($user, $site);
 
+    // sort by last modified date
+    usort($arr, function($a, $b) {
+        $ts1 = strtotime($a['lastModifiedDate']);
+        $ts2 = strtotime($b['lastModifiedDate']);
+        return $ts2 - $ts1;
+    });
+
+
     return response()->json($arr);
 
   }

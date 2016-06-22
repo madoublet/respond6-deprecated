@@ -43,12 +43,20 @@ class Submission {
 
     $file = app()->basePath().'/resources/sites/'.$siteId.'/submissions.json';
 
+    $arr = array();
+    
     if(file_exists($file)) {
-      return json_decode(file_get_contents($file), true);
+      $arr = json_decode(file_get_contents($file), true);
     }
-    else {
-      return array(); 
-    }
+    
+    // sort by last modified date
+    usort($arr, function($a, $b) {
+        $ts1 = strtotime($a['date']);
+        $ts2 = strtotime($b['date']);
+        return $ts2 - $ts1;
+    });
+    
+    return $arr;
     
   }
   

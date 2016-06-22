@@ -13,10 +13,9 @@
     <li><a (click)="signOut()">{{ 'Sign Out' | translate }}</a></li>
   </ul>
 
-  <!--
-  <ul>
+  <ul id="dev-menu" [class.visible]="dev === true">
     <li class="app-drawer-title"><span>{{ 'Developer Options' | translate }}</span></li>
     <li><a (click)="reload()">{{ 'Re-publish plugins' | translate }}</a></li>
-  </ul>-->
+  </ul>
 
 </nav>

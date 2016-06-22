@@ -42,6 +42,14 @@ export class DrawerComponent {
    */
   ngOnInit() {
     this.id = localStorage.getItem('respond.siteId');
+    this.dev = false;
+    
+    var url = window.location.href;
+    
+    if(url.indexOf('?dev') !== -1) {
+      this.dev = true;
+    }
+    
   }
 
   /**
