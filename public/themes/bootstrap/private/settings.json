@@ -1,9 +1,5 @@
 [
     {
-        "id": "packages",
-        "value": "core, bootstrap"
-    },
-    {
         "id": "editable",
         "value": "[role=\"main\"]"
     },
@@ -25,7 +21,7 @@
         "label": "Icon",
         "description": "The favicon used for the site",
         "type": "image",
-        "value": "files\/sample-logo.png",
+        "value": "resources\/icon.png",
         "sets": "attribute",
         "attribute": "href"
     },

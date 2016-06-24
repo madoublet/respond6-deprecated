@@ -17,6 +17,12 @@
       {
         "cssClass": "",
         "isNested": false,
+        "html": "Gallery",
+        "url": "gallery"
+      },
+      {
+        "cssClass": "",
+        "isNested": false,
         "html": "About",
         "url": "page/about"
       },

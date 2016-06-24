@@ -47,7 +47,7 @@
             "id": "comments",
             "label": "Comments",
             "type": "textarea",
-            "required": "false",
+            "required": false,
             "options": "",
             "helperText": "",
             "placeholder": "",
