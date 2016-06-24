@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {SiteService} from '/app/shared/services/site.service';
 import {AppService} from '/app/shared/services/app.service';
 import {TranslatePipe} from 'ng2-translate/ng2-translate';
@@ -6,6 +7,7 @@ import {TranslatePipe} from 'ng2-translate/ng2-translate';
 @Component({
     selector: 'respond-create',
     templateUrl: './app/create/create.component.html',
+    directives: [ROUTER_DIRECTIVES],
     providers: [SiteService, AppService],
     pipes: [TranslatePipe]
 })
@@ -20,7 +22,7 @@ export class CreateComponent {
   site;
   errorMessage;
 
-  constructor (private _siteService: SiteService, private _appService: AppService) {}
+  constructor (private _siteService: SiteService, private _appService: AppService, private _router: Router) {}
 
   /**
    * Init pages

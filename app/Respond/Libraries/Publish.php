@@ -36,11 +36,25 @@ class Publish
         Utilities::copyDirectory($src, $dest);
 
         // copy the private files
-        $src = app()->basePath() . '/resources/themes/' . $theme . '/.private';
+        $src = app()->basePath() . '/public/themes/' . $theme . '/private';
         $dest = app()->basePath() . '/resources/sites/' . $site->id;
 
         // copy the directory
         Utilities::copyDirectory($src, $dest);
+        
+        // remove settings and plugins
+        if(file_exists($dest.'/private/plugins.js')) {
+          unlink($dest.'/private/plugins.js');
+        }
+        
+        if(file_exists($dest.'/private/settings.json')) {
+          unlink($dest.'/private/settings.json');
+        }
+        
+        // remove the directory
+        if(file_exists($dest.'/private')) {
+          rmdir($dest.'/private');
+        }
 
     }
 
