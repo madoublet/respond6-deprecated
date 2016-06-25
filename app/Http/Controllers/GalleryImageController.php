@@ -197,7 +197,7 @@ class GalleryImageController extends Controller
 
       $index = GalleryImage::getIndexById($id, $galleryId, $siteId);
 
-      array_splice($gallery->images, $index);
+      array_splice($gallery->images, $index, 1);
 
       $gallery->save($siteId);
 

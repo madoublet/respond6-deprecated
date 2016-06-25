@@ -1,10 +1,10 @@
-<menu class="app-menu no-border">
+<menu class="app-menu" [class.noborder]="forms.length !== 0">
 
     <button class="app-more" (click)="toggleDrawer()"><svg viewBox="0 0 24 24" width="24" height="24" preserveAspectRatio="xMidYMid meet"><g><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></g></svg></button>
 
     <h1>{{ 'Forms' | translate }}</h1>
 
-    <button class="app-add position-2" (click)="showAddField()"><svg viewBox="0 0 24 24" width="24" height="24" preserveAspectRatio="xMidYMid meet"><g><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path></g></svg></button>
+    <button class="app-add position-2" (click)="showAddField()" *ngIf="forms.length !== 0"><svg viewBox="0 0 24 24" width="24" height="24" preserveAspectRatio="xMidYMid meet"><g><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path></g></svg></button>
 
     <button class="app-overflow" (click)="toggleOverflow()" *ngIf="selectedForm !== undefined"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button>
 
@@ -35,8 +35,12 @@
       </div>
     </div>
   </div>
-  
-  <p class="no-list-items" *ngIf="fields.length === 0">{{ 'Nothing here yet' | translate }}</p>
+
+  <p class="no-list-items" *ngIf="fields.length === 0">
+    {{ 'Nothing here yet' | translate }}
+    <a (click)="showAddField()" *ngIf="forms.length !== 0 && fields.length === 0">{{ 'Add Form Field' | translate }}</a>
+    <a (click)="showAdd()" *ngIf="forms.length === 0">{{ 'Add Form' | translate }}</a>
+  </p>
 
 </section>
 

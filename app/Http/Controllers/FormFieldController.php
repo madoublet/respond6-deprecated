@@ -206,7 +206,7 @@ class FormFieldController extends Controller
     $form = Form::getById($formId, $siteId);
 
     if($form != NULL) {
-      array_splice($form->fields, $index);
+      array_splice($form->fields, $index, 1);
 
       $form->save($siteId);
 

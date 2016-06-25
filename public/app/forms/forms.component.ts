@@ -57,7 +57,7 @@ export class FormsComponent {
     this.removeFieldVisible = false;
     this.drawerVisible = false;
     this.overflowVisible = false;
-    this.forms;
+    this.forms = [];
     this.fields = [];
 
     this.list();

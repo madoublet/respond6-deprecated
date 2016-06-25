@@ -65,6 +65,7 @@
     "Edit Form Field": "Edit Form Field",
     "Remove Form Field": "Remove Form Field",
     "Caption": "Caption",
+    "Add Image": "Add Image",
     "Remove Image": "Remove Image",
     "Add Menu Item": "Add Menu Item",
     "Text (or HTML)": "Text (or HTML)",
@@ -105,5 +106,5 @@
     "List": "List",
     "Gallery": "Gallery",
     "Nothing here yet": "Nothing here yet"
-    
+
 }

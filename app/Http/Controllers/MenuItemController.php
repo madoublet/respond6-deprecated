@@ -186,7 +186,7 @@ class MenuItemController extends Controller
     $menu = Menu::getById($menuId, $siteId);
 
     if($menu != NULL) {
-      array_splice($menu->items, $index);
+      array_splice($menu->items, $index, 1);
 
       $menu->save($siteId);
 

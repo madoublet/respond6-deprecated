@@ -32,6 +32,7 @@ body p, body label, body input, body button {
 
 a, a:visited {
   color: #00ADE3;
+  cursor: pointer;
 }
 
 /* containers */
@@ -819,7 +820,7 @@ body .app-form.standalone {
   -ms-overflow-style: none;
 }
 
-  .app-menu.no-border {
+  .app-menu.no-border, .app-menu.noborder {
     border: none !important;
   }
 
@@ -1048,7 +1049,7 @@ body .dropzone .dz-message {
     border: 1px solid #00ADE3;
     color: #00ADE3;
   }
-  
+
 /* dev menu */
 #dev-menu {
   display: none;
@@ -1058,6 +1059,13 @@ body .dropzone .dz-message {
     display: block;
   }
 
+/* no items */
+.no-list-items {}
+
+  .no-list-items a {
+    margin-left: 5px;
+  }
+
 @media (min-width:768px) {
 
   body .app-main {
@@ -1065,11 +1073,18 @@ body .dropzone .dz-message {
   }
 
   .app-slideshow-container {
-    display: -ms-flex;
-  	display: -webkit-flex;
-  	display: flex;
-    flex-direction: row;
-    flex: 80% 0;
+    position: relative
+  }
+
+  .app-slideshow-container .screenshot {
+    position: absolute;
+    width: 500px;
+    top: 0;
+    left: 0;
+  }
+
+  .app-slideshow-container .description {
+    padding-left: 500px;
   }
 
   .app-drawer {
@@ -1157,16 +1172,16 @@ body .dropzone .dz-message {
     height: 395px;
     border-bottom: 1px solid #ddd;
   }
-  
+
   /* selector */
   body .app-selector ul {
     background-color: #fff;
   }
-    
+
     body .app-selector li a {
       color: #00ADE3;
     }
-    
+
     body .app-selector li.selected a {
       border-bottom: 3px solid #00ADE3;
     }
