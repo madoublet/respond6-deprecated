@@ -92,6 +92,18 @@ export class CreateComponent {
   }
 
   /**
+   * Selects a theme
+   */
+  select (index) {
+
+    this.selectedThemeIndex = index;
+    this.selectedTheme = this.themes[this.selectedThemeIndex];
+
+    window.scrollTo(0, 0);
+  }
+
+
+  /**
    * Uses the selected theme
    */
   useTheme () {

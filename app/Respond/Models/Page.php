@@ -19,7 +19,6 @@ class Page {
   public $title;
   public $description;
   public $text;
-  public $html;
   public $keywords;
   public $callout;
   public $url;
@@ -240,7 +239,6 @@ class Page {
 
       // set text to main_content
       $page->text = $text;
-      $page->html = $main_content;
 
       // saves the page
       $page->save($site, $user);
@@ -373,6 +371,9 @@ class Page {
         }
         else {
           $thumb = str_replace('files/', 'files/thumbs/', $photo);
+          
+          // handle if the thumb is already a thumb (for galleries)
+          $thumb = str_replace('thumbs/thumbs', 'thumbs/', $thumb);
         }
 
       }
@@ -392,6 +393,7 @@ class Page {
       $this->photo = $photo;
       $this->thumb = $thumb;
 
+      // set html
       $html = $dom;
 
       // save page
@@ -421,7 +423,6 @@ class Page {
           $page['title'] = $this->title;
           $page['description'] = $this->description;
           $page['text'] = $this->text;
-          $page['html'] = $this->html;
           $page['keywords'] = $this->keywords;
           $page['callout'] = $this->callout;
           $page['photo'] = $this->photo;
@@ -514,6 +515,13 @@ class Page {
       }
 
     }
+    
+    // sort by last modified date
+    usort($arr, function($a, $b) {
+        $ts1 = strtotime($a['lastModifiedDate']);
+        $ts2 = strtotime($b['lastModifiedDate']);
+        return $ts2 - $ts1;
+    });
 
     return $arr;
 
@@ -663,6 +671,7 @@ class Page {
           }
           else {
             $thumb = str_replace('files/', 'files/thumbs/', $photo);
+            $thumb = str_replace('thumbs/thumbs', 'thumbs/', $thumb);
           }
 
         }
@@ -686,7 +695,6 @@ class Page {
             'title' => $title,
             'description' => $description,
             'text' => $text,
-            'html' => $main_content,
             'keywords' => $keywords,
             'callout' => $callout,
             'url' => $url,

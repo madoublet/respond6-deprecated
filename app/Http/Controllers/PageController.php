@@ -93,11 +93,13 @@ class PageController extends Controller
     // edit the page
     $success = Page::edit($url, $changes, $site, $user);
     
-    // re-publish plugins
-    Publish::publishPlugins($user, $site);
-
     // show response
     if($success == TRUE) {
+    
+      // re-publish plugins
+      Publish::publishPlugins($user, $site);
+
+      // return 200
       return response('OK', 200);
     }
     else {

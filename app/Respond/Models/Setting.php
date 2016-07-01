@@ -8,6 +8,9 @@ use App\Respond\Libraries\Publish;
 use App\Respond\Models\Site;
 use App\Respond\Models\User;
 
+// DOM parser
+use Sunra\PhpSimple\HtmlDomParser;
+
 /**
  * Models setting
  */
@@ -105,10 +108,10 @@ class Setting {
 
         // get contents of the page
         $html = file_get_contents($path);
-
-        // open document
-        $doc = \phpQuery::newDocument($html);
-
+        
+        // parse HTML
+        $dom = HtmlDomParser::str_get_html($html, $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
+      
         // walk through settings
         foreach($settings as $setting) {
 
@@ -117,9 +120,14 @@ class Setting {
 
             // set attribute
             if(isset($setting['attribute'])) {
-
-
-              $doc['['.$setting['id'].']']->attr($setting['attribute'], $setting['value']);
+            
+              // find setting
+              $els = $dom->find('['.$setting['id'].']');
+              
+              // set attribute
+              foreach($els as $el) {
+                $el->setAttribute($setting['attribute'], $setting['value']); 
+              }
 
             }
 
@@ -127,7 +135,8 @@ class Setting {
 
         }
 
-        file_put_contents($path, $doc->htmlOuter());
+        // update contents
+        file_put_contents($path, $dom);
 
       }
 

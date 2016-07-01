@@ -102,9 +102,48 @@ class Publish
         $forms = Form::listExtended($site->id);
         $menus = Menu::listExtended($site->id);
         $galleries = Gallery::listExtended($site->id);
-
+        
+        $i = 0;
+        
+        // get html of pages
+        foreach($pages as $page) {
+      
+          // stript html
+          $url = $page['url'];
+          $url = preg_replace('/\\.[^.\\s]{3,4}$/', '', $url);
+      
+          // get html of page
+          $file = app()->basePath() . '/public/sites/' . $site->id . '/' . $url . '.html';
+          
+        
+          if(file_exists($file)) {
+            $html = file_get_contents($file);
+            
+            // set parser
+            $dom = HtmlDomParser::str_get_html($html, $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
+  
+            // find main content
+            $el = $dom->find('[role=main]');
+            $main_content = '';
+      
+            // get the fragment content
+            if(isset($el[0])) {
+              $main_content = $el[0]->innertext;
+            }
+            
+            // set html
+            $pages[$i]['html'] = $main_content;
+          }
+          
+          $i++;
+          
+        }
+        
+        $i = 0;
+        
+        // public plugin for pages
         foreach($pages as $item) {
-
+        
           // get page
           $page = new Page($item);
 
@@ -213,8 +252,23 @@ class Publish
             
             }
   
+            // find main content
+            $el = $dom->find('[role=main]');
+            $main_content = '';
+      
+            // get the fragment content
+            if(isset($el[0])) {
+              $main_content = $el[0]->innertext;
+            }
+  
             // put html back
             file_put_contents($location, $dom);
+            
+            // update html in the array
+            $pages[$i]['html'] = $main_content;
+            
+            // increment
+            $i++;
           
           }
 

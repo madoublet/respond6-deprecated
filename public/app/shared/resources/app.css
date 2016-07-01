@@ -1000,6 +1000,7 @@ body .dropzone .dz-message {
   position: relative;
   max-width: 1000px;
   margin: 75px auto;
+  min-height: 330px;
 }
 
   .app-slideshow-item {
@@ -1049,6 +1050,36 @@ body .dropzone .dz-message {
     border: 1px solid #00ADE3;
     color: #00ADE3;
   }
+
+/* slideshow */
+.app-image-list {
+  margin-top: 25px;
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 25px 0 0 0;
+  border-top: 1px solid #f0f0f0;
+}
+
+  .app-image-list h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    padding: 0;
+    margin: 0 0 25px 0;
+    color: #888;
+    font-weight: normal;
+  }
+
+.app-image-list .app-image {
+  display: inline-block;
+  margin: 0 5px 10px 5px;
+}
+
+.app-image-list .app-image img {
+  width: 200px;
+  border: 5px solid #f8f8f8;
+  cursor: pointer;
+}
 
 /* dev menu */
 #dev-menu {

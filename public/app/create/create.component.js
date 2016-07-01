@@ -87,6 +87,14 @@ System.register(['@angular/core', '@angular/router-deprecated', '/app/shared/ser
                     this.selectedTheme = this.themes[this.selectedThemeIndex];
                 };
                 /**
+                 * Selects a theme
+                 */
+                CreateComponent.prototype.select = function (index) {
+                    this.selectedThemeIndex = index;
+                    this.selectedTheme = this.themes[this.selectedThemeIndex];
+                    window.scrollTo(0, 0);
+                };
+                /**
                  * Uses the selected theme
                  */
                 CreateComponent.prototype.useTheme = function () {

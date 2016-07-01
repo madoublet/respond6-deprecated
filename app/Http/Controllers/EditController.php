@@ -10,6 +10,9 @@ use App\Respond\Models\Form;
 use App\Respond\Models\Gallery;
 use App\Respond\Models\Setting;
 
+// DOM parser
+use Sunra\PhpSimple\HtmlDomParser;
+
 class EditController extends Controller
 {
 
@@ -49,11 +52,12 @@ class EditController extends Controller
 
               $html = file_get_contents($path);
 
-              // open document
-              $doc = \phpQuery::newDocument($html);
-
-              // set base
-              $doc['base']->attr('href', '/sites/'.$siteId.'/');
+              // set dom
+              $dom = HtmlDomParser::str_get_html($html, $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
+              
+              // find base element
+              $el = $dom->find('base', 0);
+              $el->setAttribute('href', '/sites/'.$siteId.'/');
 
               // get settings
               $sortable = Setting::getById('sortable', $siteId);
@@ -65,7 +69,7 @@ class EditController extends Controller
               }
 
               if($editable === NULL) {
-                $editable = ['[role="main"]'];
+                $editable = ['[role=main]'];
               }
               else {
                 $editable = explode(',', $editable);
@@ -73,15 +77,22 @@ class EditController extends Controller
                 $editable = array_map('trim', $editable);
               }
     
-              // set active attribute
-              $doc['body']->attr('hashedit-active', '');
+              // find body element
+              $el = $dom->find('body', 0);
+              $el->setAttribute('hashedit-active', '');
               
-              // setup editable area
+              // setup editable areas
               foreach($editable as $value){
-                $doc[$value]->attr('hashedit', '');
-                $doc[$value]->attr('hashedit-selector', $value);
+              
+                // find body element
+                $els = $dom->find($value);
+                
+                foreach($els as $el) {
+                  $el->setAttribute('hashedit', '');
+                  $el->setAttribute('hashedit-selector', $value);
+                }
+              
               }
-
 
               // init
               $plugins_script = '';
@@ -171,22 +182,21 @@ class EditController extends Controller
                 $plugins_script = str_replace("['respond.galleries']", json_encode($options), $plugins_script);
               }
 
-              // setup references
-              $els = $doc['[hashedit-exclude]'];
+              // remove elements from that have been excluded
+              $els = $dom->find('[hashedit-exclude]');
 
               // add references to each element
               foreach($els as $el) {
-                pq($el)->remove();
+                $el->outertext = '';
               }
 
               // setup references
-              $els = $doc['body *'];
+              $els = $dom->find('body *');
               $i = 1;
 
               // add references to each element
               foreach($els as $el) {
-                pq($el)->attr('data-ref', $i);
-                $i++;
+                $el->setAttribute('data-ref', $i);
               }
 
               if(env('APP_ENV') == 'development') {
@@ -265,14 +275,15 @@ EOD;
                             '  width: 35px;'.
                             '  height: 35px;'.
                             '}';
+                            
+              // find body element
+              $el = $dom->find('body', 0);
+              
+              // append
+              $el->outertext = $el->makeup() . $el->innertext . $hashedit . '</body>';
 
-              // load the edit library
-              $doc['body']->append($hashedit);
-
-              // get updated html
-              $contents = $doc->htmlOuter();
-
-              return $contents;
+              // return updated html
+              return $dom;
 
             }
 
@@ -309,43 +320,54 @@ EOD;
 
               $html = file_get_contents($path);
 
-              // open document
-              $doc = \phpQuery::newDocument($html);
-
+              // set dom
+              $dom = HtmlDomParser::str_get_html($html, $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
+              
+              
               // setup references
-              $els = $doc['body *'];
+              $els = $dom->find('body *');
               $i = 1;
 
               // add references to each element
               foreach($els as $el) {
-                pq($el)->attr('data-ref', $i);
-                $i++;
+                $el->setAttribute('data-ref', $i);
               }
-
-              // setup editable area
-              $editable = ['[role="main"]'];
-
+              
+              // get editable areas
+              $editable = $dom->find('[role=main]');
+              
+              // setup editable areas
               foreach($editable as $value){
-                $doc[$value]->attr('hashedit', '');
-                $doc[$value]->attr('hashedit-selector', $value);
+              
+                // find body element
+                $els = $dom->find($value);
+                
+                foreach($els as $el) {
+                  $el->setAttribute('hashedit', '');
+                  $el->setAttribute('hashedit-selector', $value);
+                }
+              
               }
+            
+            
+              // remove scripts that could rewrite the dom
+              $els = $dom->find('script');
 
-              // remove any scripts that could mess up the DOM
-              $els = $doc['script'];
-
+              // add references to each element
               foreach($els as $el) {
-                pq($el)->remove();
+                $el->outertext = '';
               }
+              
+              // remove links that could rewrite the dom
+              $els = $dom->find('link');
 
-              // remove any links that could mess up the dom
-              $els = $doc['link'];
-
+              // add references to each element
               foreach($els as $el) {
-                pq($el)->remove();
+                $el->outertext = '';
               }
-
+           
               // get updated html
-              $contents = $doc->htmlOuter();
+              $contents = $dom;
 
               return $contents;
 
