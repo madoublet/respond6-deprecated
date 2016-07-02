@@ -1025,7 +1025,7 @@ body .dropzone .dz-message {
   }
 
   .app-slideshow-container div.description h2 {
-    margin-top: 25px;
+    padding-top: 75px;
   }
 
   .app-slideshow-container div.description p {
@@ -1051,17 +1051,23 @@ body .dropzone .dz-message {
     color: #00ADE3;
   }
 
-/* slideshow */
-.app-image-list {
+/* theme list */
+.app-theme-list {
   margin-top: 25px;
   text-align: center;
-  max-width: 1000px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
   padding: 25px 0 0 0;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid #ddd;
+  background-color: #f0f0f0;
 }
 
-  .app-image-list h3 {
+  .app-theme-list div {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .app-theme-list h3 {
     font-size: 14px;
     text-transform: uppercase;
     padding: 0;
@@ -1070,16 +1076,21 @@ body .dropzone .dz-message {
     font-weight: normal;
   }
 
-.app-image-list .app-image {
+.app-theme-list .app-theme-image {
   display: inline-block;
-  margin: 0 5px 10px 5px;
+  margin: 0 10px 20px 10px;
 }
 
-.app-image-list .app-image img {
+.app-theme-list .app-theme-image img {
   width: 200px;
-  border: 5px solid #f8f8f8;
+  border: 5px solid rgba(255,255,255,0.85);
   cursor: pointer;
 }
+
+.app-theme-list .app-theme-image.selected img {
+  border: 5px solid rgba(0,173,227,0.5);
+}
+
 
 /* dev menu */
 #dev-menu {

@@ -1,7 +1,7 @@
 <div class="logo"><img src="/app/shared/resources/respond-logo.png"></div>
 
  <div class="app-slideshow">
-
+ 
   <div class="app-slideshow-item" *ngFor="let theme of themes" [class.selected]="theme === selectedTheme">
 
     <div class="app-slideshow-container">
@@ -20,18 +20,20 @@
 
   </div>
   <!-- /.app-slideshow -->
-
+  
 </div>
-
-<div class="app-image-list">
+  
+<div class="app-theme-list">
 
   <h3>{{ 'All Themes' | translate }}</h3>
 
-  <span class="app-image" *ngFor="let theme of themes; let i = index;" [class.selected]="theme === selectedTheme">
-    <img src="themes/{{theme.location}}/screenshot.png" (click)="select(i)">
-  </span>
+  <div>
+    <span class="app-theme-image" *ngFor="let theme of themes; let i = index;" [class.selected]="theme === selectedTheme">
+      <img src="themes/{{theme.location}}/screenshot.png" (click)="select(i)">
+    </span>
+  </div>
 </div>
-<!-- /.app-image-list -->
+<!-- /.app-theme-list -->
 
 
 
