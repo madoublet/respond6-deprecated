@@ -62,12 +62,33 @@ class EditController extends Controller
               // get settings
               $sortable = Setting::getById('sortable', $siteId);
               $editable = Setting::getById('editable', $siteId);
+              
+              // selector
+              $selector = '.col, .column, .col *, .column *';
 
               // defaults
               if($sortable === NULL) {
                 $sortable = '.col, .column';
               }
+              else {
+              
+                // create array of sortable elements
+                $sortable_arr = explode(',', $sortable);
+                $sortable_arr = array_map('trim', $sortable_arr);
+        
+                $selector = '';
+        
+                foreach($sortable_arr as $item) {
+                  $selector .= $item.', '.$item.' *, ';
+                }
+                
+                // trim extra characters
+                $selector = rtrim($selector, ', ');
+                
+              }
+              
 
+              // get editable array
               if($editable === NULL) {
                 $editable = ['[role=main]'];
               }
@@ -76,6 +97,9 @@ class EditController extends Controller
                 // trim elements in the array
                 $editable = array_map('trim', $editable);
               }
+              
+              
+              
     
               // find body element
               $el = $dom->find('body', 0);
@@ -191,12 +215,13 @@ class EditController extends Controller
               }
 
               // setup references
-              $els = $dom->find('body *');
+              $els = $dom->find($selector);
               $i = 1;
-
+              
               // add references to each element
               foreach($els as $el) {
                 $el->setAttribute('data-ref', $i);
+                $i++;
               }
 
               if(env('APP_ENV') == 'development') {
@@ -324,17 +349,56 @@ EOD;
               $dom = HtmlDomParser::str_get_html($html, $lowercase=true, $forceTagsClosed=false, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
               
               
+              // get sortable
+              $sortable = Setting::getById('sortable', $siteId);
+              
+              // selector
+              $selector = '.col, .column, .col *, .column *';
+
+              // defaults
+              if($sortable === NULL) {
+                $sortable = '.col, .column';
+              }
+              else {
+              
+                // create array of sortable elements
+                $sortable_arr = explode(',', $sortable);
+                $sortable_arr = array_map('trim', $sortable_arr);
+        
+                $selector = '';
+        
+                foreach($sortable_arr as $item) {
+                  $selector .= $item.', '.$item.' *, ';
+                }
+                
+                // trim extra characters
+                $selector = rtrim($selector, ', ');
+              }
+              
+              
               // setup references
-              $els = $dom->find('body *');
+              $els = $dom->find($selector);
               $i = 1;
 
               // add references to each element
               foreach($els as $el) {
                 $el->setAttribute('data-ref', $i);
+                $i++;
               }
               
-              // get editable areas
-              $editable = $dom->find('[role=main]');
+              // get editable areas from settings
+              $editable = Setting::getById('editable', $siteId);
+
+              // defaults
+              if($editable === NULL) {
+                $editable = ['[role=main]'];
+              }
+              else {
+                $editable = explode(',', $editable);
+                
+                // trim elements in the array
+                $editable = array_map('trim', $editable);
+              }
               
               // setup editable areas
               foreach($editable as $value){
@@ -348,6 +412,8 @@ EOD;
                 }
               
               }
+              
+              
             
             
               // remove scripts that could rewrite the dom
@@ -366,10 +432,8 @@ EOD;
                 $el->outertext = '';
               }
            
-              // get updated html
-              $contents = $dom;
-
-              return $contents;
+              // reutrn dom
+              return $dom;
 
             }
 
