@@ -18,7 +18,7 @@ class AppController extends Controller
   {
 
     // list pages in the site
-    $dir = app()->basePath().'/public/themes';
+    $dir = app()->basePath().'/'.env('THEMES_LOCATION');
 
     // list files
     $arr = Utilities::listSpecificFiles($dir, 'theme.json');

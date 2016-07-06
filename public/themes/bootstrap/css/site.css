@@ -1,3 +1,7 @@
+[hashedit-active] {
+  padding-top: 50px;
+}
+
 /* global */
 body h1, body h2, body h3, body h4, body h5, body p, body blockquote, body li, body a, body input, body select, body label{
   font-family: 'Quicksand';
@@ -31,14 +35,17 @@ header .search {
   }
   
   header .navbar{
-    padding-right: 40px;
     margin: 10px;
+  }
+  
+  header .navbar ul {
+    margin-right: 40px;
   }
   
   header .navbar-toggle {
     height: 30px;
     width: 30px;
-    margin: 10px 10px 0 0;
+    margin: 10px 50px 0 0;
     padding: 0;
   }
   

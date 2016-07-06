@@ -11,65 +11,71 @@
 
 
     {% for field in form.fields %}
-      <div class="form-group" data-id="{{ field.id }}" data-label="{{ field.label }}"  data-type="{{ field.type }}" data-required="{{ field.required }}">
+      <div class="form-group row" data-id="{{ field.id }}" data-label="{{ field.label }}"  data-type="{{ field.type }}" data-required="{{ field.required }}">
+      
+        <div class="large-12 columns">
 
-        <label for="{{ field.id }}" class="control-label">{{ field.label }}</label>
-
-        {% if field.type == 'text'  %}
-        <input id="{{ field.id }}" name="{{ field.id }}" type="text" placeholder="{{ field.placeholder }}" class="form-control">
-        {% endif %}
-        
-        {% if field.type == 'textarea'  %}
-        <textarea id="{{ field.id }}" name="{{ field.id }}" placeholder="{{ field.placeholder }}" class="form-control"></textarea>
-        {% endif %}
-
-        {% if field.type == 'select'  %}
-
-        {% set options = field.options|split(',') %}
-
-        <select id="{{ field.id }}" name="{{ field.id }}" class="form-control">
-        {% for option in options %}
-          <option value="{{ option }}">{{ option }}</option>
-        {% endfor %}
-        </select>
-
-        {% endif %}
-        
-        {% if field.type == 'checkboxlist'  %}
-
-        {% set options = field.options|split(',') %}
-        
-        <span class="radio list">
-        {% for option in options %}
-          <label class="radio"><input name="{{ field.id }}"  type="checkbox" value="{{ option }}"><span>{{ option }}</span></label>
-        {% endfor %}
-        </span>
-
-        {% endif %}
-        
-        {% if field.type == 'radiolist'  %}
-
-        {% set options = field.options|split(',') %}
-        
-        <span class="checkbox list">
-        {% for option in options %}
-          <label class="checkbox"><input name="{{ field.id }}" type="radio" value="{{ option }}"><span>{{ option }}</span></label>
-        {% endfor %}
-        </span>
-
-        {% endif %}
-        
-        {% if field.helperText != ''  %}
-        <span class="help-block">{{ field.helperText }}</span>
-        {% endif %}
+          <label for="{{ field.id }}" class="control-label">{{ field.label }}</label>
+  
+          {% if field.type == 'text'  %}
+          <input id="{{ field.id }}" name="{{ field.id }}" type="text" placeholder="{{ field.placeholder }}" class="form-control">
+          {% endif %}
+          
+          {% if field.type == 'textarea'  %}
+          <textarea id="{{ field.id }}" name="{{ field.id }}" placeholder="{{ field.placeholder }}" class="form-control"></textarea>
+          {% endif %}
+  
+          {% if field.type == 'select'  %}
+  
+          {% set options = field.options|split(',') %}
+  
+          <select id="{{ field.id }}" name="{{ field.id }}" class="form-control">
+          {% for option in options %}
+            <option value="{{ option }}">{{ option }}</option>
+          {% endfor %}
+          </select>
+  
+          {% endif %}
+          
+          {% if field.type == 'checkboxlist'  %}
+  
+          {% set options = field.options|split(',') %}
+          
+          <span class="radio list">
+          {% for option in options %}
+            <label class="radio"><input name="{{ field.id }}"  type="checkbox" value="{{ option }}"><span>{{ option }}</span></label>
+          {% endfor %}
+          </span>
+  
+          {% endif %}
+          
+          {% if field.type == 'radiolist'  %}
+  
+          {% set options = field.options|split(',') %}
+          
+          <span class="checkbox list">
+          {% for option in options %}
+            <label class="checkbox"><input name="{{ field.id }}" type="radio" value="{{ option }}"><span>{{ option }}</span></label>
+          {% endfor %}
+          </span>
+  
+          {% endif %}
+          
+          {% if field.helperText != ''  %}
+          <span class="help-block">{{ field.helperText }}</span>
+          {% endif %}
+          
+        </div>
+        <!-- ./large-12.columns -->
 
       </div>
+      <!-- ./form-group -->
     {% endfor %}
 
   {% endif %}
 
 {% endfor %}
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="button">Submit</button>
 
   <span class="loading">
   	<!-- ack: https://github.com/jxnblk/loading -->

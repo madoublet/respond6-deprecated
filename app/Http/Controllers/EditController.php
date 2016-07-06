@@ -264,9 +264,9 @@ EOD;
 <script>$plugins_script</script>
 <script>
 hashedit.setup({
-  url: '$url'
+  url: '$url',
   sortable: '$sortable',
-  login: '/login/$siteId'
+  login: '/login/$siteId',
   translate: true,
   languagePath: '/i18n/{{language}}.json',
   auth: 'token',

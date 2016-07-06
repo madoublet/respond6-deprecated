@@ -1,11 +1,11 @@
 [
     {
         "id": "editable",
-        "value": "[role=\"main\"]"
+        "value": "[role=main]"
     },
     {
         "id": "sortable",
-        "value": ".col, .column, .columns"
+        "value": ".columns"
     },
     {
         "id": "theme-logo",

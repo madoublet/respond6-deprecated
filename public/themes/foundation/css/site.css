@@ -1,3 +1,8 @@
+/* support hashedit menu bar */
+[hashedit-active] {
+  padding-top: 50px;
+}
+
 .logo {
   max-height: 25px;
   margin-top: 5px;
