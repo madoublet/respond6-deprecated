@@ -124,7 +124,11 @@ export class PagesComponent {
    * @param {Page} page
    */
   edit(page) {
-    window.location = '/edit?q=' + this.id + '/' + page.url;
+    // window.location = '/edit?q=' + this.id + '/' + page.url;
+    
+    localStorage.setItem('respond.pageUrl', page.url);
+    
+    this._router.navigate( ['Edit'] );
   }
 
   /**

@@ -13,6 +13,7 @@ import {FormsComponent} from './forms/forms.component';
 import {SettingsComponent} from './settings/settings.component';
 import {SubmissionsComponent} from './submissions/submissions.component';
 import {GalleriesComponent} from './galleries/galleries.component';
+import {EditComponent} from './edit/edit.component';
 
 @Component({
     selector: 'respond-app',
@@ -84,6 +85,11 @@ import {GalleriesComponent} from './galleries/galleries.component';
     path: '/galleries',
     name: 'Galleries',
     component: GalleriesComponent
+  },
+  {
+    path: '/edit',
+    name: 'Edit',
+    component: EditComponent
   }
 ])
 

@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/ng2-translate', './login/login.component', './forgot/forgot.component', './reset/reset.component', './create/create.component', './pages/pages.component', './files/files.component', './users/users.component', './menus/menus.component', './forms/forms.component', './settings/settings.component', './submissions/submissions.component', './galleries/galleries.component'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/ng2-translate', './login/login.component', './forgot/forgot.component', './reset/reset.component', './create/create.component', './pages/pages.component', './files/files.component', './users/users.component', './menus/menus.component', './forms/forms.component', './settings/settings.component', './submissions/submissions.component', './galleries/galleries.component', './edit/edit.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/n
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, ng2_translate_1, login_component_1, forgot_component_1, reset_component_1, create_component_1, pages_component_1, files_component_1, users_component_1, menus_component_1, forms_component_1, settings_component_1, submissions_component_1, galleries_component_1;
+    var core_1, router_deprecated_1, ng2_translate_1, login_component_1, forgot_component_1, reset_component_1, create_component_1, pages_component_1, files_component_1, users_component_1, menus_component_1, forms_component_1, settings_component_1, submissions_component_1, galleries_component_1, edit_component_1;
     var AppComponent;
     return {
         setters:[
@@ -58,6 +58,9 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/n
             },
             function (galleries_component_1_1) {
                 galleries_component_1 = galleries_component_1_1;
+            },
+            function (edit_component_1_1) {
+                edit_component_1 = edit_component_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
@@ -140,6 +143,11 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-translate/n
                             path: '/galleries',
                             name: 'Galleries',
                             component: galleries_component_1.GalleriesComponent
+                        },
+                        {
+                            path: '/edit',
+                            name: 'Edit',
+                            component: edit_component_1.EditComponent
                         }
                     ]), 
                     __metadata('design:paramtypes', [ng2_translate_1.TranslateService])

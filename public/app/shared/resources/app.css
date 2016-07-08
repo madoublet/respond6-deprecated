@@ -4,7 +4,7 @@ body {
   font-weight: 400;
   background-color: #fff;
   width: 100%;
-  padding: 49px 0 0 0;
+  padding: 0 !important;
 }
 
 body h1, body h2, body h3, body h4, body h5, body label, body input, body li, body button, body a, body td{
@@ -80,12 +80,24 @@ body .app-selector li.selected a {
 }
 
 /* .app-main */
-body .app-main { }
+body .app-main { 
+  padding-top: 49px;
+  margin-top: 0;
+}
 
   body .app-main p {
     padding: 20px;
     color: #888;
   }
+
+/* .edit-frame */
+body .edit-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 /* .app-list */
 body .app-list {
