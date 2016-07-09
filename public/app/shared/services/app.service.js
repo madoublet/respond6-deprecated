@@ -24,9 +24,17 @@ System.register(['@angular/core', '@angular/http'], function(exports_1, context_
             AppService = (function () {
                 function AppService(http) {
                     this.http = http;
+                    this._settingsUrl = 'api/app/settings';
                     this._themesListUrl = 'api/themes/list';
                     this._languagesListUrl = 'api/languages/list';
                 }
+                /**
+                 * Retrieve settings for the application
+                 *
+                 */
+                AppService.prototype.retrieveSettings = function () {
+                    return this.http.get(this._settingsUrl).map(function (res) { return res.json(); });
+                };
                 /**
                  * Lists themes in the application
                  *

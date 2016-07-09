@@ -3,12 +3,13 @@ import {Router, ROUTER_DIRECTIVES, CanActivate} from '@angular/router-deprecated
 import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {tokenNotExpired} from 'angular2-jwt/angular2-jwt';
 import {SiteService} from '/app/shared/services/site.service';
+import {AppService} from '/app/shared/services/app.service';
 
 @Component({
     selector: 'respond-drawer',
     templateUrl: './app/shared/components/drawer/drawer.component.html',
     directives: [ROUTER_DIRECTIVES],
-    providers: [SiteService],
+    providers: [SiteService, AppService],
     pipes: [TranslatePipe]
 })
 
@@ -35,7 +36,7 @@ export class DrawerComponent {
 
   @Output() onHide = new EventEmitter<any>();
 
-  constructor (private _siteService: SiteService, private _router: Router) {}
+  constructor (private _siteService: SiteService, private _appService: AppService, private _router: Router) {}
 
   /**
    * Init pages
@@ -43,6 +44,7 @@ export class DrawerComponent {
   ngOnInit() {
     this.id = localStorage.getItem('respond.siteId');
     this.dev = false;
+    this.siteUrl = '';
     
     var url = window.location.href;
     
@@ -50,6 +52,25 @@ export class DrawerComponent {
       this.dev = true;
     }
     
+    // get app settings
+    this.settings();
+    
+  }
+  
+  /**
+   * Get settings
+   */
+  settings() {
+
+    // list themes in the app
+    this._appService.retrieveSettings()
+                     .subscribe(
+                       data => {
+                         this.siteUrl = data.siteUrl;
+                         this.siteUrl = this.siteUrl.replace('{{siteId}}', this.id);
+                       },
+                       error =>  { this.failure(<any>error); }
+                      );
   }
 
   /**

@@ -10,6 +10,7 @@ class Utilities
     /**
      * Retrieves the application URL
      *
+     * @return {String} app url
      */
     public static function retrieveAppURL() {
 
@@ -30,13 +31,36 @@ class Utilities
       }
 
     }
+    
+    /**
+     * Retrieves the site URL
+     *
+     * @return {String} siteurl
+     */
+    public static function retrieveSiteURL() {
+    
+      $app_url = Utilities::retrieveAppURL();
+    
+
+      if(env('SITE_URL') === 'autodetect') {
+
+        $site_url = $app_url.'/sites/{{siteId}}';
+        
+        return $site_url;
+
+      }
+      else {
+        return env('SITE_URL');
+      }
+
+    }
 
 
     /**
      * Returns all HTML files for a given path
      *
      * @param {string} $path the recipient's email address
-     * @return {Array} list of HTML fiels
+     * @return {Array} list of HTML fields
      */
     public static function listFiles($dir, $id, $exts, $restrict = NULL)
     {

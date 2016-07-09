@@ -10,6 +10,7 @@
     <li [class.active]="active === 'files'"><a [routerLink]="['Files']">{{ 'Files' | translate }}</a></li>
     <li [class.active]="active === 'users'"><a [routerLink]="['Users']">{{ 'Users' | translate }}</a></li>
     <li [class.active]="active === 'settings'"><a [routerLink]="['Settings']">{{ 'Settings' | translate }}</a></li>
+    <li><a [href]="siteUrl" target="_blank">{{ 'View Site' | translate }}</a></li>
     <li><a (click)="signOut()">{{ 'Sign Out' | translate }}</a></li>
   </ul>
 

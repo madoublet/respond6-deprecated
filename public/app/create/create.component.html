@@ -59,8 +59,8 @@
         [(ngModel)]="model.password"
         ngControl="password" required>
 
-      <label>{{ 'Passcode' | translate }}</label>
-      <input type="text" name="passcode"
+      <label *ngIf="hasPasscode === true">{{ 'Passcode' | translate }}</label>
+      <input type="text" name="passcode" *ngIf="hasPasscode === true"
         [(ngModel)]="model.passcode"
         ngControl="passcode" required>
 

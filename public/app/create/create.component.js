@@ -40,6 +40,13 @@ System.register(['@angular/core', '@angular/router-deprecated', '/app/shared/ser
                  * Init pages
                  */
                 CreateComponent.prototype.ngOnInit = function () {
+                    // init
+                    this.themes = [];
+                    this.visible = false;
+                    this.selectedTheme = null;
+                    this.selectedThemeIndex = 0;
+                    this.hasPasscode = true;
+                    // set model
                     this.model = {
                         name: '',
                         theme: '',
@@ -47,7 +54,10 @@ System.register(['@angular/core', '@angular/router-deprecated', '/app/shared/ser
                         password: '',
                         passcode: ''
                     };
+                    // list themes
                     this.list();
+                    // retrieve settings
+                    this.settings();
                 };
                 /**
                  * Create the site
@@ -57,6 +67,17 @@ System.register(['@angular/core', '@angular/router-deprecated', '/app/shared/ser
                     var _this = this;
                     this._siteService.create(this.model.name, this.selectedTheme.location, this.model.email, this.model.password, this.model.passcode)
                         .subscribe(function (data) { _this.site = data; _this.success(); }, function (error) { _this.failure(error); });
+                };
+                /**
+                 * Get settings
+                 */
+                CreateComponent.prototype.settings = function () {
+                    var _this = this;
+                    // list themes in the app
+                    this._appService.retrieveSettings()
+                        .subscribe(function (data) {
+                        _this.hasPasscode = data.hasPasscode;
+                    }, function (error) { _this.failure(error); });
                 };
                 /**
                  * Updates the list

@@ -7,9 +7,22 @@ import {Observable} from 'rxjs/Observable'
 export class AppService {
   constructor (private http: Http) {}
 
+  
+  private _settingsUrl = 'api/app/settings';
   private _themesListUrl = 'api/themes/list';
   private _languagesListUrl = 'api/languages/list';
 
+  
+  /**
+   * Retrieve settings for the application
+   *
+   */
+  retrieveSettings () {
+
+    return this.http.get(this._settingsUrl).map((res:Response) => res.json());
+
+  }
+  
   /**
    * Lists themes in the application
    *

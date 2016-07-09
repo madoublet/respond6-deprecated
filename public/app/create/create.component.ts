@@ -14,21 +14,21 @@ import {TranslatePipe} from 'ng2-translate/ng2-translate';
 
 export class CreateComponent {
 
-  themes;
-  visible;
-  selectedTheme;
-  selectedThemeIndex;
-  model;
-  site;
-  errorMessage;
-
   constructor (private _siteService: SiteService, private _appService: AppService, private _router: Router) {}
 
   /**
    * Init pages
    */
   ngOnInit() {
-
+  
+    // init
+    this.themes = [];
+    this.visible = false;
+    this.selectedTheme = null;
+    this.selectedThemeIndex = 0;
+    this.hasPasscode = true;
+    
+    // set model
     this.model = {
       name: '',
       theme: '',
@@ -37,7 +37,11 @@ export class CreateComponent {
       passcode: ''
     };
 
+    // list themes
     this.list();
+    
+    // retrieve settings
+    this.settings();    
 
   }
 
@@ -53,6 +57,21 @@ export class CreateComponent {
                      error =>  { this.failure(<any>error); }
                     );
 
+  }
+  
+  /**
+   * Get settings
+   */
+  settings() {
+
+    // list themes in the app
+    this._appService.retrieveSettings()
+                     .subscribe(
+                       data => {
+                         this.hasPasscode = data.hasPasscode;
+                       },
+                       error =>  { this.failure(<any>error); }
+                      );
   }
 
   /**

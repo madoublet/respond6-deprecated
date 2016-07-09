@@ -59,6 +59,7 @@ $app->get('/api/auth', ['middleware' => 'jwtauth', 'uses'=> 'UserController@auth
 $app->get('/api/sites/test', 'SiteController@test');
 
 // app
+$app->get('/api/app/settings', 'AppController@settings');
 $app->get('/api/themes/list', 'AppController@listThemes');
 $app->get('/api/languages/list', 'AppController@listLanguages');
 

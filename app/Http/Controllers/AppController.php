@@ -10,6 +10,30 @@ class AppController extends Controller
 {
 
   /**
+   * Settings
+   *
+   * @return Response
+   */
+  public function settings(Request $request)
+  {
+  
+    $has_passcode = true;
+    
+    if(env('PASSCODE') === '') {
+      $has_passcode = false;
+    }
+  
+    // return app settings
+    $settings = array(
+      'hasPasscode' => $has_passcode,
+      'siteUrl' => Utilities::retrieveSiteURL()
+    );
+  
+    return response()->json($settings);
+
+  }
+
+  /**
    * Lists the themes available for the app
    *
    * @return Response
